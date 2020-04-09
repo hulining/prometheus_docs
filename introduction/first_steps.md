@@ -58,7 +58,7 @@ scrape_configs:
 
 返回的时间序列数据将详细说明 Prometheus server 的状态和性能。
 
-有关配置选项的完整说明，请参阅[配置文档](configuration.md)
+有关配置选项的完整说明，请参阅[配置文档](../prometheus/configuration/configuration.md)
 
 ## 启动 Prometheus
 
@@ -96,7 +96,7 @@ promhttp_metric_handler_requests_total{code="200"}
 count(promhttp_metric_handler_requests_total)
 ```
 
-有关表达语言的更多信息，请参见[表达语言文档](basic.md)
+有关表达语言的更多信息，请参见[表达语言文档](../prometheus/querying/basics.md)
 
 ## 使用绘图界面
 
@@ -112,7 +112,7 @@ rate(promhttp_metric_handler_requests_total{code="200"}[1m])
 
 ## 监控其它 target
 
-仅从 Prometheus 收集指标并不能很好地说明 Prometheus 的功能。为了更好地了解 Prometheus 可以做什么，我们建议您浏览有关其它 exporter 的文档。 使用 [node\_exporter](node_exporter.md) 监控 Linux 或 macOS 是一个不错的选择。
+仅从 Prometheus 收集指标并不能很好地说明 Prometheus 的功能。为了更好地了解 Prometheus 可以做什么，我们建议您浏览有关其它 exporter 的文档。 使用 [node\_exporter](../guides/node-exporter.md) 监控 Linux 或 macOS 是一个不错的选择。
 
 ## 总结
 
