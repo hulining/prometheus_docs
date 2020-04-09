@@ -20,5 +20,5 @@
 
 ## prometheus
 
-* [快速开始](getting_started.md)
+* [快速开始](prometheus/getting_started.md)
 
