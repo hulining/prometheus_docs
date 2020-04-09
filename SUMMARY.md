@@ -47,6 +47,16 @@
 * [grafana](visualization/grafana.md)
 * [consoles](visualization/consoles.md)
 
+## instrumenting
+
+* [clientlibs](instrumenting/clientlibs.md)
+* [writing\_clientlibs](instrumenting/writing_clientlibs.md)
+* [pushing](instrumenting/pushing.md)
+* [exporters](instrumenting/exporters.md)
+* [writing\_exporters](instrumenting/writing_exporters.md)
+* [exposition\_formats](instrumenting/exposition_formats.md)
+* [Untitled](instrumenting/untitled-5.md)
+
 ## operating
 
 * [安全](operating/security.md)
@@ -83,14 +93,4 @@
 * [basic-auth](guides/basic-auth.md)
 * [query-log](guides/query-log.md)
 * [tls-encryption](guides/tls-encryption.md)
-
-## instrumenting
-
-* [clientlibs](instrumenting/clientlibs.md)
-* [writing\_clientlibs](instrumenting/writing_clientlibs.md)
-* [pushing](instrumenting/pushing.md)
-* [exporters](instrumenting/exporters.md)
-* [writing\_exporters](instrumenting/writing_exporters.md)
-* [exposition\_formats](instrumenting/exposition_formats.md)
-* [Untitled](instrumenting/untitled-5.md)
 
