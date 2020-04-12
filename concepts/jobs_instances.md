@@ -14,7 +14,7 @@ title: 作业和实例
   * instance 3: `1.2.3.4.5672`
   * instance 4: `1.2.3.4.5673`
 
-## 自动生成标签和时间序列
+## 自动生成标签和时间序列 <a id="automatically-generated-labels-and-time-series"></a>
 
 当 Prometheus 从目标采集数据指标时，它会自动在采集到的时间序列上附加一些标签，以便于识别被采集的目标：
 

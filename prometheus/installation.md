@@ -4,15 +4,15 @@ title: 安装
 
 # 安装
 
-## 使用预编译的二进制文件
+## 使用预编译的二进制文件 <a id="using-pre-compiled-binaries"></a>
 
 我们为大多数官方 Prometheus 组件提供了预编译的二进制文件。 请查看[下载部分](https://prometheus.io/download)以获取所有可用版本的列表。
 
-## 从源码安装
+## 从源码安装 <a id="from-source"></a>
 
 要从源代码构建 Prometheus 组件，请参见相应代码仓库中的`Makefile`文件。
 
-## 使用 Docker
+## 使用 Docker <a id="using-docker"></a>
 
 所有 Prometheus 服务都可以作为在 [Quay.io](https://quay.io/repository/prometheus/prometheus) 或 [Docker Hub](https://hub.docker.com/r/prom/prometheus/) 上的 Docker 镜像使用。
 
@@ -22,7 +22,7 @@ Prometheus 镜像使用卷来存储实际数据指标。对于生产环境的部
 
 想要使用您自己的配置，可以有多种选择。下面是两个示例。
 
-### 挂载存储卷
+### 挂载存储卷 <a id="volumes-bind-mount"></a>
 
 通过运行以下命令从主机挂载您的`prometheus.yml`:
 
@@ -42,7 +42,7 @@ docker run \
     prom/prometheus
 ```
 
-### 自定义镜像
+### 自定义镜像 <a id="custom-image"></a>
 
 为了避免在主机上管理文件并将其绑定，可以将配置打包到镜像中。如果配置本身是静态的，并且在所有环境中都相同，则此方法很好。
 
@@ -62,7 +62,7 @@ docker run -p 9090:9090 my-prometheuss
 
 更高级的做法是在启动时使用某些工具动态渲染配置文件，甚至让守护程序定期更新它。
 
-## 使用配置管理系统
+## 使用配置管理系统 <a id="using-configuration-management-systems"></a>
 
 如果您想要使用配置管理系统，则可能对以下第三方贡献工具感兴趣：
 

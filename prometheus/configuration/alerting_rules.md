@@ -6,7 +6,7 @@ title: 告警规则
 
 告警规则允许您可以基于 Prometheus 表达式定义告警条件，并将有关发出告警的通知发送到到外部服务。只要告警表达式在给定的时间点生成一个或多个矢量元素，告警就被这些元素的标签集视为活动状态。
 
-## 定义告警规则
+### 定义告警规则 <a id="defining-alerting-rules"></a>
 
 告警规则的配置方式与[记录规则](recording_rules.md)相同。
 
@@ -31,7 +31,7 @@ groups:
 
 `annotations`子句指定一组信息标签，这些标签可用于存储更长的附加信息，例如告警描述或运行手册链接。注解值可以模板化。
 
-## 模板化
+### 模板化 <a id="templating"></a>
 
 标签和注解值可以使用[控制台模板](consoles.md)模板化。`$labels`变量保存告警实例的标签键/值对。可以通过`$externalLabels`变量访问已配置的扩展标签。`$value`变量保存告警实例执行的值。
 
@@ -68,13 +68,13 @@ groups:
       description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
 ```
 
-## 在运行时检查告警
+### 在运行时检查告警 <a id="inspecting-alerts-during-runtime"></a>
 
 要手动检查哪些告警处于活动状态\(挂起或触发\)，请导航到 Prometheus 实例的 "Alerts" 选项卡。该页面将向您展示每个定义的的告警当前处于活动状态的确切标签集。
 
 对于挂起和触发的告警，Prometheus 存储格式为`ALERTS{alertname="<alert name>", alertstate="pending|firing", <additional alert labels>}`的时间序列。只要警报处于活动\(挂起或触发\)状态，样本值就设置为1；如果不再是这种情况，则将该系列标记为过时。
 
-## 发送告警通知
+### 发送告警通知 <a id="sending-alert-notifications"></a>
 
 Prometheus 的告警规则擅长确定当前已经发生的问题，但它并不是完美的通知解决方案。在简单的告警定义之上，还需要另一层来添加摘要，通知速率限制，静默和告警依赖。在 Prometheus 生态系统中，[Alertmanager](alertmanager.md) 扮演了这个角色。因此，Prometheus 可以配置为定期将有关告警状态的信息发送到 Alertmanager 实例，该实例随后负责调度正确的通知。
 

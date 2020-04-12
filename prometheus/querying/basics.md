@@ -6,11 +6,11 @@ title: PROMETHEUS 查询
 
 Prometheus 提供了一种名为 PromQL\(Prometheus Query Language\) 的功能查询语言，使用户可以实时选择和汇总时间序列数据。，表达式的结果可以在 Prometheus 的表达式浏览器中显示为图形和表格数据，也可以由外部系统通过 [HTTP API](api.md) 使用
 
-## 示例
+## 示例 <a id="examples"></a>
 
 本文档仅供参考。对于学习，从几个[示例](examples.md)开始可能会更容易。
 
-## 表达式语言数据类型
+## 表达式语言数据类型 <a id="expression-language-data-types"></a>
 
 在 Prometheus 表达式的表达语言中，一个表达式或子表达式可以计算为以下四种类型之一：
 
@@ -21,9 +21,9 @@ Prometheus 提供了一种名为 PromQL\(Prometheus Query Language\) 的功能�
 
 根据使用场景\(如，绘制图形或显示表达式的输出时\)，用户执行的表达式的结果，只有某些类型是合法的。例如，返回即时向量的表达式是唯一可以直接绘制图形的类型。
 
-## 字面量
+## 字面量 <a id="literals"></a>
 
-### 字符串字面量
+### 字符串字面量 <a id="string-literals"></a>
 
 字符串可以由单引号，双引号或反引号指定为字符串字面量
 
@@ -37,7 +37,7 @@ PromQL 与 Go 遵循相同的[转义规则](https://golang.org/ref/spec#String_l
 `these are not unescaped: \n ' " \t`
 ```
 
-### 浮点型字面量
+### 浮点型字面量 <a id="float-literals"></a>
 
 标量浮点值可以表示为`[-](digits)[.(digits)]`形式
 
@@ -45,9 +45,9 @@ PromQL 与 Go 遵循相同的[转义规则](https://golang.org/ref/spec#String_l
 - 2.43
 ```
 
-## 时间序列选择器
+## 时间序列选择器 <a id="time-series-selectors"></a>
 
-### 即时向量选择器
+### 即时向量选择器 <a id="instant-vector-selectors"></a>
 
 瞬时向量选择器允许在给定时间戳\(瞬时\)上选择一组时间序列和每个样本的当个采样值：在最简单的形式中，仅指定度量名称。这会生成包含具有该数据指标名称的所有时间序列的元素的即时向量。
 
@@ -113,7 +113,7 @@ on{} # Bad!
 
 Prometheus中的所有正则表达式都使用[RE2语法](https://github.com/google/re2/wiki/Syntax)。
 
-### 范围向量选择器
+### 范围向量选择器 <a id="range-vector-selectors"></a>
 
 范围向量的工作方式与即时向量基本相同，不同之处在于，范围向量从当前瞬间选择了一定范围的样本。语法上，将范围持续时间附加在向量选择器末尾的方括号\(`[]`\)中，以指定为每个范围向量元素提取多久的时间值。
 
@@ -132,7 +132,7 @@ Prometheus中的所有正则表达式都使用[RE2语法](https://github.com/goo
 http_requests_total{job="prometheus"}[5m]
 ```
 
-### 偏移量
+### 偏移量 <a id="offset-modifier"></a>
 
 `offset`修饰符允许更改查询中各个瞬时向量和范围向量的时间偏移。
 
@@ -160,7 +160,7 @@ sum(http_requests_total{method="GET"}) offset 5m // INVALID.
 rate(http_requests_total[5m] offset 1w)
 ```
 
-## 子查询
+## 子查询 <a id="subquery"></a>
 
 子查询允许您针对给定的范围和分辨率运行即时查询。子查询的结果是范围向量。
 
@@ -168,15 +168,15 @@ rate(http_requests_total[5m] offset 1w)
 
 * `<resolution>` 是可选的。默认是全局评估时间间隔。
 
-## 操作符
+## 操作符 <a id="operators"></a>
 
 Prometheus 支持二元和聚合操作符。详见[表达式语言操作符](operators.md)
 
-## 函数
+## 函数 <a id="functions"></a>
 
 Prometheus 提供了一些函数列表操作时间序列数据。详见[表达式语言函数](functions.md)
 
-## 注释
+## 注释 <a id="comments"></a>
 
 PromQL 支持以`#`开头的行注释。 例：
 
@@ -184,7 +184,7 @@ PromQL 支持以`#`开头的行注释。 例：
 # This is a comment
 ```
 
-## 注意事项
+## 注意事项 <a id="gotchas"></a>
 
 ### Staleness
 
@@ -198,7 +198,7 @@ PromQL 支持以`#`开头的行注释。 例：
 
 对于在其采集中包含时间戳的时间序列，不会标记陈旧性。在这种情况下，仅应用 5 分钟的阈值。
 
-### 避免慢查询和过载
+### 避免慢查询和过载 <a id="avoiding-slow-queries-and-overloads"></a>
 
 如果查询需要处理大量数据，对其进行图形化处理可能会超时或使服务器或浏览器超载。因此，在对未知数据构建查询时，请先在 Prometheus 表达式浏览器的表格视图中构建查询，直到结果集看起来合理为止\(最多数百个时间序列，而不是数千个\)。当您充分过滤或汇总了数据后，才切换到图形模式。如果该表达式仍花费很长时间来绘制图形，请通过[记录规则](recording_rules.md#recording-rules)将其预先记录。
 

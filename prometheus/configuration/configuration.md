@@ -10,7 +10,7 @@ Prometheus 通过命令行参数和配置文件进行配置。命令行参数配
 
 Prometheus 可以在运行时重新加载其配置。如果新的配置格式不正确，则不会应用相关更改。通过向 Prometheus 进程发送`SIGHUP`信号或向`/-/reload`端点发送 HTTP POST 请求\(当启动`--web.enable-lifecycle`标志时\)来触发配置重载。同时，这也会重新加载所有已配置的规则文件。
 
-## 配置文件
+## 配置文件 <a id="configuration-file"></a>
 
 使用`--config.file`标志指定要加载的配置文件。
 
@@ -77,6 +77,8 @@ remote_write:
 remote_read:
   [ - <remote_read> ... ]
 ```
+
+### `<scrape_config>` <a id="scrape_config"></a>
 
 `scrape_config` 配置部分指定了一组目标和参数，这些目标和参数描述了如何对它们进行数据采集。一般情况下，一个采集配置指定一个作业。在高级配置中，这可能会改变。
 
@@ -207,7 +209,9 @@ metric_relabel_configs:
 [ sample_limit: <int> | default = 0 ]
 ```
 
-tls\_config 配置 TLS 连接相关内容。
+### `<tls_config>` <a id="tls_config"></a>
+
+`tls_config` 配置 TLS 连接相关内容。
 
 ```yaml
 # 用于验证 API 服务器证书的 CA 证书
@@ -224,6 +228,8 @@ tls\_config 配置 TLS 连接相关内容。
 # 禁用服务器证书的验证
 [ insecure_skip_verify: <boolean> ]
 ```
+
+### `<azure_sd_config>` <a id="azure_sd_config"></a>
 
 azure 服务发现配置允许从 Azure VMs 发现数据收集的目标。
 
@@ -267,6 +273,8 @@ subscription_id: <string>
 [ port: <int> | default = 80 ]
 ```
 
+### `<consul_sd_config>` <a id="consul_sd_config"></a>
+
 consul 服务发现配置允许从 [consul](https://www.consul.io/) 的 Catalog API 中自动发现采集数据的目标。
 
 重新标记过程中，支持以下的 meta 标签：
@@ -283,157 +291,167 @@ consul 服务发现配置允许从 [consul](https://www.consul.io/) 的 Catalog 
 * `__meta_consul_service`: 目标所属服务的名称
 * `__meta_consul_tags`: 标签分割符连接的目标的标签列表
 
-  \`\`\`yaml
+```yaml
+# Consul API 的访问信息。根据 Consul 的需要进行定义
+[ server: <host> | default = "localhost:8500" ]
+[ token: <secret> ]
+[ datacenter: <string> ]
+[ scheme: <string> | default = "http" ]
+[ username: <string> ]
+[ password: <secret> ]
 
-  **Consul API 的访问信息。根据 Consul 的需要进行定义**
+tls_config:
+  [ <tls_config> ]
 
-  \[ server:  \| default = "localhost:8500" \]
+# 待发现数据采集的目标服务列表。如果省略，则采集所有服务。
+services:
+  [ - <string> ]
 
-  \[ token:  \]
+# 查看 [https://www.consul.io/api/catalog.html\#list-nodes-for-service](https://www.consul.io/api/catalog.html#list-nodes-for-service) 进一步了解可以使用的过滤器
 
-  \[ datacenter:  \]
+# 可选的标签列表，用于过滤给定服务的节点。服务必须包含列表中的所有标签
+tags:
+  [ - <string> ]
 
-  \[ scheme:  \| default = "http" \]
+# node_meta 用来过滤给定服务的节点
+[ node_meta:
+  [ <name>: <value> ... ] ]
 
-  \[ username:  \]
+# 将 Consul 标签连接到标签的字符串
+[ tag_separator: <string> | default = , ]
 
-  \[ password:  \]
+# 允许过期的结果(参阅 [https://www.consul.io/api/features/consistency.html)将减少 Consul 的负载.
+[ allow_stale: <bool> ]
 
-tls\_config: \[  \]
+# 服务发现名称刷新时间
+# 在大型架构中，增加此值可能是个好主意，因为 catalog 不断更改
+[ refresh_interval: <duration> | default = 30s ]
+```
 
-## 待发现数据采集的目标服务列表。如果省略，则采集所有服务
-
-services: \[ -  \]
-
-## 查看 [https://www.consul.io/api/catalog.html\#list-nodes-for-service](https://www.consul.io/api/catalog.html#list-nodes-for-service) 进一步了解可以使用的过滤器
-
-## 可选的标签列表，用于过滤给定服务的节点。服务必须包含列表中的所有标签
-
-tags: \[ -  \]
-
-## node\_meta 用来过滤给定服务的节点
-
-\[ node\_meta: \[ :  ... \] \]
-
-## 将 Consul 标签连接到标签的字符串
-
-\[ tag\_separator:  \| default = , \]
-
-## 允许过期的结果\(参阅 [https://www.consul.io/api/features/consistency.html\).将减少](https://www.consul.io/api/features/consistency.html%29.将减少) Consul 的负载.
-
-\[ allow\_stale:  \]
-
-## 服务发现名称刷新时间
-
-## 在大型架构中，增加此值可能是个好主意，因为 catalog 不断更改
-
-\[ refresh\_interval:  \| default = 30s \]
-
-```text
 请注意，用于数据采集的目标的 IP 地址和端口被组合为`<__meta_consul_address>:<__meta_consul_service_port>`。 但是，在某些 Consul 设置中，相关地址在`__meta_consul_service_address`中。在这种情况下，您可以使用重新标记功能来替换特殊的`__address__`标签。
 
-重新标记阶段是基于任意标签为服务筛选服务或节点的首选且功能更强大的方法。对于拥有数千项服务的用户而言，直接使用 Consul API 更为有效，该 API 具有基本的过滤节点支持(一般通过节点元数据和单个标签）。
+重新标记阶段是基于任意标签为服务筛选服务或节点的首选且功能更强大的方法。对于拥有数千项服务的用户而言，直接使用 Consul API 更为有效，该 API 具有基本的过滤节点支持\(一般通过节点元数据和单个标签）。
 
+### `<dns_sd_config>` <a id="dns_sd_config"></a>
 
-## <dns_sd_config>
-TODO:
-## <ec2_sd_config>
-TODO:
-## <openstack_sd_config>
-TODO:
-## <file_sd_config>
-TODO:
-## <gce_sd_config>
 TODO:
 
-## <kubernetes_sd_config>
+### `<ec2_sd_config>` <a id="ec-2-_sd_config"></a>
+
+TODO:
+
+### `<openstack_sd_config>` <a id="openstack_sd_config"></a>
+
+TODO:
+
+### `<file_sd_config>` <a id="file_sd_config"></a>
+
+TODO:
+
+### `<gce_sd_config>` <a id="gce_sd_config"></a>
+
+TODO:
+
+### `<kubernetes_sd_config>` <a id="kubernetes_sd_config"></a>
+
 kubernetes 服务发现配置允许从 [Kubernetes](https://kubernetes.io/) 的 REST API 发现数据采集的目标，并始终与集群状态保持同步。
 
 可以配置以下 `role` 角色类型之一来发现目标。
 
-### `node`
+#### `node`
+
 `node`角色为集群每个节点发现一个目标，其地址默认为 Kubelet 的 HTTP 端口。目标地址默认为 Kubernetes 节点对象按照`NodeInternalIP`，`NodeInternalIP`，`NodeExternalIP`，`NodeLegacyHostIP`和`NodeHostName`的顺序检索的第一个现有地址。
 
 可用的 meta 标签：
-- `__meta_kubernetes_node_name`: 节点对象名称
-- `__meta_kubernetes_node_label_<labelname>`: 节点对象的标签
-- `__meta_kubernetes_node_annotation_<annotationname>`: 节点对象的注解
-- `__meta_kubernetes_node_annotationpresent_<annotationname>`: 对于来自节点对象的每个注解，为true
-- `__meta_kubernetes_node_address_<address_type>`: 节点对象指定地址类型的第一个地址(如果存在)
+
+* `__meta_kubernetes_node_name`: 节点对象名称
+* `__meta_kubernetes_node_label_<labelname>`: 节点对象的标签
+* `__meta_kubernetes_node_annotation_<annotationname>`: 节点对象的注解
+* `__meta_kubernetes_node_annotationpresent_<annotationname>`: 对于来自节点对象的每个注解，为true
+* `__meta_kubernetes_node_address_<address_type>`: 节点对象指定地址类型的第一个地址\(如果存在\)
 
 另外，该节点的`instance`标签将设置为从 API 服务器检索到的节点名称。
 
-### `service`
+#### `service`
+
 `service`角色发现每个服务及其端口的数据采集目标。通常，这对于黑盒监控服务很有用。地址将设置为服务的 Kubernetes DNS 名称及相应的服务端口。
 
 可用的 meta 标签：
-- `__meta_kubernetes_namespace`: service 对象的名称空间
-- `__meta_kubernetes_service_annotation_<annotationname>`: service 对象的注解
-- `__meta_kubernetes_service_annotationpresent_<annotationname>`: 对于每个 service 对象的注解为 true
-- `__meta_kubernetes_service_cluster_ip`: service 的 ClusterIP 地址(不适用于 ExternalName 类型的 service)
-- `__meta_kubernetes_service_external_name`: service 的 DNS 名称(适用于 ExternalName 类型的 services)
-- `__meta_kubernetes_service_label_<labelname>`: service 对象的标签
-- `__meta_kubernetes_service_labelpresent_<labelname>`: 对于每个 service 对象的标签为 true
-- `__meta_kubernetes_service_name`: service 对象的名称
-- `__meta_kubernetes_service_port_name`: 目标的服务端口名称
-- `__meta_kubernetes_service_port_protocol`: 目标的服务端口协议
-- `__meta_kubernetes_service_type`: service 的类型
 
-### `pod`
+* `__meta_kubernetes_namespace`: service 对象的名称空间
+* `__meta_kubernetes_service_annotation_<annotationname>`: service 对象的注解
+* `__meta_kubernetes_service_annotationpresent_<annotationname>`: 对于每个 service 对象的注解为 true
+* `__meta_kubernetes_service_cluster_ip`: service 的 ClusterIP 地址\(不适用于 ExternalName 类型的 service\)
+* `__meta_kubernetes_service_external_name`: service 的 DNS 名称\(适用于 ExternalName 类型的 services\)
+* `__meta_kubernetes_service_label_<labelname>`: service 对象的标签
+* `__meta_kubernetes_service_labelpresent_<labelname>`: 对于每个 service 对象的标签为 true
+* `__meta_kubernetes_service_name`: service 对象的名称
+* `__meta_kubernetes_service_port_name`: 目标的服务端口名称
+* `__meta_kubernetes_service_port_protocol`: 目标的服务端口协议
+* `__meta_kubernetes_service_type`: service 的类型
+
+#### `pod`
+
 `pod`角色发现所有 pod 并将其暴露为目标。对于容器的每个声明的端口，将生成一个目标。如果容器没有指定的端口，则会为每个容器创建无端口目标，以通过重新标记手动添加端口。
 
 可用的 meta 标签：
-- `__meta_kubernetes_namespace`: pod 对象的名称空间
-- `__meta_kubernetes_pod_name`: pod 对象名称.
-- `__meta_kubernetes_pod_ip`: pod 对象的 IP
-- `__meta_kubernetes_pod_label_<labelname>`: pod 对象的标签
-- `__meta_kubernetes_pod_labelpresent_<labelname>`: 如果是 pod 对象的标签，则为 true
-- `__meta_kubernetes_pod_annotation_<annotationname>`: pod 对象的注解
-- `__meta_kubernetes_pod_annotationpresent_<annotationname>`: 如果是 pod 对象的注解，则为 true
-- `__meta_kubernetes_pod_container_init`: 如果容器是初始化容器，则为 true
-- `__meta_kubernetes_pod_container_name`: 目标地址指向的容器的名称
-- `__meta_kubernetes_pod_container_port_name`: 容器的端口名称
-- `__meta_kubernetes_pod_container_port_number`: 容器的端口号
-- `__meta_kubernetes_pod_container_port_protocol`: 容器端口协议
-- `__meta_kubernetes_pod_ready`: pod 是否已经就绪
-- `__meta_kubernetes_pod_phase`: pod 的生命周期，可能的值为 Pending, Running, Succeeded, Failed 或 Unknown
-- `__meta_kubernetes_pod_node_name`: pod 被调度到的节点名称
-- `__meta_kubernetes_pod_host_ip`: pod 对象的当前主机 IP
-- `__meta_kubernetes_pod_uid`: pod 对象的 UID
-- `__meta_kubernetes_pod_controller_kind`: pod 控制器类型
-- `__meta_kubernetes_pod_controller_name`: pod 控制器名称
 
-### `endpoints`
+* `__meta_kubernetes_namespace`: pod 对象的名称空间
+* `__meta_kubernetes_pod_name`: pod 对象名称.
+* `__meta_kubernetes_pod_ip`: pod 对象的 IP
+* `__meta_kubernetes_pod_label_<labelname>`: pod 对象的标签
+* `__meta_kubernetes_pod_labelpresent_<labelname>`: 如果是 pod 对象的标签，则为 true
+* `__meta_kubernetes_pod_annotation_<annotationname>`: pod 对象的注解
+* `__meta_kubernetes_pod_annotationpresent_<annotationname>`: 如果是 pod 对象的注解，则为 true
+* `__meta_kubernetes_pod_container_init`: 如果容器是初始化容器，则为 true
+* `__meta_kubernetes_pod_container_name`: 目标地址指向的容器的名称
+* `__meta_kubernetes_pod_container_port_name`: 容器的端口名称
+* `__meta_kubernetes_pod_container_port_number`: 容器的端口号
+* `__meta_kubernetes_pod_container_port_protocol`: 容器端口协议
+* `__meta_kubernetes_pod_ready`: pod 是否已经就绪
+* `__meta_kubernetes_pod_phase`: pod 的生命周期，可能的值为 Pending, Running, Succeeded, Failed 或 Unknown
+* `__meta_kubernetes_pod_node_name`: pod 被调度到的节点名称
+* `__meta_kubernetes_pod_host_ip`: pod 对象的当前主机 IP
+* `__meta_kubernetes_pod_uid`: pod 对象的 UID
+* `__meta_kubernetes_pod_controller_kind`: pod 控制器类型
+* `__meta_kubernetes_pod_controller_name`: pod 控制器名称
+
+#### `endpoints`
+
 `endpoints`角色从列出的服务的 endpoints 中发现目标。对于每个 endpoints 地址，每个端口都发现一个目标。如果 endpoints 后端负载为 pod，则该 pod 的所有其它未绑定到 endpoints 端口的容器端口也将被发现为目标。
 
 可用的 meta 标签：
-- `__meta_kubernetes_namespace`: endpoints 对象的名称空间
-- `__meta_kubernetes_endpoints_name`: endpoints 对象的名称
-- 对于直接从 endpoints 列表中发现的所有目标(不是从 pod 获取的)，将附加以下标签：
-    - `__meta_kubernetes_endpoint_hostname`: endpoint 的主机名
-    - `__meta_kubernetes_endpoint_node_name`: endpoint 节点名称
-    - `__meta_kubernetes_endpoint_ready`: endpoint 是否已经就绪
-    - `__meta_kubernetes_endpoint_port_name`: endpoint 端口名称
-    - `__meta_kubernetes_endpoint_port_protocol`: endpoint 端口协议
-    - `__meta_kubernetes_endpoint_address_target_kind`: endpoint 地址类型
-    - `__meta_kubernetes_endpoint_address_target_name`: endpoint 地址名称
-- 如果 endpoints 归属于某个 service，则`role: service`服务发现的所有标签都适用
-- 如果 endpoints 后端负载为 pod，则`role: pod`服务发现的所有标签都适用
 
-### `ingress`
-`ingress`角色发现每个入口的每个路径目标。这通常对于入口的黑盒监控很有用。地址将设置为 ingress 规范中指定的主机地址(`ingress.spec.host`)
+* `__meta_kubernetes_namespace`: endpoints 对象的名称空间
+* `__meta_kubernetes_endpoints_name`: endpoints 对象的名称
+* 对于直接从 endpoints 列表中发现的所有目标\(不是从 pod 获取的\)，将附加以下标签：
+  * `__meta_kubernetes_endpoint_hostname`: endpoint 的主机名
+  * `__meta_kubernetes_endpoint_node_name`: endpoint 节点名称
+  * `__meta_kubernetes_endpoint_ready`: endpoint 是否已经就绪
+  * `__meta_kubernetes_endpoint_port_name`: endpoint 端口名称
+  * `__meta_kubernetes_endpoint_port_protocol`: endpoint 端口协议
+  * `__meta_kubernetes_endpoint_address_target_kind`: endpoint 地址类型
+  * `__meta_kubernetes_endpoint_address_target_name`: endpoint 地址名称
+* 如果 endpoints 归属于某个 service，则`role: service`服务发现的所有标签都适用
+* 如果 endpoints 后端负载为 pod，则`role: pod`服务发现的所有标签都适用
+
+#### `ingress`
+
+`ingress`角色发现每个入口的每个路径目标。这通常对于入口的黑盒监控很有用。地址将设置为 ingress 规范中指定的主机地址\(`ingress.spec.host`\)
 
 可用的 meta 标签：
-- `__meta_kubernetes_namespace`: ingress 对象的名称空间
-- `__meta_kubernetes_ingress_name`: ingress 对象的名称.
-- `__meta_kubernetes_ingress_label_<labelname>`: ingress 对象的标签.
-- `__meta_kubernetes_ingress_labelpresent_<labelname>`: 如果是 ingress 对象的标签，则为 true
-- `__meta_kubernetes_ingress_annotation_<annotationname>`: ingress 对象的注解
-- `__meta_kubernetes_ingress_annotationpresent_<annotationname>`: 如果是 ingress 对象的注解，则为 true
-- `__meta_kubernetes_ingress_scheme`: ingress 的协议。如果配置了 TLS，则为 `https`。默认为 `http`。
-- `__meta_kubernetes_ingress_path`: ingress 规范中指定的路径(`ingress.spec.path`).默认为 `/`.
+
+* `__meta_kubernetes_namespace`: ingress 对象的名称空间
+* `__meta_kubernetes_ingress_name`: ingress 对象的名称.
+* `__meta_kubernetes_ingress_label_<labelname>`: ingress 对象的标签.
+* `__meta_kubernetes_ingress_labelpresent_<labelname>`: 如果是 ingress 对象的标签，则为 true
+* `__meta_kubernetes_ingress_annotation_<annotationname>`: ingress 对象的注解
+* `__meta_kubernetes_ingress_annotationpresent_<annotationname>`: 如果是 ingress 对象的注解，则为 true
+* `__meta_kubernetes_ingress_scheme`: ingress 的协议。如果配置了 TLS，则为 `https`。默认为 `http`。
+* `__meta_kubernetes_ingress_path`: ingress 规范中指定的路径\(`ingress.spec.path`\).默认为 `/`.
 
 请参阅如下 Kubernetes 服务发现配置项：
+
 ```yaml
 # 访问 Kubernetes API 的信息 
 
@@ -491,13 +509,23 @@ namespaces:
 
 您可能希望查看第三方的 [Prometheus Operator](https://github.com/coreos/prometheus-operator)，它可以在 Kubernetes 上自动设置 Prometheus。
 
-TODO:
+### `<marathon_sd_config>` <a id="marathon_sd_config"></a>
 
 TODO:
 
-TODO:
+### `<nerve_sd_config>` <a id="nerve_sd_config"></a>
 
 TODO:
+
+### `<serverset_sd_config>` <a id="serverset_sd_config"></a>
+
+TODO:
+
+### `<triton_sd_config>` <a id="triton_sd_config"></a>
+
+TODO:
+
+### `<static_config>` <a id="static_config"></a>
 
 `static_config`允许指定目标列表和目标的通用标签集。这是在数据采集配置中指定静态目标的典型方法。
 
@@ -510,6 +538,8 @@ targets:
 labels:
   [ <labelname>: <labelvalue> ... ]
 ```
+
+### `<relabel_config>` <a id="relabel_config"></a>
 
 重新标记是一个可以在数据采集之前动态重写目标标签的强大工具。每个数据采集配置可以配置多个重新标记步骤。他们按照在配置文件中出现的顺序依次应用于目标的标签集。
 
@@ -559,13 +589,19 @@ labels:
 
 请谨慎使用`labeldrop`和`labelkeep`以确保一旦删除标签，数据指标仍可以被唯一标记。
 
+### `<metric_relabel_configs>` <a id="metric_relabel_configs"></a>
+
 对数据样本进行重新标记是入库前的最后一步。它与目标重新标记有相同的配置格式和操作。指标重新标记不适用于自动生成的时间序列，如`up`.
 
 这样做的一种用途是将由于过多开销的而无法入库的时间序列列如黑名单。
 
+### `<alert_relabel_configs>` <a id="alert_relabel_configs"></a>
+
 告警重新标记应用于发送告警到 Alertmanager 之前。它与目标重新标记有相同的配置格式和操作。在扩展标记之后应用告警重新标记。
 
 一种用途是确保具有不同扩展标签的一对高可用 Prometheus 发送相同的告警。
+
+### `<alertmanager_config>` <a id="alertmanager_config"></a>
 
 `alertmanager_config`部分指定了 Prometheus 向其发送告警的 Alertmanager 实例。它还提供了用于配置如何与 Alertmanager 通信的参数。
 
@@ -659,6 +695,8 @@ relabel_configs:
   [ - <relabel_config> ... ]
 ```
 
+### `<remote_write>` <a id="remote_write"></a>
+
 `write_relabel_configs`在将样本数据发送到远程节点之前重新标记样本数据。在扩展标记之后应用写重新标记。这可以用来限制发送哪些样本数据。
 
 这里有一个[样例](https://github.com/prometheus/prometheus/blob/release-2.17/documentation/examples/remote_storage)演示了如何使用此功能。
@@ -712,7 +750,9 @@ queue_config:
   [ max_backoff: <duration> | default = 100ms ]
 ```
 
-这里是有此功能的[集成列表](integrations.md#remote-endpoints-and-storage)
+这里是有此功能的[整合列表](integrations.md#remote-endpoints-and-storage)
+
+### `<remote_read>` <a id="remote_read"></a>
 
 ```yaml
 # 查询数据的远程端点 URL
@@ -749,5 +789,5 @@ tls_config:
 [ proxy_url: <string> ]
 ```
 
-这里是有此功能的[集成列表](integrations.md#remote-endpoints-and-storage)
+这里是有此功能的[整合列表](integrations.md#remote-endpoints-and-storage)
 

@@ -284,7 +284,7 @@ _该函数在 Prometheus 2.0 中添加_
 
 `year(v=vector(time()) instant-vector)`返回 UTC 时间中每个给定时间的年份。
 
-## \_over\_time\(\)
+## &lt;aggregation&gt;\_over\_time\(\) <a id="aggregation_over_time"></a>
 
 以下函数允许随着时间的推移聚合给定范围向量的每个序列，并返回具有每个序列聚合结果的即时向量：
 

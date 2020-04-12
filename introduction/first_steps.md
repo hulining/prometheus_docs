@@ -6,7 +6,7 @@ title: 初识 Prometheus
 
 欢迎来到 Prometheus！Prometheus 是一个通过从监控目标上采集 HTTP 数据收集指标数据的监控平台。本指南将向您展示如果安装、配置 Prometheus，并使用 Prometheus 监控第一个资源对象。您将下载、安装并运行 Prometheus。您也可以下载并安装一个可在主机和服务上显示时间序列数据的 exporter 工具。我们的第一个 exporter 将是 Prometheus 本身，它提供有关内存使用，垃圾回收等各种主机级别的指标。
 
-## 下载 Prometheus
+## 下载 Prometheus <a id="downloading-prometheus"></a>
 
 下载适用于您的平台的[最新版本的 Prometheus](https://prometheus.io/download)，然后解压：
 
@@ -27,7 +27,7 @@ The Prometheus monitoring server
 
 在启动 Prometheus 之前，我们先来配置它。
 
-## 配置 Prometheus
+## 配置 Prometheus <a id="configuring-prometheus"></a>
 
 Prometheus 的配置为 [YAML](http://www.yaml.org/start.html)。Prometheus 的下载文件中包含一个名为`prometheus.yml`的示例配置，我们可以根据它来开始配置。
 
@@ -60,7 +60,7 @@ scrape_configs:
 
 有关配置选项的完整说明，请参阅[配置文档](../prometheus/configuration/configuration.md)
 
-## 启动 Prometheus
+## 启动 Prometheus <a id="starting-prometheus"></a>
 
 要使用我们新创建的配置文件启动 Prometheus，请切换到包含 Prometheus 二进制文件的目录并运行：
 
@@ -72,7 +72,7 @@ Prometheus 应该能够启动成功。您应该能够在`http://localhost:9090`�
 
 你也可以通过访问 Prometheus 自身的指标数据端点`http://localhost:9090/metrics`来验证 Prometheus 是否正在提供有关其自身数据的指标数据。
 
-## 使用表达式浏览器
+## 使用表达式浏览器 <a id="using-the-expression-browser"></a>
 
 让我们尝试查看 Prometheus 收集的有关自身的一些数据。要使用 Prometheus 的内置表达式浏览器，请导航至`http://localhost:9090/graph`，然后在 "Graph" 选项卡中选择 "Console" 视图。
 
@@ -98,7 +98,7 @@ count(promhttp_metric_handler_requests_total)
 
 有关表达语言的更多信息，请参见[表达语言文档](../prometheus/querying/basics.md)
 
-## 使用绘图界面
+## 使用绘图界面 <a id="using-the-graphing-interface"></a>
 
 要使用绘制图形表达式，请导航至`http://localhost:9090/graph`并使用 "Graph" 选项卡。
 
@@ -110,11 +110,11 @@ rate(promhttp_metric_handler_requests_total{code="200"}[1m])
 
 您可以尝试其它参数和设置使用图形页面
 
-## 监控其它 target
+## 监控其它 target <a id="monitoring-other-targets"></a>
 
 仅从 Prometheus 收集指标并不能很好地说明 Prometheus 的功能。为了更好地了解 Prometheus 可以做什么，我们建议您浏览有关其它 exporter 的文档。 使用 [node\_exporter](../guides/node-exporter.md) 监控 Linux 或 macOS 是一个不错的选择。
 
-## 总结
+## 总结 <a id="summary"></a>
 
 在本指南中，您安装了 Prometheus，配置了 Prometheus 实例以监视资源，并了解了在 Prometheus 表达式浏览器中使用时间序列数据的一些基础知识。 要继续学习 Prometheus，请查看[概述](overview.md)以获取有关接下来要探索的内容的一些想法。
 

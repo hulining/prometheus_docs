@@ -10,7 +10,7 @@ title: 概述
 
 有关Prometheus的详细说明，请参见 [media](roadmap.md) 部分中的资源链接。
 
-### 特性
+### 特性 <a id="features"></a>
 
 Prometheus 的主要特点是：
 
@@ -22,7 +22,7 @@ Prometheus 的主要特点是：
 * 通过服务发现或静态配置发现目标
 * 多种图形和仪表板支持模式
 
-### 组件
+### 组件 <a id="components"></a>
 
 Prometheus 生态系统包含多个组件，其中许多是可选的：
 
@@ -35,7 +35,7 @@ Prometheus 生态系统包含多个组件，其中许多是可选的：
 
 Prometheus 大多数组件使用 [Go](https://golang.org/) 语言编写，易于构建和部署为二进制可执行文件。
 
-### 架构
+### 架构 <a id="architecture"></a>
 
 下图说明了 Prometheus 的体系结构及其部分生态系统组件：
 
@@ -43,13 +43,13 @@ Prometheus 大多数组件使用 [Go](https://golang.org/) 语言编写，易于
 
 Prometheus 直接或通过 push gateway\(主要用于短期作业\)从已监测的作业中采集指标数据。它在本地存储所有已采集到的数据，并对这些数据运行规则，以汇总和记录新的时间序列，或产生告警。[Grafana](https://grafana.com/) 或其它 API 可用于可视化收集的数据。
 
-## Prometheus 适合什么场景
+## Prometheus 适合什么场景 <a id="when-does-it-fit"></a>
 
 Prometheus 非常适合记录纯数字时间序列的场景。它即适合以机器为中心的监控，也适合高度动态的面向服务的体系结构监控。在微服务中，它的优势在于多维数据收集和查询的支持。
 
 Prometheus 的设计旨在提高可靠性，在故障发生时能够快速定位问题。每个 Prometheus 服务器都是独立的，而不依赖于网络存储或其他远程服务。当其它基础设备发生故障时，您可以依靠它，并且无需昂贵的基础设备即可使用它
 
-## Prometheus 不能做什么
+## Prometheus 不能做什么 <a id="when-does-it-not-fit"></a>
 
 Prometheus 重视可靠性，即使在故障情况下，您始终可以查看有关系统的可用统计信息。如果你需要 100% 的准确性，例如按请求计费，因为收集的数据可能不够详细和完整，Prometheus 并不是一个好的选择。在这种场景下，您最好使用其他系统来收集和分析数据以进行计费，使用 Prometheus 进行其余的监视。
 

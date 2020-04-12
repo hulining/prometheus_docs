@@ -4,7 +4,7 @@ title: 查询示例
 
 # 查询示例
 
-## 简单的时间序列选择器
+## 简单的时间序列选择器 <a id="simple-time-series-selection"></a>
 
 返回数据指标名称为`http_requests_total`的所有时间序列：
 
@@ -40,7 +40,7 @@ Prometheus中的所有正则表达式都使用[RE2语法](https://github.com/goo
 http_requests_total{status!~"4.."}
 ```
 
-## 子查询
+## 子查询 <a id="subquery"></a>
 
 返回过去 30 分钟的 http\_requests\_total 指标的 5 分钟内的平均速率，分辨率为 1 分钟.
 
@@ -54,7 +54,7 @@ rate(http_requests_total[5m])[30m:1m]
 max_over_time(deriv(rate(distance_covered_total[5s])[30s:5s])[10m:])
 ```
 
-## 使用函数、操作符等
+## 使用函数、操作符等 <a id="using-functions-operators-etc"></a>
 
 返回最近 5 分钟内指标名称为`http_requests_total`的所有时间序列的每秒速率：
 

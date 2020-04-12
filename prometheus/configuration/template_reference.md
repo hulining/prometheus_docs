@@ -6,7 +6,7 @@ title: 模版参考
 
 Prometheus 支持在告警的的注解和标签以及服务的控制台页面中进行模板化。模板有对本地数据库运行查询，遍历数据，使用条件语句，格式化数据等功能。Prometheus 模板语言基于[Go模板系统](https://golang.org/pkg/text/template/)。
 
-## 数据结构
+## 数据结构 <a id="data-structures"></a>
 
 处理时间序列的的主要数据结构是 sample，定义如下：
 
@@ -23,13 +23,13 @@ type sample struct {
 
 Go 里的`interface{}`类似于 C 语言中的方法指针
 
-## 函数
+## 函数 <a id="functions"></a>
 
 除了 Go 模板提供的[默认功能](https://golang.org/pkg/text/template/#hdr-Functions)外，Prometheus 还提供简化模板中查询结果处理的功能。
 
 如果在管道中使用函数，则管道值将作为最后一个参数传递。
 
-### 查询相关
+### 查询相关 <a id="queries"></a>
 
 | 名称 | 参数 | 返回值 | 解析 |
 | :---: | :---: | :---: | :---: |
@@ -41,7 +41,7 @@ Go 里的`interface{}`类似于 C 语言中的方法指针
 
 `first`, `label`和`value`旨在使查询结果易于在管道中使用。
 
-### 数字相关
+### 数字相关 <a id="numbers"></a>
 
 | 名称 | 参数 | 返回值 | 解析 |
 | :---: | :---: | :---: | :---: |
@@ -53,7 +53,7 @@ Go 里的`interface{}`类似于 C 语言中的方法指针
 
 Humanizing 相关函数旨在产生合理的输出以供人们使用，并且不能保证在不同 Prometheus 版本之间返回相同的结果。
 
-### 字符相关
+### 字符相关 <a id="strings"></a>
 
 | 名称 | 参数 | 返回值 | 解析 |
 | :---: | :---: | :---: | :---: |
@@ -65,7 +65,7 @@ Humanizing 相关函数旨在产生合理的输出以供人们使用，并且不
 | graphLink | expr | string | 返回[表达式浏览器](browser.md)中该表达式的图形视图的路径 |
 | tableLink | expr | string | 返回[表达式浏览器](browser.md)中表达式的表格化\("Console"\)视图的路径 |
 
-### 其它
+### 其它 <a id="others"></a>
 
 | 名称 | 参数 | 返回值 | 解析 |
 | :---: | :---: | :---: | :---: |
@@ -73,15 +73,15 @@ Humanizing 相关函数旨在产生合理的输出以供人们使用，并且不
 | tmpl | string, \[\]interface{} | nothing | 类似于内置的`template`函数，但允许使用非文字作为模板名称。注意，假定其结果是安全的，并且不会自动转义。仅在控制台中可用。 |
 | safeHtml | string | string | 将字符串标记为 HTML，不需要自动转义 |
 
-## 模版类型差异
+## 模版类型差异 <a id="template-type-differences"></a>
 
 每种类型的模板都提供了可用于参数化模板的不同信息，且有一些其它的区别。
 
-### 告警字段模板
+### 告警字段模板 <a id="alert-field-templates"></a>
 
 `.Value`, `.Labels`和`ExternalLabels`分别包含告警值，告警标签和全局匹配的扩展标签。为了方便起见，他们也暴露为`$value`, `$labels`和`$externalLabels`变量。
 
-### 控制台模板
+### 控制台模板 <a id="console-templates"></a>
 
 控制台暴露在`/consoles/`上，并且模板文件来源于`-web.console.templates`参数指向的目录。
 

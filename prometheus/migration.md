@@ -6,7 +6,7 @@ title: 向 Prometheus 2.0 迁移的指南
 
 秉承我们[稳定性承诺](https://prometheus.io/blog/2016/07/18/prometheus-1-0-released/#fine-print)，Prometheus 2.0 版本包含许多向后不兼容的更改。本文档提供了从 Prometheus 1.8 迁移到 Prometheus 2.0 的指南。
 
-## 标志
+## 标志 <a id="flags"></a>
 
 Prometheus 命令行标志的格式已经更改。现在所有标志不再使用单破折号，而是使用双破折号。通用标志\(`--config.file`, `--web.listen-address`和`--web.external-url`\)仍然相同，但除此之外，几乎所有与存储的标志都已删除。
 
@@ -18,7 +18,7 @@ Prometheus 命令行标志的格式已经更改。现在所有标志不再使用
 * `-storage.local.*` Prometheus 2.0 引入了新的存储引擎，因为与旧引擎有关的标志都已删除。有关新引擎的信息，请参阅[存储](https://prometheus.io/docs/prometheus/latest/migration/#storage)部分。
 * `-storage.remote.*` Prometheus 2.0 删除了已经废弃的远程存储标志。如果指定了它们将无法启动。要写入 InfluxDB, Graphite 或 OpenTSDB 远程存储，请使用相关的存储适配器。
 
-## Alertmanager 服务发现
+## Alertmanager 服务发现 <a id="alertmanager-service-discovery"></a>
 
 Prometheus 1.4 中引入了 Alertmanager 服务发现机制，这使得 Prometheus 可以使用与采集数据相同的机制来动态发现 Alertmanager 副本。在 Prometheus 2.0，静态 Alertmanager 配置的命令行标志已删除，因此命令行标志`./prometheus -alertmanager.url=http://alertmanager:9093/`将与`prometheus.yml`配置文件中改为：
 
@@ -52,7 +52,7 @@ alerting:
       action: drop
 ```
 
-## 记录规则和告警规则
+## 记录规则和告警规则 <a id="recording-rules-and-alerts"></a>
 
 告警规则和记录规则的配置格式已更改为 YAML。旧的格式的记录规则和告警规则示例：
 
@@ -92,7 +92,7 @@ $ promtool update rules example.rules
 
 请注意，您需要使用 2.0 版而非 1.8 版的 promtool。
 
-## 存储
+## 存储 <a id="storage"></a>
 
 Prometheus 2.0 中的数据格式已完全更改，并与 1.8 版本不向后兼容。为了保留对历史监控数据的访问权限，我们建议您运行一个没有采集数据的 1.8.1 版本以上的 Prometheus 实例与 2.0 版本的 Prometheus 实例并行运行，并让新服务通过远程读取协议从旧服务读取现有数据。
 
@@ -125,9 +125,9 @@ remote_read:
 
 有关更多详细信息，请参见 [issue \#3060](https://github.com/prometheus/prometheus/issues/3060)。
 
-## 杂项
+## 杂项 <a id="miscellaneous"></a>
 
-### 非 root 用户运行 Prometheus
+### 非 root 用户运行 Prometheus <a id="prometheus-non-root-user"></a>
 
 Prometheus Docker 镜像现在构建为[非 root 用户运行 Prometheus](https://github.com/prometheus/prometheus/pull/2859)。如果您希望 Prometheus UI/API 在低端口号\(如 80 端口\)上监听，则需要重写它。对于 Kubernetes，您可以使用如下 YAML：
 
@@ -150,7 +150,7 @@ spec:
 docker run -u root -p 80:80 prom/prometheus:v2.0.0-rc.2  --web.listen-address :80
 ```
 
-### Prometheus 生命周期
+### Prometheus 生命周期 <a id="prometheus-lifecycle"></a>
 
 如果您使用 Prometheus `/-/reload` HTTP 端点在更改时[自动重载 Prometheus 配置](/configuration/configuration)，出于安全原因在 Prometheus 2.0 默认禁用这些端点。要启用它们，设置`--web.enable-lifecycl`标志。
 

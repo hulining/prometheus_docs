@@ -4,11 +4,11 @@ title: 运算符
 
 # 运算符
 
-## 二元运算符
+## 二元运算符 <a id="binary-operators"></a>
 
 Prometheus 的查询语言支持基本的逻辑运算和算术运算。对于两个瞬时向量之间的操作，[匹配行为](operators.md#vector-matching)可以被改变。
 
-### 二元算术运算符号
+### 二元算术运算符号 <a id="arithmetic-binary-operators"></a>
 
 Prometheus 中存在以下二元算术运算符：
 
@@ -27,7 +27,7 @@ Prometheus 中存在以下二元算术运算符：
 
 **在两个即时向量之间**，将二元算术运算符应用于左侧向量中的每个条目，并将其应用于右侧向量中的[匹配元素](operators.md#vector-matching)。结果被传播到结果向量中，并且分组标签成为输出标签集。 数据指标名称被删除。 在右侧向量中找不到匹配条目的条目不是结果的一部分。
 
-### 二元比较运算符
+### 二元比较运算符 <a id="comparison-binary-operators"></a>
 
 Prometheus 中存在以下二元比较运算符：
 
@@ -46,7 +46,7 @@ Prometheus 中存在以下二元比较运算符：
 
 **在两个即时向量之间**，运算符默认情况下充当过滤器，应用于匹配的条目。表达式不正确或在表达式另一侧找不到匹配项的向量元素将从结果中删除，而其他元素则传播到结果向量中，且分组标签成为输出标签集。如果提供了`bool`修饰符，将被丢弃的矢量元素取值为`0`，将保留的矢量元素取值为`1`，分组标签称为输出标签集。
 
-### 逻辑/集合运算符
+### 逻辑/集合运算符 <a id="logical-set-binary-operators"></a>
 
 这些二元逻辑/集合运算符仅在即时向量之间定义：
 
@@ -60,11 +60,11 @@ Prometheus 中存在以下二元比较运算符：
 
 `vector1 unless vector2`产生一个由`vector1`在`vector2`中没有完全匹配的标签集的元素组成的向量。两个向量中的所有匹配元素都将被删除
 
-## 矢量匹配
+## 矢量匹配 <a id="vector-matching"></a>
 
 向量之间的运算会尝试在左侧向量中为左侧的每个条目找到匹配的元素。匹配行为有两种基本类型：一对一和多对一/一对多。
 
-### 一对一向量匹配
+### 一对一向量匹配 <a id="one-to-one-vector-matches"></a>
 
 **一对一**从运算符每側查找一对唯一的条目。在默认情况下，遵循`vector1 <operator> vector2`格式。如果两个条目具有完全相同的一组标签和相应的值，则它们匹配。`ignoring`关键字允许在匹配时忽略某些标签，而`on`关键字允许将所考虑的标签集减少为仅考虑提供的列表中的标签集：
 
@@ -100,7 +100,7 @@ method_code:http_errors:rate5m{code="500"} / ignoring(code) method:http_requests
 {method="post"} 0.05            //   6 / 120
 ```
 
-### 多对一和一对多向量匹配
+### 多对一和一对多向量匹配 <a id="many-to-one-and-one-to-many-vector-matches"></a>
 
 **多对一**和**一对多**向量匹配指的是"一"侧的每个向量元素可以与"多"侧的多个元素匹配的情况。必须使用`group_left`或`group_right`修饰符明确表示，其中 left/right 确定哪个向量具有更高的基数。
 
@@ -132,7 +132,7 @@ method_code:http_errors:rate5m / ignoring(code) group_left method:http_requests:
 
 _多对一和一对多匹配是应该认真考虑的高级用例。通常，正确使用`ignore(<labels>)`可提供所需的结果。_
 
-## 聚合操作
+## 聚合操作 <a id="aggregation-operators"></a>
 
 Prometheus 支持如下内置的聚合运算符，这些运算符可用于聚合单个即时向量的元素，从而产生具有聚合值的较少元素的新向量：
 
@@ -194,7 +194,7 @@ count_values("version", build_version)
 topk(5, http_requests_total)
 ```
 
-## 二元运算符优先级
+## 二元运算符优先级 <a id="binary-operator-precedence"></a>
 
 下面的列出了 Prometheus 中二元运算符的优先级，从最高到最低。 1. `^` 2. `*`, `/`, `%` 3. `+`, `-` 4. `==`, `!=`, `<=`, `<`, `>=`, `>` 5. `and`, `unless` 6. `or`
 

@@ -14,7 +14,7 @@ title: 规则的单元测试
 ./promtool test rules test1.yml test2.yml test3.yml
 ```
 
-## 测试文件格式
+## 测试文件格式 <a id="test-file-format"></a>
 
 ```yaml
 # 要进行测试的规则文件的列表。支持globs。
@@ -33,7 +33,7 @@ tests:
   [ - <test_group> ]
 ```
 
-### `<test_group>`
+### `<test_group>` <a id="test_group"></a>
 
 ```yaml
 # 数据序列
@@ -56,7 +56,7 @@ external_labels:
   [ <labelname>: <string> ... ]
 ```
 
-### `<series>`
+### `<series>` <a id="series"></a>
 
 ```yaml
 # 遵循常规的序列符号 '<metric name>{<label name>=<label value>, ...}'
@@ -75,7 +75,7 @@ series: <string>
 values: <string>
 ```
 
-### `<alert_test_case>`
+### `<alert_test_case>` <a id="alert_test_case"></a>
 
 Prometheus 允许您为不通的告警规则使用相同的告警名称。因此，在此单元测试中，您必须在单个`<alert_test_case>`下列出警报名称的所有触发告警的并集。
 
@@ -91,7 +91,7 @@ exp_alerts:
  [ - <alert> ]
 ```
 
-### `<alert>`
+### `<alert>` <a id="alert"></a>
 
 ```yaml
 # 预期告警的扩展标签和注解.
@@ -114,7 +114,7 @@ exp_samples:
   [ - <sample> ]
 ```
 
-### `<sample>`
+### `<sample>` <a id="sample"></a>
 
 ```yaml
 # 数据样本的标签采用常规系列标记 '<metric name>{<label name>=<label value>, ...}'
@@ -127,7 +127,7 @@ labels: <string>
 value: <number>
 ```
 
-## 示例
+## 示例 <a id="example"></a>
 
 这是通过测试的单元测试的示例输入文件。`test.yml`是遵循上述语法的测试文件，`alert.yml`包含警报规则。
 

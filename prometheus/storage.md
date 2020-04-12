@@ -6,11 +6,11 @@ title: 存储
 
 Prometheus 包括本地磁盘时间序列数据库，也可以选择与远程存储系统集成。
 
-## 本地存储
+## 本地存储 <a id="local-storage"></a>
 
 Prometheus 的本地时间序列数据库以自定义格式在磁盘上存储时间序列。
 
-### 磁盘设计
+### 磁盘设计 <a id="on-disk-layout"></a>
 
 存储的数据样本每两小时分为一个块。每两小时的块由一个目录组成，该目录包含一个或多个块文件，该文件包含该时间窗口的所有时间序列样本，以及元数据文件和索引文件\(用于将数据指标名称和标签索引到块文件中的时间序列\)。通过 API 删除时间序列时，删除记录存储在单独的逻辑删除文件中\(而不是立即从块文件中删除\)。
 
@@ -47,13 +47,13 @@ Prometheus 服务的数据目录的目录结构如下所示：
 
 有关文件格式的更多详细信息，参见 [TSDB 格式](https://github.com/prometheus/prometheus/blob/master/tsdb/docs/format/README.md)
 
-## 压缩
+## 压缩 <a id="compaction"></a>
 
 最初两个小时的块最终在后台压缩为更长的块。
 
 压缩将创建较大的块，最多保留时间的 10% 或 31天，以较小者为准。
 
-## 操作细节
+## 操作细节 <a id="operational-aspects"></a>
 
 Prometheus 有几个允许配置本地存储的标志。其中最重要的几个是：
 
@@ -77,11 +77,11 @@ needed_disk_space = retention_time_seconds * ingested_samples_per_second * bytes
 
 清除过期的块将在后台运行。删除过期的块可能最多需要两个小时，过期的块在清除之前必须完全过期。
 
-## 远程存储集成
+## 远程存储集成 <a id="remote-storage-integrations"></a>
 
 Prometheus 的本地存储在可伸缩性和持久性方面受到单个节点的限制。Prometheus 并没有解决 Prometheus 本身的集群存储，而是提供了一组允许与远程存储系统集成的接口。
 
-### 总览
+### 总览 <a id="overview"></a>
 
 Prometheus 通过两种方式与远程存储系统集成：
 
@@ -98,7 +98,7 @@ Prometheus 通过两种方式与远程存储系统集成：
 
 请注意，在读取过程中，Prometheus 仅从远端存储获取一组由标签选择器和时间范围筛选的原始序列数据。PromQL 对原始数据的所有计算仍然在 Prometheus 本身中进行。这意味着远程读取查询具有一定的可伸缩性限制，因为所有必需的数据都需要先加载到查询的 Prometheus 服务中，然后再在其中进行处理。但是，暂时认为支持 PromQL 的完全分布式计算是不可行的。
 
-### 现有集成
+### 现有集成 <a id="existing-integrations"></a>
 
-要了解有关与现有远程存储系统集成的更多信息，请参阅[集成文档](integrations.md#remote-endpoints-and-storage)。
+要了解有关与现有远程存储系统集成的更多信息，请参阅[整合文档](https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage)。
 

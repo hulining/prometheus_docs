@@ -4,13 +4,13 @@ title: 定义记录规则
 
 # 定义记录规则
 
-## 规则配置
+## 规则配置 <a id="configuring-rules"></a>
 
 Prometheus 支持两种经过配置之后可以定期进行评估的规则：记录规则和[告警规则](alerting_rules.md)。要将规则应用在 Prometheus 中，请创建一个包含必要规则语句的文件，并通过 [Prometheus 配置](configuration.md)中的`rule_files`字段加载该文件。规则文件使用 YAML
 
 通过发送`SIGHUP`信号到 Prometheus 进程，可以在运行时重新加载规则文件。仅当所有规则文件的格式正确时，才会应用更改。
 
-## 规则语法检查
+## 规则语法检查 <a id="syntax-checking-rules"></a>
 
 要在不启动 Prometheus 的情况下快速检查规则文件在语法上是否正确，请安装并运行 Prometheus 的`promtool`命令行工具：
 
@@ -23,7 +23,7 @@ promtool check rules /path/to/example.rules.yml
 
 如果有任何语法错误或非法的输入参数，它将打印一条错误消息到标准错误，然后退出，状态码为 1。
 
-## 记录规则
+## 记录规则 <a id="recording-rules"></a>
 
 记录规则使您可以预先计算经常或计算量大的表达式，并将结果保存为一组新的时间序列。查询预计算结果通常比每次执行原始表达式要快得多。这对于每次刷新时都需要重复查询相同的表达式的仪表板特别有用。
 
@@ -46,7 +46,7 @@ groups:
       expr: sum(http_inprogress_requests) by (job)
 ```
 
-### `<rule_group>`
+### `<rule_group>` <a id="rule_group"></a>
 
 ```yaml
 # 组的名称。一个文件中必须唯一
@@ -59,7 +59,7 @@ rules:
   [ - <rule> ... ]
 ```
 
-### `<rule>`
+### `<rule>` <a id="rule"></a>
 
 记录规则的语法如下：
 

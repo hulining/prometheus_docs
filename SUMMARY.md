@@ -43,19 +43,18 @@
 
 ## visualization
 
-* [browser](visualization/browser.md)
-* [grafana](visualization/grafana.md)
-* [consoles](visualization/consoles.md)
+* [表达式浏览器](visualization/browser.md)
+* [Grafana 对 Prometheus 的支持](visualization/grafana.md)
+* [控制台模板](visualization/consoles.md)
 
 ## instrumenting
 
-* [clientlibs](instrumenting/clientlibs.md)
-* [writing\_clientlibs](instrumenting/writing_clientlibs.md)
-* [pushing](instrumenting/pushing.md)
-* [exporters](instrumenting/exporters.md)
-* [writing\_exporters](instrumenting/writing_exporters.md)
-* [exposition\_formats](instrumenting/exposition_formats.md)
-* [Untitled](instrumenting/untitled-5.md)
+* [客户端库](instrumenting/clientlibs.md)
+* [编写客户端库](instrumenting/writing_clientlibs.md)
+* [推送数据指标](instrumenting/pushing.md)
+* [数据导出及相关整合](instrumenting/exporters.md)
+* [编写数据导出器](instrumenting/writing_exporters.md)
+* [公开格式](instrumenting/exposition_formats.md)
 
 ## operating
 

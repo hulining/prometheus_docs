@@ -6,7 +6,7 @@ title: HTTP API
 
 在 Prometheus 服务的`/api/v1`下可以访问当前稳定的 HTTP API。任何不间断的添加都将添加到该端点下。
 
-## 格式概述
+## 格式概述 <a id="format-overview"></a>
 
 API 响应格式为 JSON。每个成功的 API 请求都会返回 2xx 状态码。
 
@@ -46,11 +46,11 @@ JSON 响应格式封装如下：
 
 `<bool>`占位符引用布尔值\(字符串`true`和`false`\)。
 
-## 表达式查询
+## 表达式查询 <a id="expression-queries"></a>
 
 查询语言表达式可以获取单个瞬间或一段时间的值。以下各节介绍了每种类型的表达式的查询的 API 端点。
 
-### 瞬时查询
+### 瞬时查询 <a id="instant-queries"></a>
 
 以下端点可以在单个时间点计算即时查询：
 
@@ -110,7 +110,7 @@ $ curl 'http://localhost:9090/api/v1/query?query=up&time=2015-07-01T20:10:51.781
 }
 ```
 
-### 范围查询
+### 范围查询 <a id="range-queries"></a>
 
 以下端点可以在一段时间内评估表达式查询：
 
@@ -178,9 +178,9 @@ $ curl 'http://localhost:9090/api/v1/query_range?query=up&start=2015-07-01T20:10
 }
 ```
 
-## 查询元数据
+## 查询元数据 <a id="querying-metadata"></a>
 
-### 通过标签匹配器查找序列
+### 通过标签匹配器查找序列 <a id="finding-series-by-label-matchers"></a>
 
 以下端点返回与某个标签集匹配的时间序列列表。
 
@@ -225,7 +225,7 @@ $ curl -g 'http://localhost:9090/api/v1/series?' --data-urlencode 'match[]=up' -
 }
 ```
 
-### 获取标签名称
+### 获取标签名称 <a id="getting-label-names"></a>
 
 下面的端点返回标签名称的列表
 
@@ -268,7 +268,7 @@ $ curl 'localhost:9090/api/v1/labels'
 }
 ```
 
-### 查询标签值
+### 查询标签值 <a id="querying-label-values"></a>
 
 以下端点返回给定标签名称的标签值的列表
 
@@ -291,11 +291,11 @@ $ curl http://localhost:9090/api/v1/label/job/values
 }
 ```
 
-## 表达查询结果格式
+## 表达查询结果格式 <a id="expression-query-result-formats"></a>
 
 表达式查询可能在`result`属性的`data`部分返回以下响应值。`<sample_value>`占位符是数字样本值。JSON不支持`NaN`, `Inf`和`-Inf`等特殊的浮点值，因此`<sample_value>`将作为带引号的 JSON 字符串而不是原始数字进行传输。
 
-### 范围向量
+### 范围向量 <a id="range-vectors"></a>
 
 范围向量结果作为`matrix`结果类型返回。相应的`result`属性具有如下格式：
 
@@ -309,7 +309,7 @@ $ curl http://localhost:9090/api/v1/label/job/values
 ]
 ```
 
-### 即时向量
+### 即时向量 <a id="instant-vectors"></a>
 
 即时向量结果作为`vector`结果类型返回。相应的`result`属性具有如下格式：
 
@@ -323,7 +323,7 @@ $ curl http://localhost:9090/api/v1/label/job/values
 ]
 ```
 
-### 标量
+### 标量 <a id="scalars"></a>
 
 标量结果作为`scalar`结果类型返回。相应的`result`属性具有如下格式：
 
@@ -331,7 +331,7 @@ $ curl http://localhost:9090/api/v1/label/job/values
 [ <unix_time>, "<scalar_value>" ]
 ```
 
-### 字符串
+### 字符串 <a id="strings"></a>
 
 字符串结果作为`string`结果类型返回。相应的`result`属性具有如下格式：
 
@@ -339,7 +339,7 @@ $ curl http://localhost:9090/api/v1/label/job/values
 [ <unix_time>, "<string_value>" ]
 ```
 
-## 目标
+## 目标 <a id="targets"></a>
 
 以下端点返回 Prometheus 发现目标的当前状态概述：
 
@@ -420,7 +420,7 @@ $ curl 'http://localhost:9090/api/v1/targets?state=active'
 }
 ```
 
-## 规则
+## 规则 <a id="rules"></a>
 
 `/rules` API 端点返回当前已加载的告警和记录规则的列表。此外，它还返回由 Prometheus 实例触发的当前活动的告警的每个警报规则。
 
@@ -486,7 +486,7 @@ $ curl http://localhost:9090/api/v1/rules
 }
 ```
 
-## 告警
+## 告警 <a id="alerts"></a>
 
 `/alerts`端点返回所有活动告警的列表
 
@@ -517,7 +517,7 @@ $ curl http://localhost:9090/api/v1/alerts
 }
 ```
 
-## 查询目标元数据
+## 查询目标元数据 <a id="querying-target-metadata"></a>
 
 以下端点返回有关当前从目标中采集数据指标的元数据。这是**实验性的**，将来可能会改变。
 
@@ -599,7 +599,7 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
 }
 ```
 
-## 查询数据指标元数据
+## 查询数据指标元数据 <a id="querying-metric-metadata"></a>
 
 它返回有关当前从目标中采集数据指标的元数据。但它不提供任何目标信息。这是**实验性的**，将来可能会改变
 
@@ -698,11 +698,11 @@ $ curl http://localhost:9090/api/v1/alertmanagers
 }
 ```
 
-## 状态
+## 状态 <a id="status"></a>
 
 以下状态端点暴露了当前 Prometheus 的配置。
 
-### 配置
+### 配置 <a id="config"></a>
 
 以下端点返回当前加载的配置文件
 
@@ -722,7 +722,7 @@ $ curl http://localhost:9090/api/v1/status/config
 }
 ```
 
-### 标志位
+### 标志位 <a id="flags"></a>
 
 以下端点返回已配置的 Prometheus 的标志位：
 
@@ -749,7 +749,7 @@ $ curl http://localhost:9090/api/v1/status/flags
 
 _v2.2 的新功能_
 
-### 运行时信息
+### 运行时信息 <a id="runtime-information"></a>
 
 以下端点返回有关 Prometheus 服务的各种运行时信息属性：
 
@@ -780,11 +780,13 @@ $ curl http://localhost:9090/api/v1/status/runtimeinfo
 }
 ```
 
-注意：在 Prometheus 版本之间，返回的确切运行时属性可能会更改，恕不另行通知。
+{% hint style="warning" %}
+在 Prometheus 版本之间，返回的确切运行时属性可能会更改，恕不另行通知。
+{% endhint %}
 
 _v2.14的新功能_
 
-### 构建信息
+### 构建信息 <a id="build-information"></a>
 
 以下端点返回有关 Prometheus 服务的各种构建信息属性：
 
@@ -809,11 +811,13 @@ $ curl http://localhost:9090/api/v1/status/buildinfo
 }
 ```
 
-注意：在 Prometheus 版本之间，返回的确切运行时属性可能会更改，恕不另行通知。
+{% hint style="warning" %}
+在 Prometheus 版本之间，返回的确切运行时属性可能会更改，恕不另行通知。
+{% endhint %}
 
 _v2.14的新功能_
 
-### TSDB 状态
+### TSDB 状态 <a id="tsdb-stats"></a>
 
 以下端点返回有关 Prometheus TSDB 的各种基数统计信息：
 
@@ -877,13 +881,13 @@ GET /api/v1/status/tsdb
 
   _v2.15 的新功能_
 
-## TSDB 管理 API
+## TSDB 管理 API <a id="tsdb-admin-apis"></a>
 
 这些 API 为高级用户提供了数据库功能。除非设置了`--web.enable-admin-api`，否则不会启用这些 API。
 
 我们还暴露了一个 gRPC API，其定义可以在[此处](https://github.com/prometheus/prometheus/blob/master/prompb/rpc.proto)找到。 这是实验性的，将来可能会改变。
 
-## 快照
+## 快照 <a id="snapshot"></a>
 
 Snapshot 将所有当前数据的快照创建到 TSDB 数据目录下的`snapshots/<datetime>-<rand>`，并返回该目录作为响应。它可以选择跳过仅存在于起始块中并且尚未压缩到磁盘的快照数据。
 
@@ -910,7 +914,7 @@ URL 查询参数：
 
 _v2.1 的新功能，从 v2.9 开始支持 PUT_
 
-### 删除序列
+### 删除序列 <a id="delete-series"></a>
 
 DeleteSeries 删除一个时间范围内选定序列的数据。实际数据仍然存在于磁盘上，并在以后的压缩中进行清理，或者可以通过访问 Clean Tombstones 端点进行显式清理。
 
