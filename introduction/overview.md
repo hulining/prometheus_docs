@@ -4,7 +4,7 @@ title: 概述
 
 # 概述
 
-## 什么是 Prometheus
+## 什么是 Prometheus <a id="what-is-prometheus"></a>
 
 [Prometheus](https://github.com/prometheus) 是最初在 [SoundCloud](https://soundcloud.com/) 上构建的开源系统监视和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目拥有非常活跃的开发人员和用户[社区](https://prometheus.io/community)。现在，它是一个独立的开源项目，并且独立于任何公司进行维护。为了强调这一点并阐明项目的治理结构，Prometheus在2016年加入了 [Cloud Native Computing Foundation](https://cncf.io/)，这是继 [Kubernetes](https://kubernetes.io/) 之后的第二个托管项目。
 
