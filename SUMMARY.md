@@ -54,7 +54,7 @@
 * [推送数据指标](instrumenting/pushing.md)
 * [数据导出及相关整合](instrumenting/exporters.md)
 * [编写数据导出器](instrumenting/writing_exporters.md)
-* [公开格式](instrumenting/exposition_formats.md)
+* [公开的格式](instrumenting/exposition_formats.md)
 
 ## operating
 

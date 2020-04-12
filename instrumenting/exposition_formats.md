@@ -3,7 +3,7 @@ title: 公开格式
 sort_rank: 6
 ---
 
-# 公开格式
+# 公开的格式
 
 可以使用[基于文本](exposition_formats.md#text-based-format)的简单展示格式将数据指标暴露给 Prometheus。有多种[客户端库](https://prometheus.io/docs/instrumenting/clientlibs/)可以为您实现这种格式。如果您的首选语言没有客户端库，则可以[创建自己的客户端库](writing_clientlibs.md)。
 
