@@ -4,17 +4,17 @@ title: 使用基于文件的服务发现来发现数据采集目标
 
 # 使用基于文件的服务发现来发现数据采集目标
 
-Prometheus 提供了多种用于发现抓取目标的[服务发现选项](https://github.com/prometheus/prometheus/tree/master/discovery), 包括 [Kubernetes](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config), [Consul](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#consul_sd_config) 等。如果您使用系统当前不支持服务发现，则 Prometheus 的[基于文件的服务发现](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#file_sd_config)机制可能会最好地满足您的用例，您可以在 JSON 文件中列出采集目标\(以及有关这些目标的元数据\)。
+Prometheus 提供了多种用于发现抓取目标的[服务发现选项](https://github.com/prometheus/prometheus/tree/master/discovery), 包括 [Kubernetes](../prometheus/configuration/configuration.md#kubernetes_sd_config), [Consul](../prometheus/configuration/configuration.md#consul_sd_config) 等。如果您使用系统当前不支持服务发现，则 Prometheus 的[基于文件的服务发现](../prometheus/configuration/configuration.md#file_sd_config)机制可能会最好地满足您的用例，您可以在 JSON 文件中列出采集目标\(以及有关这些目标的元数据\)。
 
 在本指南中，我们将:
 
-* 在本地安装并运行 Prometheus[Node Exporter](https://prometheus.io/docs/guides/node-exporter)
+* 在本地安装并运行 Prometheus[Node Exporter](node-exporter.md)
 * 创建 `targets.json` 文件，为 Node Exporter 指定主机和端口信息
 * 安装并运行 Prometheus实例，该实例配置为使用 `targets.json` 文件发现 Node Exporter
 
 ## 安装并运行 Node Exporter <a id="installing-and-running-the-node-exporter"></a>
 
-请参阅[使用 Node Exporter 监控 Linux 主机](https://prometheus.io/docs/guides/node-exporter)的[安装](https://prometheus.io/docs/guides/node-exporter#installing-and-running-the-node-exporter)部分。
+请参阅[使用 Node Exporter 监控 Linux 主机](node-exporter.md)的[安装](node-exporter.md#installing-and-running-the-node-exporter)部分。
 
 节点导出器在 9100 端口上运行。为确保节点导出器公开指标:
 
@@ -90,7 +90,7 @@ level=info ts=2018-08-13T20:39:24.905651509Z caller=main.go:500 msg="Server is r
 
 ## 公开发现服务的数据指标 <a id="exploring-the-discovered-services-metrics"></a>
 
-随着 Prometheus 的启动和运行，您可以使用 Prometheus [表达式浏览器](https://prometheus.io/docs/visualization/browser)检索 `node` 公开的指标。例如，如果您查询 \[`up{job="node"}`\]\(\([http://localhost:9090/graph?g0.range\_input=1h&g0.expr=up%7Bjob%3D%22node%22%7D&g0.tab=1](http://localhost:9090/graph?g0.range_input=1h&g0.expr=up%7Bjob%3D%22node%22%7D&g0.tab=1)\)\) 指标，则可以看到 Node Exporter 恰好被发现。
+随着 Prometheus 的启动和运行，您可以使用 Prometheus [表达式浏览器](../visualization/browser.md)检索 `node` 公开的指标。例如，如果您查询 \[[`up{job="node"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=up%7Bjob%3D%22node%22%7D&g0.tab=1)  指标，则可以看到 Node Exporter 恰好被发现。
 
 ## 动态更改目标列表 <a id="changing-the-targets-list-dynamically"></a>
 

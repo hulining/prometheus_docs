@@ -33,7 +33,7 @@ groups:
 
 ### 模板化 <a id="templating"></a>
 
-标签和注解值可以使用[控制台模板](consoles.md)模板化。`$labels`变量保存告警实例的标签键/值对。可以通过`$externalLabels`变量访问已配置的扩展标签。`$value`变量保存告警实例执行的值。
+标签和注解值可以使用[控制台模板](../../visualization/consoles.md)模板化。`$labels`变量保存告警实例的标签键/值对。可以通过`$externalLabels`变量访问已配置的扩展标签。`$value`变量保存告警实例执行的值。
 
 ```yaml
 # 输入告警实例的标签值
@@ -76,7 +76,7 @@ groups:
 
 ### 发送告警通知 <a id="sending-alert-notifications"></a>
 
-Prometheus 的告警规则擅长确定当前已经发生的问题，但它并不是完美的通知解决方案。在简单的告警定义之上，还需要另一层来添加摘要，通知速率限制，静默和告警依赖。在 Prometheus 生态系统中，[Alertmanager](alertmanager.md) 扮演了这个角色。因此，Prometheus 可以配置为定期将有关告警状态的信息发送到 Alertmanager 实例，该实例随后负责调度正确的通知。
+Prometheus 的告警规则擅长确定当前已经发生的问题，但它并不是完美的通知解决方案。在简单的告警定义之上，还需要另一层来添加摘要，通知速率限制，静默和告警依赖。在 Prometheus 生态系统中，[Alertmanager](../../alerting/alertmanager.md) 扮演了这个角色。因此，Prometheus 可以配置为定期将有关告警状态的信息发送到 Alertmanager 实例，该实例随后负责调度正确的通知。
 
-可以将 Prometheus [配置](configuration)为通过其服务发现集成自动发现可用的 Alertmanager 实例。
+可以将 Prometheus [配置](configuration.md)为通过其服务发现集成自动发现可用的 Alertmanager 实例。
 

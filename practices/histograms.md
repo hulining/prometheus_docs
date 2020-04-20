@@ -9,9 +9,9 @@ histogram 和 summary 是更复杂的指标类型。单个 histogram 或 summary
 
 ## 库支持 <a id="library-support"></a>
 
-首先，检查库对 [histogram](/concepts/metric_types/#histogram)和[summary](/concepts/metric_types/#summary)的支持。
+首先，检查库对 [histogram](../concepts/metric_types.md#histogram)和[summary](../concepts/metric_types.md#summary)的支持。
 
-一些库仅支持两种类型之一，或者它们仅以有限的方式支持 summary\(缺少 [分位数计算]()\).
+一些库仅支持两种类型之一，或者它们仅以有限的方式支持 summary\(缺少 [分位数计算](histograms.md#quantiles)\).
 
 ## 观测计数和求和 <a id="count-and-sum-of-observations"></a>
 
@@ -57,7 +57,7 @@ histogram 和 summary 都是样本观察值，通常是请求持续时间或响�
 
 您可以使用 histogram 和 summary 来计算所谓的 φ-分位数\(0 ≤ φ ≤ 1\). φ-分位数 是在 N 个观测值中排名为 φ\* N 的观测值。例如，0.5-分位数称为中位数。0.95分位数是第95个百分点
 
-summaries 和 histograms 之间的本质区别在于，summaries 在客户端侧计算数据流的 φ-分位数并直接公开它们，而 histograms 公开桶式观察计数，而 histogram 的桶中的分位数计算在服务器端使用 [`histogram_quantile()` 函数](prometheus/latest/querying/functions/#histogram_quantile)。
+summaries 和 histograms 之间的本质区别在于，summaries 在客户端侧计算数据流的 φ-分位数并直接公开它们，而 histograms 公开桶式观察计数，而 histogram 的桶中的分位数计算在服务器端使用 [`histogram_quantile()` 函数](../prometheus/querying/functions.md#histogram_quantile)。
 
 两种类型有许多不同的含义
 
@@ -65,11 +65,11 @@ summaries 和 histograms 之间的本质区别在于，summaries 在客户端侧
 | :---: | :---: | :---: |
 | 所需配置 | 选择适合预期范围观察值的存储桶 | 选择所需的 φ-分位数和滑动窗口。其他 φ-分位数和滑动窗口以后无法计算 |
 | 客户端性能 | 观测值消耗较小，因为它们只需要增加计数器 | 由于流式分位数计算，观测值消耗较大 |
-| 服务端性能 | 服务器必须计算分位数。您可以使用[记录规则](/prometheus/configuration/recording_rules/#recording-rules)临时计算是否需要太长时间\(例如在大型仪表板中\) | 低服务端消耗 |
+| 服务端性能 | 服务器必须计算分位数。您可以使用[记录规则](../prometheus/configuration/recording_rules.md#recording-rules)临时计算是否需要太长时间\(例如在大型仪表板中\) | 低服务端消耗 |
 | 时间序列数\(除了`_sum`和`_count`之外\) | 每个配置的存储桶有一个时间序列. | 每个配置的分位数有一个时间序列. |
 | 分位数错误\(详情见下文\) | 误差受相关观察上存储桶宽度维度的限制. | 误差受可配置值 φ 维度的限制 |
-| φ分位数和滑动时间窗口的规范 | [Prometheus 表达式](/prometheus/querying/functions/#histogram_quantile). | 由客户端预先配置. |
-| 聚合 | [Prometheus 表达式](/prometheus/querying/functions/#histogram_quantile). | 一般来说，[不可汇总](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html). |
+| φ分位数和滑动时间窗口的规范 | [Prometheus 表达式](../prometheus/querying/functions.md#histogram_quantile). | 由客户端预先配置. |
+| 聚合 | [Prometheus 表达式](../prometheus/querying/functions.md#histogram_quantile). | 一般来说，[不可汇总](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html). |
 
 注意表中最后一项的重要性。让我们回到在 300ms 内处理 95% 请求的 SLO。这次，您不想显示 300ms 内已处理请求的百分比，而是显示第95个百分点，即您为 95% 的请求提供服务的请求时间。为此，您可以配置摘要为 0.95-分位数，衰减时间为 5 分钟\(举例\)，也可以配置在 300ms 标记附近添加几个存储桶的 histogram，例如 `{le="0.1"}`, `{le="0.2"}`, `{le="0.3"}` 和 `{le="0.45"}`如果您的服务使用多个实例进行复制运行，则您将从其中的每个实例收集请求持续时间，然后将所有内容汇总到整体的 95%。但是，从 summary 预计算的分位数是很少是有意义的。在这种特定情况下，分位数求平均值会产生统计上无意义的值。
 
@@ -77,7 +77,7 @@ summaries 和 histograms 之间的本质区别在于，summaries 在客户端侧
 avg(http_request_duration_seconds{quantile="0.95"}) // BAD!
 ```
 
-使用 histograms 类型数据指标，使用[`histogram_quantile()` 函数](/prometheus/querying/functions/#histogram_quantile)完全可以进行聚合 [`histogram_quantile()` 函数](/prometheus/querying/functions/#histogram_quantile).
+使用 histograms 类型数据指标，使用[`histogram_quantile()` 函数](../prometheus/querying/functions.md#histogram_quantile)完全可以进行聚合 [`histogram_quantile()` 函数](../prometheus/querying/functions.md#histogram_quantile).
 
 ```text
 histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) // GOOD.
@@ -93,7 +93,7 @@ histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by 
 
 我们继续想下一个场景: 后端路由的更改为所有请求时长增加了固定的 100ms。现在，请求时长在320毫秒处急剧上升，几乎所有观察结果都会落到 300ms-450ms 的存储桶中。尽管正确值接近320ms，但第 95 个百分位数计算为 442.5ms。尽管在 SLO 之外的请求只有一小部分，但计算得出的第 95 位分位数看起来要差得多。
 
-在以上两种情况下，summary 都可以毫无问题地计算出正确的百分位数值，至少如果它在客户端使用了适当的算法\(如 \[Go 客户端使用的\]\(\([http://www.cs.rutgers.edu/~muthu/bquant.pdf\)\)\)。但是如果您需要汇总多个实例的观测值，则无法使用](http://www.cs.rutgers.edu/~muthu/bquant.pdf%29%29%29。但是如果您需要汇总多个实例的观测值，则无法使用) summary。
+在以上两种情况下，summary 都可以毫无问题地计算出正确的百分位数值，至少如果它在客户端使用了适当的算法\(如 [Go 客户端使用的](http://www.cs.rutgers.edu/~muthu/bquant.pdf)\)。但是如果您需要汇总多个实例的观测值，则无法使用 summary。
 
 幸运的是，由于您适当选择了存储桶边界，即使在这个观察值分布非常不均匀的人造示例中，histogram 也能够正确识别您是否在SLO范围之内或之外。同样，分位数的实际值越接近我们的 SLO\(或换句话说，我们实际上最感兴趣的值\)，计算出的值就越准确。
 

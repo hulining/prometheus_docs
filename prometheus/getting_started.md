@@ -43,7 +43,7 @@ scrape_configs:
       - targets: ['localhost:9090']
 ```
 
-有关配置选项的完整说明，请参阅[配置文档](configuration.md)。
+有关配置选项的完整说明，请参阅[配置文档](configuration/configuration.md)。
 
 ## 启动 Prometheus <a id="starting-prometheus"></a>
 
@@ -83,7 +83,7 @@ prometheus_target_interval_length_seconds{quantile="0.99"}
 count(prometheus_target_interval_length_seconds)
 ```
 
-有关表达式语言的更多信息，请见[表达式语言文档](basics.md)
+有关表达式语言的更多信息，请见[表达式语言文档](querying/basics.md)
 
 ## 使用图形化接口 <a id="using-the-graphing-interface"></a>
 

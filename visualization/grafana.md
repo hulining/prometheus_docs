@@ -6,7 +6,9 @@ title: Grafana 对 Prometheus 的支持
 
 [Grafana](http://grafana.org/) 支持查询 Prometheus。Grafana 从 2.5.0\(2015-10-28\)开始包含 Prometheus 的数据源。
 
-下图显示了示例 Grafana 仪表盘，该仪表盘查询 Prometheus 以获取数据： ![grafana\_prometheus](https://prometheus.io/assets/grafana_prometheus.png)
+下图显示了示例 Grafana 仪表盘，该仪表盘查询 Prometheus 以获取数据： 
+
+![grafana\_prometheus](https://prometheus.io/assets/grafana_prometheus.png)
 
 ## 安装 <a id="installing"></a>
 

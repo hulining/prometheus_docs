@@ -5,9 +5,11 @@ sort_rank: 1
 
 # 使用 TLS 加密 Prometheus API 和 UI 端点
 
-对于与 Prometheus 实例\(即表达式浏览器或 [HTTP API](https://prometheus.io/docs/prometheus/latest/querying/api)\)的连接，Prometheus 不直接支持[传输层安全](https://en.wikipedia.org/wiki/Transport_Layer_Security) \(TLS\)加密如果您想对这些连接强制执行 TLS，建议将 Prometheus 与[反向代理](https://www.nginx.com/resources/glossary/reverse-proxy-server/)结合使用，并在代理层应用 TLS。您可以使用任何您喜欢的反向代理，在本指南中，我们将提供一个 [nginx 示例]()。
+对于与 Prometheus 实例\(即表达式浏览器或 [HTTP API](../prometheus/querying/api.md)\)的连接，Prometheus 不直接支持[传输层安全](https://en.wikipedia.org/wiki/Transport_Layer_Security) \(TLS\)加密如果您想对这些连接强制执行 TLS，建议将 Prometheus 与[反向代理](https://www.nginx.com/resources/glossary/reverse-proxy-server/)结合使用，并在代理层应用 TLS。您可以使用任何您喜欢的反向代理，在本指南中，我们将提供一个 [nginx 示例](tls-encryption.md#nginx-example)。
 
-NOTE: 尽管不支持_到_ Prometheus 实例 TLS 连接，但_从_ Prometheus 实例到[采集目标](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#tls_config)的连接均支持TLS。
+{% hint style="info" %}
+NOTE: 尽管不支持_到_ Prometheus 实例 TLS 连接，但_从_ Prometheus 实例到[采集目标](../prometheus/configuration/configuration.md#tls_config)的连接均支持TLS。
+{% endhint %}
 
 ## nginx 示例 <a id="nginx-example"></a>
 
@@ -66,7 +68,7 @@ events {}
 sudo nginx -c /usr/local/etc/nginx/nginx.conf
 ```
 
-NOTE: 此示例使用 `/etc/nginx` 作为 nginx 配置文件，但这会因安装而异。其它\[常用 nginx 配置目录\]\(\([http://nginx.org/en/docs/beginners\_guide.html\)包括](http://nginx.org/en/docs/beginners_guide.html%29包括) `/usr/local/nginx/conf` 和 `/usr/local/etc/nginx`。
+NOTE: 此示例使用 `/etc/nginx` 作为 nginx 配置文件，但这会因安装而异。其它[常用 nginx 配置目录](http://nginx.org/en/docs/beginners_guide.html)包括 `/usr/local/nginx/conf` 和 `/usr/local/etc/nginx`。
 
 ## Prometheus 配置 <a id="prometheus-configuration"></a>
 

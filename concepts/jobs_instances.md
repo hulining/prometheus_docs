@@ -21,7 +21,7 @@ title: 作业和实例
 * `job`: 采集数据目标所属的已配置的作业名称。
 * `instance`: 采集数据目标 URL 的`<host>:<port>`部分。
 
-如果这些标签中的任何一个已存在于采集的数据中，则行为取决于`honor_labels`配置选项。有关更多信息，请参见[采集配置文档](configuration.md#%3Cscrape_config%3E)。
+如果这些标签中的任何一个已存在于采集的数据中，则行为取决于`honor_labels`配置选项。有关更多信息，请参见[采集配置文档](../prometheus/configuration/configuration.md#scrape_config)。
 
 对于每个实例的数据采集，Prometheus 按照以下时间序列存储样本：
 

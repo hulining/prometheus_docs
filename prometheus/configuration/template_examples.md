@@ -43,7 +43,7 @@ annotations:
 
 Go 和 Go 的模板语言都是强类型的，因此必须检查返回的样本以避免执行错误。如，如果采集或规则尚未运行，或者主机已关闭，则可能发生这种情况。
 
-随附的`prom_query_drilldown`模板可以处理此类问题，允许格式化结果并链接到[表达式浏览器](browser.md)。
+随附的`prom_query_drilldown`模板可以处理此类问题，允许格式化结果并链接到[表达式浏览器](../../visualization/browser.md)。
 
 ## 使用控制台 URL 参数 <a id="using-console-url-parameters"></a>
 

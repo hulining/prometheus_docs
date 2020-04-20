@@ -12,9 +12,9 @@ Prometheus 命令行标志的格式已经更改。现在所有标志不再使用
 
 一些值的注意的标志已被删除：
 
-* `-alertmanager.url` 在 Prometheus 2.0 中，用于静态配置 Alertmanager 的 URL 命令行标志已被删除。现在必须通过服务发现来发现 Alertmanager。请参阅 [Alertmanager 服务发现](https://prometheus.io/docs/prometheus/latest/migration/#alertmanager-service-discovery)。
+* `-alertmanager.url` 在 Prometheus 2.0 中，用于静态配置 Alertmanager 的 URL 命令行标志已被删除。现在必须通过服务发现来发现 Alertmanager。请参阅 [Alertmanager 服务发现](migration.md#alertmanager-service-discovery)。
 * `-log.format` 在 Prometheus 2.0 中，日志只能流式传输到标准输出。
-* `-query.staleness-delta`已重命名为`--query.lookback-delta`；Prometheus 2.0 引入了一种新的处理陈旧性的机制，请参见[陈旧性](https://prometheus.io/docs/prometheus/latest/querying/basics/#staleness)
+* `-query.staleness-delta`已重命名为`--query.lookback-delta`；Prometheus 2.0 引入了一种新的处理陈旧性的机制，请参见[陈旧性](querying/basics.md#staleness)
 * `-storage.local.*` Prometheus 2.0 引入了新的存储引擎，因为与旧引擎有关的标志都已删除。有关新引擎的信息，请参阅[存储](https://prometheus.io/docs/prometheus/latest/migration/#storage)部分。
 * `-storage.remote.*` Prometheus 2.0 删除了已经废弃的远程存储标志。如果指定了它们将无法启动。要写入 InfluxDB, Graphite 或 OpenTSDB 远程存储，请使用相关的存储适配器。
 
@@ -152,5 +152,5 @@ docker run -u root -p 80:80 prom/prometheus:v2.0.0-rc.2  --web.listen-address :8
 
 ### Prometheus 生命周期 <a id="prometheus-lifecycle"></a>
 
-如果您使用 Prometheus `/-/reload` HTTP 端点在更改时[自动重载 Prometheus 配置](/configuration/configuration)，出于安全原因在 Prometheus 2.0 默认禁用这些端点。要启用它们，设置`--web.enable-lifecycl`标志。
+如果您使用 Prometheus `/-/reload` HTTP 端点在更改时[自动重载 Prometheus 配置](configuration/configuration.md)，出于安全原因在 Prometheus 2.0 默认禁用这些端点。要启用它们，设置`--web.enable-lifecycl`标志。
 

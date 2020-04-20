@@ -6,7 +6,7 @@ title: 编写客户端库
 
 本文档涵盖了 Prometheus 客户端库应提供的功能和 API，目的是在各个库之间保持一致，从而简化易用案例，并避免提供可能导致用户走错路的功能。
 
-在撰写本文时，已经[支持 10 种语言](https://prometheus.io/docs/instrumenting/clientlibs)，我们已经很好地了解了如何编写客户端。这些准则旨在帮助新客户端库的作者创建良好的库。
+在撰写本文时，已经[支持 10 种语言](clientlibs.md)，我们已经很好地了解了如何编写客户端。这些准则旨在帮助新客户端库的作者创建良好的库。
 
 ## 约定 <a id="conventions"></a>
 
@@ -52,7 +52,7 @@ MUST/MUST NOT/SHOULD/SHOULD NOT/MAY 等关键字的含义已经在 [https://www.
 
 ## 数据指标 <a id="metrics"></a>
 
-`Counter`, `Gauge`, `Summary`和`Histogram`[数据指标类型](https://prometheus.io/docs/concepts/metric_types/)是面向用户的主要接口。
+`Counter`, `Gauge`, `Summary`和`Histogram`[数据指标类型](../concepts/metric_types.md)是面向用户的主要接口。
 
 `Counter`和`Gauge`必须是客户端库的一部分。必须提供`Summary`和`Histogram`其中之一。
 
@@ -76,7 +76,7 @@ class YourClass {
 
 ### Counter
 
-[Counter](https://prometheus.io/docs/concepts/metric_types/#counter) 是单调递增的计数器。它必须不允许该值减小，但可以将其重置为 0\(例如服务重新启动\)。
+[Counter](../concepts/metric_types.md#counter) 是单调递增的计数器。它必须不允许该值减小，但可以将其重置为 0\(例如服务重新启动\)。
 
 Counter 必须有如下方法：
 
@@ -91,7 +91,7 @@ Counter 最好有:
 
 ### Gauge
 
-[Gauge](https://prometheus.io/docs/concepts/metric_types/#gauge) 表示可以升降的值。
+[Gauge](../concepts/metric_types.md#gauge) 表示可以升降的值。
 
 Gauge 必须有如下方法:
 
@@ -115,7 +115,7 @@ Gauge 最好有:
 
 ### Summary
 
-[Summary](https://prometheus.io/docs/concepts/metric_types/#summary) 会在滑动的时间窗口内对观察结果\(通常是请求时间之类的\)进行采样，并即时了解其分布，频率和总和。
+[Summary](../concepts/metric_types.md#summary) 会在滑动的时间窗口内对观察结果\(通常是请求时间之类的\)进行采样，并即时了解其分布，频率和总和。
 
 Summary 必须禁止用户将`quantile`设置为标签名称，因为该名称在内部用于指定摘要分位数。Summary 鼓励提供 quantiles 作为暴露数据，尽管这些数据不能汇总，而且往往很慢。 Summary 必须不允许有 quantiles，因为`_count`/`_sum`非常有用，并且必须是默认值。
 
@@ -131,7 +131,7 @@ Summary 中的`_count`/`_sum`必须从 0 开始。
 
 ### Histogram
 
-[Histogram](https://prometheus.io/docs/concepts/metric_types/#histogram) 允许事件的汇总分布，例如请求延迟。这是每个桶的计数器的核心。
+[Histogram](../concepts/metric_types.md#histogram) 允许事件的汇总分布，例如请求延迟。这是每个桶的计数器的核心。
 
 Histogram 禁止将`le`作为用户设置的标签，因为`le`在内部用于指定存储桶。
 
@@ -163,7 +163,7 @@ Histogram 应该包含如下方法:
 
 标签虽然功能强大，但大多数数据指标都没有标签。因此，API 应该允许标签但是不能强制它。
 
-客户端库必须允许在创建 Gauge/Counter/Summary/Histogram 时可选地指定标签名称的列表。客户端库应该支持任意数量的标签名称。 客户端库必须验证标签名称是否满足[文档要求](https://prometheus.io/docs/concepts/data_model/#metric-names-and-labels)。
+客户端库必须允许在创建 Gauge/Counter/Summary/Histogram 时可选地指定标签名称的列表。客户端库应该支持任意数量的标签名称。 客户端库必须验证标签名称是否满足[文档要求](../concepts/data_model.md#metric-names-and-labels)。
 
 提供对数据指标的标签维度的访问的一般方法是通过`labels()`方法，该方法获取标签值的列表或从标签名称到标签值的映射，并返回"Child"。然后可在 Child 上调用一些如`.inc()`/`.dec()`/`.observe()`常规方法。
 
@@ -175,7 +175,7 @@ Histogram 应该包含如下方法:
 
 ### 数据指标名称 <a id="metric-names"></a>
 
-数据指标名称必须遵循[规范](https://prometheus.io/docs/concepts/data_model/#metric-names-and-labels)。与标签名称一样，对于 Gauge/Counter/Summary/Histogram 以及客户端库提供的任何其他收集器，都必须满足此要求。
+数据指标名称必须遵循[规范](../concepts/data_model.md#metric-names-and-labels)。与标签名称一样，对于 Gauge/Counter/Summary/Histogram 以及客户端库提供的任何其他收集器，都必须满足此要求。
 
 许多客户端库提供了三个部分的名称设置：`namespace_subsystem_name`，其中只有`name`是必需的。
 
@@ -189,7 +189,7 @@ Gauge/Counter/Summary/Histogram 类型必须要求提供数据指标的帮助/�
 
 建议将其设为必选参数，但不要检查它是否具有一定长度，就好像某人确实不想编写文档一样，我们也不会说服他们。 库\(以及我们在生态系统中我们所能做到的\)提供的收集器应具有良好的数据指标描述，以身作则。
 
-## 公开数据
+## 公开数据 <a id="exposition"></a>
 
 客户端必须实现[公开格式](exposition_formats.md)文档中描述的基于文本的导出格式
 

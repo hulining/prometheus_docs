@@ -4,7 +4,7 @@ title: 配置
 
 # 配置
 
-Prometheus 通过命令行参数和配置文件进行配置。命令行参数配置了不可变的系统参数\(如存储位置，保留在磁盘和内存中的数据量等\)。配置文件定义了与采集数据[作业及实例](jobs_instances.md)相关的所有内容及[加载哪些规则文件](recording_rules.md#configuring-rules)。
+Prometheus 通过命令行参数和配置文件进行配置。命令行参数配置了不可变的系统参数\(如存储位置，保留在磁盘和内存中的数据量等\)。配置文件定义了与采集数据[作业及实例](../../concepts/jobs_instances.md)相关的所有内容及[加载哪些规则文件](recording_rules.md#configuring-rules)。
 
 执行`./prometheus -h`查看所有可用的命令行参数
 
@@ -346,7 +346,40 @@ TODO:
 
 ### `<file_sd_config>` <a id="file_sd_config"></a>
 
-TODO:
+基于文件的服务发现提供了一种更通用的配置静态目标或用作插入自定义服务发现机制接口服务的方法。
+
+它读取一组包含零个或多个`<static_config>`列表的文件。对所有已定义文件的更改将通过磁盘检测并立即应用。文件可以以 YAML 或 JSON 格式提供。仅应用符合目标组规范的更改。
+
+JSON文件必须包含使用以下格式的静态配置列表:
+
+```yaml
+[
+  {
+    "targets": [ "<host>", ... ],
+    "labels": {
+      "<labelname>": "<labelvalue>", ...
+    }
+  },
+  ...
+]
+```
+
+作为备用，文件内容也将以指定的刷新间隔定期重新读取。
+
+在[重新标记阶段](configuration.md#relabel_config)，每个目标都有一个元标记 `__meta_filepath`。 它的值设置为从中发现目标的文件路径。
+
+有与此发现机制的[集成](../../operating/integrations.md#file-service-discovery)列表。
+
+```yaml
+# Patterns for files from which target groups are extracted.
+files:
+  [ - <filename_pattern> ... ]
+
+# Refresh interval to re-read the files.
+[ refresh_interval: <duration> | default = 5m ]
+```
+
+其中，`<filename_pattern>`可能是以 `.json`，`.yml`  或 `.yaml` 结尾的路径。最后一个路径段可能包含与任何字符序列匹配的单个 `*` ，如 `my/path/tg_*.json`
 
 ### `<gce_sd_config>` <a id="gce_sd_config"></a>
 
@@ -750,7 +783,7 @@ queue_config:
   [ max_backoff: <duration> | default = 100ms ]
 ```
 
-这里是有此功能的[整合列表](integrations.md#remote-endpoints-and-storage)
+这里是有此功能的[集成列表](../../operating/integrations.md#remote-endpoints-and-storage)
 
 ### `<remote_read>` <a id="remote_read"></a>
 
@@ -789,5 +822,5 @@ tls_config:
 [ proxy_url: <string> ]
 ```
 
-这里是有此功能的[整合列表](integrations.md#remote-endpoints-and-storage)
+这里是有此功能的[集成列表](../../operating/integrations.md#remote-endpoints-and-storage)
 

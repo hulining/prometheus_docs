@@ -11,11 +11,13 @@ Prometheus [**Node Exporter**](https://github.com/prometheus/node_exporter) 公�
 * 在 `localhost` 启动 Node Exporter
 * 在 `localhost` 上配置 Prometheus 实例，该实例已配置为从正在运行的 Node Exporter 中采集指标  
 
+{% hint style="info" %}
 NOTE: Prometheus Node Exporter 适用于 \*nix 系统，Windows 中使用 [WMI exporter](https://github.com/martinlindhe/wmi_exporter) 具有类似的用途。
+{% endhint %}
 
 ## 安装并运行 Node Exporter <a id="installing-and-running-the-node-exporter"></a>
 
-Prometheus Node Exporter 是一个静态二进制文件，您可以通过[tartar]()安装。 从 Prometheus [下载页面](https://prometheus.io/download#node_exporter) 下载后，将其解压缩并运行:
+Prometheus Node Exporter 是一个静态二进制文件，您可以通过 tartar 安装。 从 Prometheus [下载页面](https://prometheus.io/download#node_exporter) 下载后，将其解压缩并运行:
 
 ```bash
 wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
@@ -64,9 +66,7 @@ curl http://localhost:9100/metrics | grep "node_"
 
 需要正确配置本地运行的 Prometheus 实例，才能访问 Node Exporter 指标。
 
-下面的 [`scrape_config`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config) 配置块 \(在 `prometheus.yml` 配置文件中\) 将告诉 Prometheus 实例通过 `localhost:9100` 从 Node Exporter 中进行数据采集:
-
-{\#config}
+下面的 [`scrape_config`](../prometheus/configuration/configuration.md#scrape_config) 配置块 \(在 `prometheus.yml` 配置文件中\) 将告诉 Prometheus 实例通过 `localhost:9100` 从 Node Exporter 中进行数据采集:
 
 ```yaml
 scrape_configs:
@@ -83,7 +83,7 @@ tar xvf prometheus-*.*-amd64.tar.gz
 cd prometheus-*.*
 ```
 
-安装 Prometheus 后，您可以使用`--config.file` 标志指向上面创建的 Prometheus [配置]():
+安装 Prometheus 后，您可以使用`--config.file` 标志指向上面创建的 Prometheus 配置:
 
 ```bash
 ./prometheus --config.file=./prometheus.yml
@@ -91,9 +91,7 @@ cd prometheus-*.*
 
 ## 通过 Prometheus 表达式浏览器检索 Node Exporter 指标 <a id="exploring-node-exporter-metrics-through-the-prometheus-expression-browser"></a>
 
-现在，Prometheus 正在从正在运行的 Node Exporter 实例中采集指标，您可以使用 Prometheus UI\(又名[表达式浏览器](https://prometheus.io/docs/visualization/browser)\)浏览这些指标。在您的浏览器中导航至 `localhost:9090/graph`。然后使用页面顶部的主表达式栏输入表达式。表达式栏如下所示:
-
-Now that Prometheus is scraping metrics from a running Node Exporter instance, you can explore those metrics using the Prometheus UI \(aka the [expression browser](/docs/visualization/browser)\). Navigate to `localhost:9090/graph` in your browser and use the main expression bar at the top of the page to enter expressions. The expression bar looks like this:
+现在，Prometheus 正在从正在运行的 Node Exporter 实例中采集指标，您可以使用 Prometheus UI\(又名[表达式浏览器](../visualization/browser.md)\)浏览这些指标。在您的浏览器中导航至 `localhost:9090/graph`。然后使用页面顶部的主表达式栏输入表达式。表达式栏如下所示:
 
 ![Prometheus expressions browser](https://prometheus.io/assets/prometheus-expression-bar.png)
 
@@ -103,7 +101,7 @@ Node Exporter 的数据指标以 `node_` 为前缀，并包括诸如 `node_cpu_s
 
 | Metric | Meaning |
 | :--- | :--- |
-| \[`rate(node_cpu_seconds_total{mode="system"}[1m])`\]\([http://localhost:9090/graph?g0.range\_input=1h&g0.expr=rate\(node\_cpu\_seconds\_total%7Bmode%3D%22system%22%7D%5B1m%5D\)&g0.tab=1](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate%28node_cpu_seconds_total%7Bmode%3D%22system%22%7D%5B1m%5D%29&g0.tab=1)\) | 过去一分钟内，系统每秒花费的平均 CPU 时间\(以 seconds 为单位\) |
+| [`rate(node_cpu_seconds_total{mode="system"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate%28node_cpu_seconds_total%7Bmode%3D%22system%22%7D%5B1m%5D%29&g0.tab=1) | 过去一分钟内，系统每秒花费的平均 CPU 时间\(以 seconds 为单位\) |
 | [`node_filesystem_avail_bytes`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_filesystem_avail_bytes&g0.tab=1) | 可用的文件系统空间\(以 bytes 为单位\) |
-| \[`rate(node_network_receive_bytes_total[1m])`\]\([http://localhost:9090/graph?g0.range\_input=1h&g0.expr=rate\(node\_network\_receive\_bytes\_total%5B1m%5D\)&g0.tab=1](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate%28node_network_receive_bytes_total%5B1m%5D%29&g0.tab=1)\) | 过去一分钟内，平均每秒收到的网络流量\(以 bytes 为单位\) |
+| [`rate(node_network_receive_bytes_total[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate%28node_network_receive_bytes_total%5B1m%5D%29&g0.tab=1) | 过去一分钟内，平均每秒收到的网络流量\(以 bytes 为单位\) |
 

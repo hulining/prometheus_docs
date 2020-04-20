@@ -53,7 +53,7 @@ curl http://localhost:2112/metrics
 
 ## 添加您自己的数据指标 <a id="adding-your-own-metrics"></a>
 
-[上面]()的应用程序仅公开默认的 Go 指标。您还可以注册自定义应用程序指定指标。如下示例应用程序公开了 `myapp_processed_ops_total` [计数器](https://prometheus.io/docs/concepts/metric_types/#counter)，该计数器对到目前为止已处理的操作数量进行计数。每2秒，计数器增加1。
+[上面]()的应用程序仅公开默认的 Go 指标。您还可以注册自定义应用程序指定指标。如下示例应用程序公开了 `myapp_processed_ops_total` [计数器](../concepts/metric_types.md#counter)，该计数器对到目前为止已处理的操作数量进行计数。每2秒，计数器增加1。
 
 ```go
 package main
@@ -111,7 +111,7 @@ curl http://localhost:2112/metrics
 myapp_processed_ops_total 5
 ```
 
-您可以[配置](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)在本地运行的 Prometheus 实例，从应用程序中获取指标。这是一个 `prometheus.yml` 配置示例：
+您可以[配置](../prometheus/configuration/configuration.md#scrape_config)在本地运行的 Prometheus 实例，从应用程序中获取指标。这是一个 `prometheus.yml` 配置示例：
 
 ```yaml
 scrape_configs:
@@ -124,7 +124,7 @@ scrape_configs:
 
 ## 其它 Go 客户端功能 <a id="other-go-client-features"></a>
 
-在本指南中，我们仅介绍了 Prometheus Go 客户端库中的一小部分功能。您还可以公开其他度量标准类型，例如 [gauges](https://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge) 和 [histograms](https://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)，[非全局 registries](https://godoc.org/github.com/prometheus/client_golang/prometheus#Registry)，用于[推送数据指标](https://godoc.org/github.com/prometheus/client_golang/prometheus/push)到 Prometheus [PushGateways](https://prometheus.io/docs/instrumenting/pushing/)，连接 Prometheus 和 [Graphite](https://godoc.org/github.com/prometheus/client_golang/prometheus/graphite) 的函数等。
+在本指南中，我们仅介绍了 Prometheus Go 客户端库中的一小部分功能。您还可以公开其他度量标准类型，例如 [gauges](https://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge) 和 [histograms](https://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)，[非全局 registries](https://godoc.org/github.com/prometheus/client_golang/prometheus#Registry)，用于[推送数据指标](https://godoc.org/github.com/prometheus/client_golang/prometheus/push)到 Prometheus [PushGateways](../instrumenting/pushing.md)，连接 Prometheus 和 [Graphite](https://godoc.org/github.com/prometheus/client_golang/prometheus/graphite) 的函数等。
 
 ## Summary
 

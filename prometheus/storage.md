@@ -41,9 +41,9 @@ Prometheus 服务的数据目录的目录结构如下所示：
     └── checkpoint.000001
 ```
 
-请注意，本地存储的局限性在于它不是集群的且没有副本。因此，对于磁盘或节点发生故障，它不是可任意伸缩或可持久化的，应该像其它类型的单节点数据库一样对待它。建议使用 RAID 来提高磁盘可用性，并用[快照](api.md#snapshot)进行备份，容量规划等，以提高可用性。通过适当的存储可用性和计划，可以在本地存储中存储多年的数据。
+请注意，本地存储的局限性在于它不是集群的且没有副本。因此，对于磁盘或节点发生故障，它不是可任意伸缩或可持久化的，应该像其它类型的单节点数据库一样对待它。建议使用 RAID 来提高磁盘可用性，并用[快照](querying/api.md#snapshot)进行备份，容量规划等，以提高可用性。通过适当的存储可用性和计划，可以在本地存储中存储多年的数据。
 
-另外，可以通过[远程读/写 API](integrations.md#remote-endpoints-and-storage) 使用外部存储。这些系统的可用性，性能和效率差异很大，因此需要仔细评估。
+另外，可以通过[远程读/写 API](../operating/integrations.md#remote-endpoints-and-storage) 使用外部存储。这些系统的可用性，性能和效率差异很大，因此需要仔细评估。
 
 有关文件格式的更多详细信息，参见 [TSDB 格式](https://github.com/prometheus/prometheus/blob/master/tsdb/docs/format/README.md)
 
@@ -92,7 +92,7 @@ Prometheus 通过两种方式与远程存储系统集成：
 
 读写协议都使用基于 HTTP 的快速压缩协议缓冲区编码。该协议尚未被认为是稳定的API，当 Prometheus 和远程存储之间的所有跃点都支持 HTTP/2 时，该协议可能会更改为在 HTTP/2 上使用 gRPC。
 
-有关在 Prometheus 中配置远程存储集成的详细信息，请参阅 Prometheus 配置文档的[远程写入](configuration.md#remote_write)和[远程读取](configuration.md#remote_read)部分。
+有关在 Prometheus 中配置远程存储集成的详细信息，请参阅 Prometheus 配置文档的[远程写入](configuration/configuration.md#remote_write)和[远程读取](configuration/configuration.md#remote_read)部分。
 
 有关请求和响应消息的详细信息，请参阅[远程存储缓冲区协议定义](https://github.com/prometheus/prometheus/blob/master/prompb/remote.proto)。
 
@@ -100,5 +100,5 @@ Prometheus 通过两种方式与远程存储系统集成：
 
 ### 现有集成 <a id="existing-integrations"></a>
 
-要了解有关与现有远程存储系统集成的更多信息，请参阅[整合文档](https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage)。
+要了解有关与现有远程存储系统集成的更多信息，请参阅[集成文档](../operating/integrations.md#remote-endpoints-and-storage)。
 

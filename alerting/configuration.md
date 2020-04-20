@@ -241,7 +241,7 @@ tls_config:
 
 `receiver`是一个或多个通知集成的命名配置。
 
-**我们不会积极添加新的接收器，我们建议通过** [**webhook**](https://prometheus.io/docs/alerting/configuration/#webhook_config) **receiver 实现自定义通知集成。**
+**我们不会积极添加新的接收器，我们建议通过** [**webhook**](configuration.md#webhook_config) **receiver 实现自定义通知集成。**
 
 ```yaml
 # receiver 的唯一名称
@@ -651,7 +651,7 @@ Alertmanager 将以以下 JSON 格式将 HTTP POST 请求发送到配置的端�
 }
 ```
 
-此功能的[集成列表](https://prometheus.io/docs/operating/integrations/#alertmanager-webhook-receiver)
+此功能的[集成列表](../operating/integrations.md#alertmanager-webhook-receiver)
 
 ## `<wechat_config>` <a id="wechat_config"></a>
 

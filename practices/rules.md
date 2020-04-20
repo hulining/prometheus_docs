@@ -5,7 +5,7 @@ sort_rank: 6
 
 # 记录规则
 
-[记录规则](/prometheus/configuration/recording_rules)的一致命名方案使一目了然地解释规则的含义变得更加容易。通过使错误或无意义的计算脱颖而出，还可以避免错误。
+[记录规则](../prometheus/configuration/recording_rules.md)的一致命名方案使一目了然地解释规则的含义变得更加容易。通过使错误或无意义的计算脱颖而出，还可以避免错误。
 
 此页面记录了如何正确进行汇总并提出了命名约定。
 

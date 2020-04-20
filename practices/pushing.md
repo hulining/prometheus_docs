@@ -5,7 +5,7 @@ sort_rank: 7
 
 # 什么时候使用 Pushgateway
 
-Pushgateway 是一种可让您从无法数据采集的作业中推送指标的中间服务。有关详细信息，请参见[推送指标](/instrumenting/pushing)。
+Pushgateway 是一种可让您从无法数据采集的作业中推送指标的中间服务。有关详细信息，请参见[推送指标](../instrumenting/pushing.md)。
 
 ## 我应该使用 Pushgateway 吗? <a id="should-i-be-using-the-pushgateway"></a>
 
@@ -17,7 +17,7 @@ Pushgateway 是一种可让您从无法数据采集的作业中推送指标的�
 
 当一个作业的多个实例通过实例标签或类似标签在 Pushgateway 中区分其指标时，后一点特别重要。即使重命名或删除了原始实例，该实例的指标也将保留在 Pushgateway 中。这是因为作为指标缓存的 Pushgateway 的生命周期与将指标推送到它的流程的生命周期从根本上是分开的。将此与 Prometheus 常规的拉取数据监控进行对比: 实例消失\(有意无意\)时，其指标将随之自动消失。使用 Pushgateway 时，情况并非如此，您必须手动删除所有过时的指标，或者自动执行生命周期同步。
 
-**通常，Pushgateway 的唯一有效用例是接收服务级别批处理作业的结果**。"服务级别" 的批处理作业是与特定机器或作业实例在语义上不相关的作业\(例如，删除整个服务的多个用户的批处理作业\)。此类作业的数据指标不应包含机器或实例标签，以使特定机器或实例的生命周期与推送的指标解耦。这减轻了管理 Pushgateway 中过量数据指标的负担。另请参阅[监控批处理作业的最佳做法](/practices/instrumentation/#batch-jobs)
+**通常，Pushgateway 的唯一有效用例是接收服务级别批处理作业的结果**。"服务级别" 的批处理作业是与特定机器或作业实例在语义上不相关的作业\(例如，删除整个服务的多个用户的批处理作业\)。此类作业的数据指标不应包含机器或实例标签，以使特定机器或实例的生命周期与推送的指标解耦。这减轻了管理 Pushgateway 中过量数据指标的负担。另请参阅[监控批处理作业的最佳做法](instrumentation.md#batch-jobs)
 
 ## 替代策略 <a id="alternative-strategies"></a>
 

@@ -48,11 +48,11 @@ Prometheus GitHub 组织中所有已达到版本 1.0.0 的仓库都大致遵循[
 
 总体而言，我们认为拉取数据比推送数据略好，但在考虑使用监控系统时，不应将其视为重点。
 
-对于必须推送的情况，我们提供了 [Pushgateway](pushing.md)。
+对于必须推送的情况，我们提供了 [Pushgateway](../instrumenting/pushing.md)。
 
 ### Prometheus 如何处理日志？ <a id="how-to-feed-logs-into-prometheus"></a>
 
-简短的回答：不要使用 Prometheus 处理日志！请改用类似于 [ELK 栈](https://www.elastic.co/products)的工具
+简短的回答：不要使用 Prometheus 处理日志！请改用类似于 [ELK 栈](https://www.elastic.co/products)工具
 
 更长的答案：Prometheus 是一个收集和处理指标的系统，而不是事件记录系统。Raintank 博客文章 [Logs and Metrics and Graphs，Oh My！](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)提供了有关日志和指标之间差异的更多详细信息。
 
@@ -92,7 +92,7 @@ Prometheus 是根据 [Apache 2.0](https://github.com/prometheus/prometheus/blob/
 
 ### 可以创建仪表板吗？ <a id="can-i-create-dashboards"></a>
 
-可以，我们建议您使用 [Grafana](grafana.md) 用于生产。也有内置的[控制台模板](consoles.md)。
+可以，我们建议您使用 [Grafana](../visualization/grafana.md) 用于生产。也有内置的[控制台模板](../visualization/consoles.md)。
 
 ### 可以更改时区吗？为什么所有内容都采用 UTC 时间？ <a id="can-i-change-the-timezone-why-is-everything-in-utc"></a>
 
@@ -102,9 +102,9 @@ Prometheus 是根据 [Apache 2.0](https://github.com/prometheus/prometheus/blob/
 
 ### 有哪些语言的工具库? <a id="which-languages-have-instrumentation-libraries"></a>
 
-有许多客户端库可使用 Prometheus 指标来检测您的服务。有关详细信息，请参见[客户端库](clientlibs.md)文档。
+有许多客户端库可使用 Prometheus 指标来检测您的服务。有关详细信息，请参见[客户端库](../instrumenting/clientlibs.md)文档。
 
-如果您有兴趣贡献新语言的客户库，请参见[exposition formats](exposition_formats.md)
+如果您有兴趣贡献新语言的客户库，请参见[exposition formats](../instrumenting/exposition_formats.md)
 
 ### 可以监控机器吗？ <a id="can-i-monitor-machines"></a>
 
@@ -116,11 +116,11 @@ Prometheus 是根据 [Apache 2.0](https://github.com/prometheus/prometheus/blob/
 
 ### 可以监控批处理作业吗？ <a id="can-i-monitor-batch-jobs"></a>
 
-可以，使用 [Pushgateway](pushing.md)。另请参阅监视批处理作业的[最佳实践](instrumentation.md#批处理作业)。
+可以，使用 [Pushgateway](../instrumenting/pushing.md)。另请参阅监视批处理作业的[最佳实践](../practices/instrumentation.md#batch-jobs)。
 
-### Prometheus 可以直接监视哪些应用程序？ <a id="what-applications-can-prometheus-monitor-out-of-the-box"></a>
+### Prometheus 可以直接监控哪些应用程序？ <a id="what-applications-can-prometheus-monitor-out-of-the-box"></a>
 
-请参阅 [exporters](exporters.md)。
+请参阅[导出器及集成的列表](../instrumenting/exporters.md)。
 
 ### 可以通过 JMX 监控 JVM 应用程序吗？ <a id="can-i-monitor-jvm-applications-via-jmx"></a>
 
@@ -152,11 +152,11 @@ Prometheus 是根据 [Apache 2.0](https://github.com/prometheus/prometheus/blob/
 
 ### 为什么 Prometheus 服务组件不支持 TLS 或身份验证？我可以添加那些吗？ <a id="why-dont-the-prometheus-server-components-support-tls-or-authentication-can-i-add-those"></a>
 
-注意：Prometheus 团队在 2018 年 8 月 11 日的开发峰会上已改变了立场，该[项目的路线图](road.md)现已支持对 TLS 和服务端点中的身份验证的支持。更改代码后，将更新此文档。
+注意：Prometheus 团队在 2018 年 8 月 11 日的开发峰会上已改变了立场，该[项目的路线图](roadmap.md)现已支持对 TLS 和服务端点中的身份验证的支持。更改代码后，将更新此文档。
 
 尽管 TLS 和身份验证是经常需要的功能，但我们故意没有在 Prometheus 的任何服务端组件中实现它们。两者都有太多不同的选项和参数\(仅TLS就有 10 多个选项\)，我们决定专注于构建最佳监视系统，而不是在每个服务器组件中都支持完全通用的 TLS 和身份验证解决方案。
 
 如果您需要 TLS 或身份验证，我们建议在 Prometheus 前面放置一个反向代理。例如，参见[使用 Nginx 向 Prometheus 添加基本身份验证](https://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/)。
 
-这仅适用于入站连接。 Prometheus 支持[从启用 TLS 和 auth 的目标采集数据](../prometheus/configuration/configuration.md#less-than-scrape_config-greater-than)，并且其他创建出站连接的 Prometheus 组件也具有类似的支持。
+这仅适用于入站连接。 Prometheus 支持[从启用 TLS 和 auth 的目标采集数据](../prometheus/configuration/configuration.md#tls_config)，并且其他创建出站连接的 Prometheus 组件也具有类似的支持。
 

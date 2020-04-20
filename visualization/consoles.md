@@ -6,7 +6,7 @@ title: 控制台模板
 
 控制台模板允许使用 [Go 模板语言](https://golang.org/pkg/text/template/)创建任意控制台。这些是由 Prometheus 服务提供的。
 
-控制台模板是创建可在源代码管理中轻松管理模板的最强大方法。不过这是一条学习曲线，因此刚接触这种监控方式的用户应首先尝试使用 [Grafana](https://prometheus.io/docs/visualization/grafana/)。
+控制台模板是创建可在源代码管理中轻松管理模板的最强大方法。不过这是一条学习曲线，因此刚接触这种监控方式的用户应首先尝试使用 [Grafana](grafana.md)。
 
 ## 快速开始 <a id="getting-started"></a>
 
@@ -14,7 +14,7 @@ Prometheus 附带了一个控制台示例，可以给您一些帮助。可以在
 
 示例控制台包含 5 部分： 1. 顶部的导航栏 2. 左边的菜单栏 3. 底部的时间控制栏 4. 中间的主要内容，通常是图形 5. 右侧的表
 
-导航栏用于链接到其它系统，例如其它 Prometheis\([https://prometheus.io/docs/introduction/faq/\#what-is-the-plural-of-prometheus\)，文档以及对您有意义的任何其它内容。菜单用于在相同](https://prometheus.io/docs/introduction/faq/#what-is-the-plural-of-prometheus%29，文档以及对您有意义的任何其它内容。菜单用于在相同) Prometheus 服务中进行导航，这对于能够快速打开一个关联其它信息选项卡的控制台非常有用。两者都在`console_libraries/menu.lib`中配置。
+导航栏用于链接到其它系统，例如其它 [Prometheis](../introduction/faq.md#what-is-the-plural-of-prometheus)，文档以及对您有意义的任何其它内容。菜单用于在相同 Prometheus 服务中进行导航，这对于能够快速打开一个关联其它信息选项卡的控制台非常有用。两者都在`console_libraries/menu.lib`中配置。
 
 时间控件允许更改图表的窗口时间和范围。控制台 URL 可以共享且将显示相同的图形。
 
@@ -77,7 +77,7 @@ new PromConsole.Graph({
 
 `prom_right_table_head`和`prom_right_table_tail`模板包裹右侧的表。这是可选的
 
-`prom_query_drilldown`是一个模板，它将计算传递给它的表达式，对其进行格式设置病链接到[表达式浏览器](https://prometheus.io/docs/visualization/browser/)中的表达式。第一个参数是表达式，第二个参数是要使用的单位，第三个参数是如何格式化输出。仅第一个参数是必需的。
+`prom_query_drilldown`是一个模板，它将计算传递给它的表达式，对其进行格式设置病链接到[表达式浏览器](browser.md)中的表达式。第一个参数是表达式，第二个参数是要使用的单位，第三个参数是如何格式化输出。仅第一个参数是必需的。
 
 对于`prom_query_drilldown`第三个参数合法的输出格式：
 

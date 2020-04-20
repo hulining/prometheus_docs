@@ -114,7 +114,7 @@ rate(promhttp_metric_handler_requests_total{code="200"}[1m])
 
 仅从 Prometheus 收集指标并不能很好地说明 Prometheus 的功能。为了更好地了解 Prometheus 可以做什么，我们建议您浏览有关其它 exporter 的文档。 使用 [node\_exporter](../guides/node-exporter.md) 监控 Linux 或 macOS 是一个不错的选择。
 
-## 总结 <a id="summary"></a>
+## 小结 <a id="summary"></a>
 
 在本指南中，您安装了 Prometheus，配置了 Prometheus 实例以监视资源，并了解了在 Prometheus 表达式浏览器中使用时间序列数据的一些基础知识。 要继续学习 Prometheus，请查看[概述](overview.md)以获取有关接下来要探索的内容的一些想法。
 

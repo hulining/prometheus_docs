@@ -4,9 +4,11 @@ title: 使用基本身份验证保护 Prometheus API 和 UI 端点
 
 # 使用基本身份验证保护 Prometheus API 和 UI 端点
 
-Prometheus 不直接支持与 Prometheus [表达式浏览器](https://prometheus.io/docs/visualization/browser)和 [HTTP API](https://prometheus.io/docs/prometheus/latest/querying/api) 的连接的[基本身份验证](https://en.wikipedia.org/wiki/Basic_access_authentication)\(也称为"基本身份验证"\)。如果您想对这些连接强制执行基本身份认证，建议将 Prometheus 与反向代理结合使用，并在代理层应用身份验证。您可以在 Prometheus 中使用任何您喜欢的反向代理服务。本指南中，我们将提供一个 [nginx 示例]()。
+Prometheus 不直接支持与 Prometheus [表达式浏览器](../visualization/browser.md)和 [HTTP API](../prometheus/querying/api.md) 的连接的[基本身份验证](https://en.wikipedia.org/wiki/Basic_access_authentication)\(也称为"基本身份验证"\)。如果您想对这些连接强制执行基本身份认证，建议将 Prometheus 与反向代理结合使用，并在代理层应用身份验证。您可以在 Prometheus 中使用任何您喜欢的反向代理服务。本指南中，我们将提供一个 [nginx 示例](basic-auth.md#nginx-example)。
 
-Note: 尽管_到_ Prometheus 实例的连接不支持基本身份认证，但_从_ Prometheus 实例到[抓取目标](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)的连接均支持基本身份认证。
+{% hint style="info" %}
+Note: 尽管_到_ Prometheus 实例的连接不支持基本身份认证，但_从_ Prometheus 实例到[抓取目标](../prometheus/configuration/configuration.md#scrape_config)的连接均支持基本身份认证。
+{% endhint %}
 
 ## nginx 示例 <a id="nginx-example"></a>
 
@@ -25,7 +27,7 @@ mkdir -p /etc/nginx
 htpasswd -c /etc/nginx/.htpasswd admin
 ```
 
-Note: 此示例使用 `/etc/nginx` 作为 nginx 配置文件\(包括 `.htpasswd` 文件\)的位置，但这会因安装而异。其它\[常用 nginx 配置目录\]\(\([http://nginx.org/en/docs/beginners\_guide.html\)包括](http://nginx.org/en/docs/beginners_guide.html%29包括) `/usr/local/nginx/conf` 和 `/usr/local/etc/nginx`
+Note: 此示例使用 `/etc/nginx` 作为 nginx 配置文件\(包括 `.htpasswd` 文件\)的位置，但这会因安装而异。其它[常用 nginx 配置目录](http://nginx.org/en/docs/beginners_guide.html) ，包括 `/usr/local/nginx/conf` 和 `/usr/local/etc/nginx`
 
 ## nginx 配置 <a id="nginx-configuration"></a>
 

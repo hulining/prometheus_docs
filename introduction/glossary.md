@@ -58,11 +58,11 @@ Promdash 是 Prometheus 的本地仪表盘构建器。它已被弃用，并被 G
 
 ## PromQL
 
-[PromQL](basic.md) 是 Prometheus 的查询语言。它允许进行多种操作，包括聚合，切片和切块，预测和连接
+[PromQL](../prometheus/querying/basics.md) 是 Prometheus 的查询语言。它允许进行多种操作，包括聚合，切片和切块，预测和连接
 
 ## Pushgateway
 
-[Pushgateway](pushing.md) 保留了批处理作业中最新推送的指标。这使 Prometheus 可以在它们终止后仍可以采集数据指标。
+[Pushgateway](../instrumenting/pushing.md) 保留了批处理作业中最新推送的指标。这使 Prometheus 可以在它们终止后仍可以采集数据指标。
 
 ## Remote Read
 

@@ -107,7 +107,7 @@ delta(cpu_temp_celsius{host="zeus"}[2h])
 
 ## histogram\_quantile\(\)
 
-`histogram_quantile(φ float, b instant-vector)`从[直方图](metric_types.md#histogram)的`b`区间向量计算 φ-quantile\(0 ≤ φ ≤ 1\)分位数。\(有关 φ-quantile 分位数的详细说明以及基本使用直方图指标类型的信息，请参见[histograms and summaries](histograms.md)\)。`b`中的样本是每个区间中观察值的计数。每个样本必须具有标签`le`，其中标签值表示区间上限\(没有此类标签的样本将被忽略\)。[直方图数据指标类型](metric_types.md#histogram)会自动提供带有`_bucket`后缀和适当标签的时间序列。
+`histogram_quantile(φ float, b instant-vector)`从[直方图](../../concepts/metric_types.md#histogram)的`b`区间向量计算 φ-quantile\(0 ≤ φ ≤ 1\)分位数。\(有关 φ-quantile 分位数的详细说明以及基本使用直方图指标类型的信息，请参见[histograms and summaries](../../practices/histograms.md)\)。`b`中的样本是每个区间中观察值的计数。每个样本必须具有标签`le`，其中标签值表示区间上限\(没有此类标签的样本将被忽略\)。[直方图数据指标类型](../../concepts/metric_types.md#histogram)会自动提供带有`_bucket`后缀和适当标签的时间序列。
 
 使用`rate()`函数指定分位数计算的时间窗口。
 

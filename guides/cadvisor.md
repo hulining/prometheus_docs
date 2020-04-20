@@ -11,7 +11,7 @@ title: 使用 cAdvisor 监控 docker 容器数据指标
 
 ## Prometheus 配置 <a id="prometheus-configuration"></a>
 
-首先，您需要[配置](https://prometheus.io/docs/prometheus/latest/configuration/configuration) Prometheus 从 cAdvisor 采集指标。创建一个 `prometheus.yml` 文件，并使用以下配置填充它：
+首先，您需要[配置](../prometheus/configuration/configuration.md) Prometheus 从 cAdvisor 采集指标。创建一个 `prometheus.yml` 文件，并使用以下配置填充它：
 
 ```yaml
 scrape_configs:

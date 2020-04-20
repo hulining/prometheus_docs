@@ -4,7 +4,7 @@ title: 编写数据导出器
 
 # 编写数据导出器
 
-如果您要检测自己的代码，应遵循[有关如何使用 Prometheus 客户端库进行测试的一般规则](https://prometheus.io/docs/practices/instrumentation/)。从另外的监控系统或仪表系统获取数据指标时，事情往往不会那么简单。
+如果您要检测自己的代码，应遵循[有关如何使用 Prometheus 客户端库进行测试的一般规则](../practices/instrumentation.md)。从另外的监控系统或仪表系统获取数据指标时，事情往往不会那么简单。
 
 本文档包含编写导出器或自定义收集器时应考虑的事项。涉及的理论也将对那些直接进行检测的人感兴趣。
 
@@ -36,7 +36,7 @@ YAML 是标准的 Prometheus 配置格式，默认情况下所有配置都应使
 
 ### 命名 <a id="naming"></a>
 
-遵循[指标命名的最佳实践](https://prometheus.io/docs/practices/naming)。
+遵循[指标命名的最佳实践](../practices/naming.md)。
 
 通常，数据指标名称应允许熟悉 Prometheus 而不是特定系统的人对数据指标的含义作出很好的预测。名为`http_requests_total`的数据指标不是很有用 - 这些数据是在某些过滤器中输入的，还是在到达用户代码时被测量的？`requests_total`甚至更糟，究竟是什么类型的请求？
 
@@ -70,7 +70,7 @@ Prometheus 数据指标和标签名称以`snake_case`\(蛇形命名法\)格式�
 
 ### 标签 <a id="labels"></a>
 
-请阅读关于标签的[一些建议](https://prometheus.io/docs/practices/instrumentation/#things-to-watch-out-for)
+请阅读关于标签的[一些建议](../practices/instrumentation.md#things-to-watch-out-for)
 
 避免将`type`作为标签名称，因为它太笼统，而且通常没有意义。您还应该尽可能避免使用可能与目标标签冲突的名称，如`region`, `zone`, `cluster`, `availability_zone`, `az`, `datacenter`, `dc`, `owner`, `customer`, `stage`, `service`, `environment`和`env`。但是，如果这就是应用程序所调用的某些资源，则最好不要通过重命名而引起混乱。
 
@@ -190,7 +190,7 @@ Quantiles 有相关的问题，您可以选择删除或将其放在 Summary 中�
 
 仅当 Prometheus 采集数据指标时才将其从应用程序中获取，导出器不应根据自己的计时器执行数据采集操作。也就是说，所有采集动作应该是同步的。
 
-因此，您不应在公开的数据指标上设置时间戳，而是让 Prometheus 负责它。如果您需要时间戳标记，则可能需要使用 [Pushgateway](https://prometheus.io/docs/instrumenting/pushing/)。
+因此，您不应在公开的数据指标上设置时间戳，而是让 Prometheus 负责它。如果您需要时间戳标记，则可能需要使用 [Pushgateway](pushing.md)。
 
 如果某个数据指标的检索成本特别高，如超过一分钟，则可以缓存该指标。这应该在`HELP`字符串中注明。
 

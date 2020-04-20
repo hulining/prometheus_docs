@@ -6,7 +6,7 @@ title: Alertmanager
 
 [Alertmanager](https://github.com/prometheus/alertmanager) 处理由客户端应用程序\(如 Prometheus 服务\)发送的警报。它负责将重复数据删除，分组和路由到正确的接收组件集成，如电子邮件、PagerDuty 或 OpsGenie。 它还负责沉默和抑制告警。
 
-下面描述了 Alertmanager 实现的核心概念。请查阅[配置文档](https://prometheus.io/docs/alerting/configuration)以了解如何更详细地使用它们。
+下面描述了 Alertmanager 实现的核心概念。请查阅[配置文档](configuration.md)以了解如何更详细地使用它们。
 
 ## 告警分组 <a id="grouping"></a>
 
@@ -34,7 +34,7 @@ title: Alertmanager
 
 ## 客户端行为 <a id="client-behavior"></a>
 
-Alertmanager 对客户端行为有[特殊要求](https://prometheus.io/docs/alerting/clients)。这些仅与不使用 Prometheus 发送警报的高级用例有关。
+Alertmanager 对客户端行为有[特殊要求](clients.md)。这些仅与不使用 Prometheus 发送警报的高级用例有关。
 
 ## 高可用 <a id="high-availability"></a>
 

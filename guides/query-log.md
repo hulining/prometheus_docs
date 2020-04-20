@@ -33,7 +33,7 @@ scrape_configs:
   - targets: ['localhost:9090']
 ```
 
-然后, [重新加载](https://prometheus.io/docs/guides/prometheus/latest/management_api/#reload) Prometheus 配置:
+然后, [重新加载](../prometheus/management_api.md#reload) Prometheus 配置:
 
 ```text
 $ curl -X POST http://127.0.0.1:9090/-/reload

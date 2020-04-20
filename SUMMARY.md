@@ -47,19 +47,19 @@
 * [Grafana 对 Prometheus 的支持](visualization/grafana.md)
 * [控制台模板](visualization/consoles.md)
 
+## operating
+
+* [安全模型](operating/security.md)
+* [集成](operating/integrations.md)
+
 ## instrumenting
 
 * [客户端库](instrumenting/clientlibs.md)
 * [编写客户端库](instrumenting/writing_clientlibs.md)
 * [推送数据指标](instrumenting/pushing.md)
-* [数据导出及相关整合](instrumenting/exporters.md)
+* [数据导出及相关集成](instrumenting/exporters.md)
 * [编写数据导出器](instrumenting/writing_exporters.md)
 * [公开的格式](instrumenting/exposition_formats.md)
-
-## operating
-
-* [安全](operating/security.md)
-* [集成](operating/integrations.md)
 
 ## alerting
 
@@ -84,11 +84,11 @@
 
 ## guides
 
-* [使用基于文件的服务发现来发现数据采集目标](guides/file-sd.md)
 * [使用 cAdvisor 监控 docker 容器数据指标](guides/cadvisor.md)
+* [使用基于文件的服务发现来发现数据采集目标](guides/file-sd.md)
+* [实现一个 Go 应用](guides/go-application.md)
 * [使用 Node Exporter 监控 Linux 主机指标](guides/node-exporter.md)
 * [使用基本身份验证保护 Prometheus API 和 UI 端点](guides/basic-auth.md)
-* [实现一个 Go 应用](guides/go-application.md)
 * [理解并使用 multi-target exporters 模式](guides/multi-target-exporter.md)
 * [使用 TLS 加密 Prometheus API 和 UI 端点](guides/tls-encryption.md)
 * [使用 Prometheus 查询日志](guides/query-log.md)

@@ -24,7 +24,7 @@ title: 联合
 
 ## 配置联合 <a id="configuring-federation"></a>
 
-在 Prometheus 服务上，任何`/federate`端点都可以为该服务器中选定的时间序列检索当前值。必须至少指定一个`match[]` URL 参数以选择要暴露的序列。每个`match[]`参数都需要指定一个如`up`或`{job="api-server"}`的[即时向量选择器](basics.md#instant-vector-selectors)。如果指定多个`match[]`参数，则将选择所有匹配序列的并集。
+在 Prometheus 服务上，任何`/federate`端点都可以为该服务器中选定的时间序列检索当前值。必须至少指定一个`match[]` URL 参数以选择要暴露的序列。每个`match[]`参数都需要指定一个如`up`或`{job="api-server"}`的[即时向量选择器](querying/basics.md#instant-vector-selectors)。如果指定多个`match[]`参数，则将选择所有匹配序列的并集。
 
 要将数据指标从一台服务联合到另一台服务器，请将目标P rometheus 服务配置为从源服务的`/federate`端点进行采集，同时还启用`honor_labels`采集选项\(不覆盖源服务器暴露的任何标签\)并传递所需的`match[]`参数。例如，以下`scrape_configs`将带有标签`job="prometheus"`或以`job`开头的数据指标名称的任何数据序列从`source-prometheus-{1,2,3}:9090` Prometheus 服务联合到采集 Prometheus：
 

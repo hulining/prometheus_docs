@@ -51,7 +51,7 @@ Histogram 的客户端库使用文档：
 * [Python](https://github.com/prometheus/client_python#histogram)
 * [Ruby](https://github.com/prometheus/client_ruby#histogram)
 
-## Summary 汇总类型
+## Summary 汇总类型 <a id="summary"></a>
 
 类似于 _histogram_，_summary_ 会采样观察结果\(通常是请求持续时间和响应大小之类的数据\)。它不仅提供了观测值的总数和所有观测值的总和，还可以计算滑动时间窗口内的可配置分位数。
 
@@ -61,7 +61,7 @@ Histogram 的客户端库使用文档：
 * 所有观测值的**总和**，显示为`<basename>_sum`
 * 观察到的事件**计数**，显示为`<basename>_count`
 
-有关 φ-quantiles 的详细说明，summary 使用方法用法以及与的差异，请参见 [histograms and summaries](https://prometheus.io/docs/practices/histograms)。
+有关 φ-quantiles 的详细说明，summary 使用方法用法以及与的差异，请参见 [histograms and summaries](../practices/histograms.md)。
 
 Summary 的客户端库使用文档：
 

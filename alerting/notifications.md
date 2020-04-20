@@ -6,7 +6,7 @@ title: 通知模板参考
 
 Prometheus 创建告警并将其发送到 Alertmanager，Alertmanager 随后根据标签将通知发送到不同的接收者。接收者可以是许多集成中的一种，包括: Slack, PagerDuty, 邮件或通过通用 Webhook 接口的自定义集成。
 
-发送到接收方的通知是通过模板构造的。Alertmanager 带有默认模板，但也可以自定义。为避免混淆，必须注意 Alertmanager 模板与 [Prometheus 模板](https://prometheus.io/docs/visualization/template_reference/)不同，但是 Prometheus 模板还包括告警规则标签/注解中的模板。
+发送到接收方的通知是通过模板构造的。Alertmanager 带有默认模板，但也可以自定义。为避免混淆，必须注意 Alertmanager 模板与 [Prometheus 模板](../prometheus/configuration/template_reference.md)不同，但是 Prometheus 模板还包括告警规则标签/注解中的模板。
 
 Alertmanager 的通知模板基于 [Go 模板](https://golang.org/pkg/text/template)系统。请注意，某些字段被认定为文本，而其他字段则被评估为 HTML，这会影响转义。
 
@@ -20,10 +20,10 @@ Alertmanager 的通知模板基于 [Go 模板](https://golang.org/pkg/text/templ
 | :---: | :---: | :---: |
 | Receiver | string | 定义将通知发送到的接收者的名称\(slack, email等\) |
 | Status | string | 如果至少一个警报正在触发，则定义为 firing，否则定义为 resolved |
-| Alerts | [Alert](https://prometheus.io/docs/alerting/notifications/#alert) | 该组中所有告警对象的列表\(参见下文\) |
-| GroupLabels | [KV](https://prometheus.io/docs/alerting/notifications/#kv) | 警报按指定标签分组 |
-| CommonLabels | [KV](https://prometheus.io/docs/alerting/notifications/#kv) | 所有告警共有的标签 |
-| CommonAnnotations | [KV](https://prometheus.io/docs/alerting/notifications/#kv) | 所有告警的通用注解集。用于获取有关警报的更多其他信息字符串 |
+| Alerts | [Alert](notifications.md#alert) | 该组中所有告警对象的列表\(参见下文\) |
+| GroupLabels | [KV](notifications.md#kv) | 警报按指定标签分组 |
+| CommonLabels | [KV](notifications.md#kv) | 所有告警共有的标签 |
+| CommonAnnotations | [KV](notifications.md#kv) | 所有告警的通用注解集。用于获取有关警报的更多其他信息字符串 |
 | ExternalURL | string | Alertmanager 发送通知的反向链接 |
 
 `Alerts`类型公开了过滤告警的功能：
@@ -38,8 +38,8 @@ Alertmanager 的通知模板基于 [Go 模板](https://golang.org/pkg/text/templ
 | 名称 | 类型 | 解释 |
 | :---: | :---: | :---: |
 | Status | string | 定义告警是 resolved 还是正在 firing |
-| Labels | [KV](https://prometheus.io/docs/alerting/notifications/#kv) | 一组附加到告警的标签 |
-| Annotations | [KV](https://prometheus.io/docs/alerting/notifications/#kv) | 一组附加到告警的注解 |
+| Labels | [KV](notifications.md#kv) | 一组附加到告警的标签 |
+| Annotations | [KV](notifications.md#kv) | 一组附加到告警的注解 |
 | StartsAt | time.Time | 告警开始触发的时间。如果省略，则由 Alertmanager 分配为当前时间 |
 | EndsAt | time.Time | 仅在知道警报的结束时间时设置。否则，将其设置为自收到最后一个警报以来的时间 |
 | GeneratorURL | string | 标识此告警原因的反向链接 |

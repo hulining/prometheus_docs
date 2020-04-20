@@ -14,7 +14,7 @@ title: 理解并使用 multi-target exporters 模式
 
 ## 什么是 multi-target exporters 模式? <a id="the-multi-target-exporter-pattern"></a>
 
-通过多目标[导出器](https://prometheus.io/docs/instrumenting/exporters/)模式，我们引用了一种特定的设计，其中：
+通过多目标[导出器](../instrumenting/exporters.md)模式，我们引用了一种特定的设计，其中：
 
 * 导出器将通过网络协议获取目标的指标
 * 导出器不必在获取数据指标的计算机上运行
@@ -52,8 +52,6 @@ level=info ts=2018-10-17T15:41:35.4997596Z caller=main.go:324 msg="Listening on 
 2. 以采集另一个目标查询 exporter. 通常在 "配置的" 端点上可用, e.g. `/probe`。使用 multi-target exporters 时，这可能是您最感兴趣的
 
 您可以在另一个终端中使用 curl 手动尝试第一种查询类型，或使用如下[链接](http://localhost:9115/metrics)
-
-{\#query-exporter}
 
 ```bash
 curl 'localhost:9115/metrics'
@@ -100,7 +98,7 @@ process_start_time_seconds 1.54115492874e+09
 process_virtual_memory_bytes 1.5609856e+07
 ```
 
-这些数据指标遵循 Prometheus [格式](https://prometheus.io/docs/instrumenting/exposition_formats/#text-format-example). 他们来源于 exporter’s [instrumentation](https://prometheus.io/docs/practices/instrumentation/),并告诉我们 exporter 运行时的状态。如果您感到好奇，请尝试一下我们的指南，以了解如何[安装自己的应用程序](https://prometheus.io/docs/guides/go-application/).
+这些数据指标遵循 Prometheus [格式](../instrumenting/exposition_formats.md#text-based-format). 他们来源于 exporter 的 [instrumentation](../practices/instrumentation.md),并告诉我们 exporter 运行时的状态。如果您感到好奇，请尝试一下我们的指南，以了解如何[安装自己的应用程序](go-application.md).
 
 对于第二种查询，我们需要在 HTTP GET Request 中提供 target 和 module 作为参数。target 是一个 URL 或 IP，而 module 必须定义在 exporter 的配置中。blackbox exporter 容器带有一个有用的示例配置。
 
@@ -288,7 +286,7 @@ probe_success 1
 probe_tls_version_info{version="TLS 1.3"} 1
 ```
 
-你可以看到成功探测并获取到很多有用的数据指标，像用[Unix 时间](https://en.wikipedia.org/wiki/Unix_time) 表示的延迟，状态码，ssl 状态或证书的过期时间
+你可以看到成功探测并获取到很多有用的数据指标，例如用 [Unix 时间](https://en.wikipedia.org/wiki/Unix_time) 表示的延迟，状态码，ssl 状态或证书的过期时间
 
 Blackbox exporter 还在 [localhost:9115](http://localhost:9115) 提供了一个小型 Web 界面，供您检查最后几个探针、已加载的配置和调试信息。它甚至提供了到探针 `prometheus.io` 直接链接，如果您想知道为什么某些功能不起作用，则非常方便。
 
@@ -296,7 +294,7 @@ Blackbox exporter 还在 [localhost:9115](http://localhost:9115) 提供了一个
 
 到现在为止还好，恭喜您，Blackbox exporter 可以工作，您可以手动告诉它远程查询的目标。现在，您需要告诉 Prometheus 为我们进行查询。
 
-下面，您可以看到一个最小的 Prometheus 配置。它设置 Prometheus 像我们[之前]()使用 `curl 'localhost:9115/metrics'` 采集 exporter 本身:
+下面，您可以看到一个最小的 Prometheus 配置。它设置 Prometheus 像我们之前使用 `curl 'localhost:9115/metrics'` 采集 exporter 本身:
 
 NOTE: 如果您在 Mac 或 Windows 中使用 Docker，则最后一步不能使用 `localhost:9115`，而必须使用 `host.docker.internal:9115`。这与在这些操作系统上实现的虚拟机相关，您不应该在生产环境使用使用它。
 
@@ -352,9 +350,9 @@ docker \
   --config.file="/prometheus.yml"
 ```
 
-该命令的运行方式类似于[使用指定配置文件运行 blackbox exporter]().
+该命令的运行方式类似于使用指定配置文件运行 blackbox exporter.
 
-如果一切正常，您应该可以访问 [localhost:9090/targets](http://localhost:9090/targets) 并看到在 `blackbox` 下端点为绿色的 `UP` 。如果你看到一个红色的 `DOWN` 请确保您[上面]()启动的 blackbox exporter 仍在运行 [above](run-exporter)。如果您什么也没有看到，或者看到黄色的 `UNKNOWN`，则表示您需要等几秒钟的时间再刷新您浏览器的页面。
+如果一切正常，您应该可以访问 [localhost:9090/targets](http://localhost:9090/targets) 并看到在 `blackbox` 下端点为绿色的 `UP` 。如果你看到一个红色的 `DOWN` 请确保您上面启动的 blackbox exporter 仍在运行 。如果您什么也没有看到，或者看到黄色的 `UNKNOWN`，则表示您需要等几秒钟的时间再刷新您浏览器的页面。
 
 为了设置 Prometheus 查询 `"localhost:9115/probe?target=prometheus.io&module=http_2xx"` 您再添加另一个名为 `blackbox-http` 的采集作业，并在 Prometheus 配置文件 `prometheus.yml` 设置 `metrics_path` 为 `/probe`, `params` 为如下参数:
 
@@ -381,7 +379,7 @@ scrape_configs:
       - localhost:9115   # For Windows and macOS replace with - host.docker.internal:9115
 ```
 
-保存配置文件后，切换到运行 Prometheus docker 容器的终端并使用 `ctrl+C` 停止它 `ctrl+C` 然后使用之前的[命令]()再次启动它以便重新加载配置。
+保存配置文件后，切换到运行 Prometheus docker 容器的终端并使用 `ctrl+C` 停止它 `ctrl+C` 然后使用之前的命令再次启动它以便重新加载配置。
 
 终端应返回 `"Server is ready to receive web requests."` 消息且几秒钟后，您可以在 [Prometheus](http://localhost:9090/graph?g0.range_input=5m&g0.stacked=0&g0.expr=probe_http_duration_seconds&g0.tab=0) 中看到彩色图表。
 
@@ -391,7 +389,7 @@ scrape_configs:
 2. `instance` 标签具有 blackbox exporter 地址的值，从技术上讲是真实的，但不是我们感兴趣的内容
 3. 我们看不到我们探测的 URL。这是不切实际的，并且如果我们探查多个URL，也会将不同的指标混合为一个指标。
 
-为了解决这个问题，我们将使用[重新标记](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config). 重新标记在这里很有用，因为在幕后，Prometheus 中的许多东西都配置了内部标签。 详细信息很复杂，超出了本指南的范围。我们将说明限于必要的范围。如果您想了解更多信息，请查看此[演讲](https://www.youtube.com/watch?v=b5-SvvZ7AwI)。现在，只要您了解以下内容即可:
+为了解决这个问题，我们将使用[重新标记](../prometheus/configuration/configuration.md#relabel_config). 重新标记在这里很有用，因为在幕后，Prometheus 中的许多东西都配置了内部标签。 详细信息很复杂，超出了本指南的范围。我们将说明限于必要的范围。如果您想了解更多信息，请查看此[演讲](https://www.youtube.com/watch?v=b5-SvvZ7AwI)。现在，只要您了解以下内容即可:
 
 * 采集后，所有以 `__` 开头的标签都将被丢弃，大多数内部标签均以 `__` 开头
 * 您可以设置名为 `__param_<name>` 的内部标签，那些使用 键 `<name>`为采集请求设置 URL 参数。
@@ -428,7 +426,7 @@ scrape_configs:
       replacement: localhost:9115  # The blackbox exporter’s real hostname:port. For Windows and macOS replace with - host.docker.internal:9115
 ```
 
-那么与[上一个配置]()相比有什么新变化?
+那么与上一个配置相比有什么新变化?
 
 `params` 不在包含 `target`。相反，我们将实际目标添加到 `static configs: targets` 下。我们可以设置几个，因为我们现在可以这样做：
 
@@ -488,7 +486,7 @@ scrape_configs:
 
 现在，我们的请求是 `"localhost:9115/probe?target=http://prometheus.io&module=http_2xx"`。这样，我们就可以在其中拥有实际的 target，并将它们作为 `instance` 标签值获取，同时让 Prometheus 向 blackbox exporter 发送请求
 
-人们通常将这些与特定的服务发现结合在一起。查看相关[配置文档](https://prometheus.io/docs/prometheus/latest/configuration/configuration)获取更多信息。使用它们是没有问题的，因为写入 `__address__` 标签就像在 `static_config` 下定义 `target` 一样
+人们通常将这些与特定的服务发现结合在一起。查看相关[配置文档](../prometheus/configuration/configuration.md)获取更多信息。使用它们是没有问题的，因为写入 `__address__` 标签就像在 `static_config` 下定义 `target` 一样
 
 这就对了，重新启动 Prometheus docker 容器并查看您的[数据指标](http://localhost:9090/graph?g0.range_input=30m&g0.stacked=0&g0.expr=probe_http_duration_seconds&g0.tab=0).请注意，您选择了实际收集指标的时间段。
 

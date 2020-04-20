@@ -5,7 +5,7 @@ sort_rank: 6
 
 # 公开的格式
 
-可以使用[基于文本](exposition_formats.md#text-based-format)的简单展示格式将数据指标暴露给 Prometheus。有多种[客户端库](https://prometheus.io/docs/instrumenting/clientlibs/)可以为您实现这种格式。如果您的首选语言没有客户端库，则可以[创建自己的客户端库](writing_clientlibs.md)。
+可以使用[基于文本](exposition_formats.md#text-based-format)的简单展示格式将数据指标暴露给 Prometheus。有多种[客户端库](clientlibs.md)可以为您实现这种格式。如果您的首选语言没有客户端库，则可以[创建自己的客户端库](writing_clientlibs.md)。
 
 {% hint style="info" %}
 NOTE: Prometheus的某些早期版本除了支持当前基于文本的格式外，还支持基于[Protocol Buffers](https://developers.google.com/protocol-buffers/)\(又称 Protobuf\)的展示格式。但是，从2.0版开始，Prometheus 不再支持基于 Protobuf 的格式。您可以在[本文档](https://github.com/OpenObservability/OpenMetrics/blob/master/markdown/protobuf_vs_text.md)中了解此更改背后的原因
@@ -13,7 +13,7 @@ NOTE: Prometheus的某些早期版本除了支持当前基于文本的格式外�
 
 ## 基于文本的格式 <a id="text-based-format"></a>
 
-从 Prometheus 2.0 版开始，所有向 Prometheus 公开指标的程序都需要使用基于文本的格式。在本节中，您可以找到有关此格式的一些[基本信息](https://prometheus.io/docs/instrumenting/exposition_formats/#basic-info)以及该格式的[更详细的细节](https://prometheus.io/docs/instrumenting/exposition_formats/#text-format-details)。
+从 Prometheus 2.0 版开始，所有向 Prometheus 公开指标的程序都需要使用基于文本的格式。在本节中，您可以找到有关此格式的一些[基本信息](exposition_formats.md#basic-info)以及该格式的[更详细的细节](exposition_formats.md#text-format-details)。
 
 ### 基本信息 <a id="basic-info"></a>
 

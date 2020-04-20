@@ -2,7 +2,7 @@
 title: 数据导出及相关集成
 ---
 
-# 数据导出及相关整合
+# 数据导出及相关集成
 
 有许多库和服务可帮助将第三方系统中的现有数据指标导出为 Prometheus 数据指标。这对于无法直接使用 Prometheus 指标\(例如 HAProxy 或 Linux系统统计信息\)来检测给定系统的状态很有用。
 
@@ -10,7 +10,7 @@ title: 数据导出及相关集成
 
 其中一些导出器是 [Prometheus GitHub 官方组织](https://github.com/prometheus)的一部分，其中部分导出器被标记为_官方的_，其他到初七则由外部贡献和维护。
 
-我们鼓励创建更多的数据指标导出器，但不能审查所有数据导出器的[最佳实践](https://prometheus.io/docs/instrumenting/writing_exporters/)。通常，这些导出器托管在 Prometheus GitHub 组织之外。
+我们鼓励创建更多的数据指标导出器，但不能审查所有数据导出器的[最佳实践](writing_exporters.md)。通常，这些导出器托管在 Prometheus GitHub 组织之外。
 
 [数据导出器默认端口](https://github.com/prometheus/prometheus/wiki/Default-port-allocations) Wiki 页面已成为导出器的概览目录，并且可能包括由于功能重叠或仍在开发中而未在此处列出的数据导出器。
 

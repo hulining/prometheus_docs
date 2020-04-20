@@ -8,7 +8,7 @@ title: 概述
 
 [Prometheus](https://github.com/prometheus) 是最初在 [SoundCloud](https://soundcloud.com/) 上构建的开源系统监视和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目拥有非常活跃的开发人员和用户[社区](https://prometheus.io/community)。现在，它是一个独立的开源项目，并且独立于任何公司进行维护。为了强调这一点并阐明项目的治理结构，Prometheus在2016年加入了 [Cloud Native Computing Foundation](https://cncf.io/)，这是继 [Kubernetes](https://kubernetes.io/) 之后的第二个托管项目。
 
-有关Prometheus的详细说明，请参见 [media](roadmap.md) 部分中的资源链接。
+有关Prometheus的详细说明，请参见 [media](media.md) 部分中的资源链接。
 
 ### 特性 <a id="features"></a>
 
@@ -18,7 +18,7 @@ Prometheus 的主要特点是：
 * 可利用各种维度的灵活的查询语句 [PromQL](../prometheus/querying/basics.md)
 * 不依赖分布式存储；单服务节点是自治的
 * 时间序列通过 HTTP 拉取方式进行收集
-* 支持通过中间网关[推送时间序列](../practices/pushing.md)
+* 支持通过中间网关[推送时间序列](../instrumenting/pushing.md)
 * 通过服务发现或静态配置发现目标
 * 多种图形和仪表板支持模式
 
@@ -27,7 +27,7 @@ Prometheus 的主要特点是：
 Prometheus 生态系统包含多个组件，其中许多是可选的：
 
 * 用于采集和存取时间序列数据的 [Prometheus server](https://github.com/prometheus/prometheus)
-* 用于监测应用的[客户端库](../alerting/clients.md)
+* 用于监测应用的[客户端库](../instrumenting/clientlibs.md)
 * 用于支持短期的作业的 [push gateway](https://github.com/prometheus/pushgateway)
 * 诸如 HAProxy，StatsD，Graphite 等服务的专用 [exporter](../instrumenting/exporters.md)
 * 用于处理告警的 [alertmanager](https://github.com/prometheus/alertmanager)

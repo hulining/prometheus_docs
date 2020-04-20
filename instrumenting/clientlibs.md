@@ -33,7 +33,7 @@ title: 客户端库
 
 当 Prometheus 采集您实例的 HTTP 端点时，客户端库会将所有跟踪指标的当前状态发送到服务器。
 
-如果没有适用于您的语言的客户端库，或者您想避免依赖关系，您也可以自己实现一种受支持的[格式](https://prometheus.io/docs/instrumenting/exposition_formats/)来暴露数据指标。
+如果没有适用于您的语言的客户端库，或者您想避免依赖关系，您也可以自己实现一种受支持的[格式](exposition_formats.md)来暴露数据指标。
 
-在实现新的 Prometheus 客户端库时，请遵循[编写客户端库的准则](https://prometheus.io/docs/instrumenting/writing_clientlibs)。请注意，本文档仍在不断变化中。也请考虑参照[开发邮件列表](https://groups.google.com/forum/#!forum/prometheus-developers)。我们很乐意就如何使您的库尽可能有用和一致提供建议。
+在实现新的 Prometheus 客户端库时，请遵循[编写客户端库的准则](writing_clientlibs.md)。请注意，本文档仍在不断变化中。也请考虑参照[开发邮件列表](https://groups.google.com/forum/#!forum/prometheus-developers)。我们很乐意就如何使您的库尽可能有用和一致提供建议。
 

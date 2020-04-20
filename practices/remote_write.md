@@ -7,7 +7,7 @@ sort_rank: 8
 
 Prometheus 为远程写入实现了合理的默认设置，但是用户有不同的要求，并且希望优化其远程设置。
 
-本页介绍可通过[远程写入配置](/configuration/configuration/#remote_write)使用的调整参数。
+本页介绍可通过[远程写入配置](../prometheus/configuration/configuration.md#remote_write)使用的调整参数。
 
 ## 远程写特征 <a id="remote-write-characteristics"></a>
 

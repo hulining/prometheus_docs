@@ -4,7 +4,7 @@ title: 相关资源
 
 # 相关资源
 
-[subreddit](https://www.reddit.com/r/prometheusmonitoring) 收录了网络上所有有关 Prometheus 的资源。
+[Subreddit](https://www.reddit.com/r/prometheusmonitoring) 收录了网络上所有有关 Prometheus 的资源。
 
 以下资源对于 Prometheus 入门特别有用。[Awesome Prometheus](https://github.com/roaldnefs/awesome-prometheus) 包含了更全面的社区维护资源列表。
 
