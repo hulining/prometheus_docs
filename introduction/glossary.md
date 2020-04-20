@@ -10,7 +10,7 @@ title: 相关术语
 
 ## Alertmanager
 
-[Alertmanager](overview.md) 接收告警，将告警分组组，重复数据删除，应用静默，限制，然后将通知发送到电子邮件，Pagerduty，Slack 等
+[Alertmanager](../alerting/alertmanager.md) 接收告警，将告警分组组，重复数据删除，应用静默，限制，然后将通知发送到电子邮件，Pagerduty，Slack 等
 
 ## Bridge
 
