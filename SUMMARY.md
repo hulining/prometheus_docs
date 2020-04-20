@@ -63,33 +63,33 @@
 
 ## alerting
 
-* [overview](alerting/overview.md)
-* [alertmanager](alerting/alertmanager.md)
-* [configuration](alerting/configuration.md)
-* [clients](alerting/clients.md)
-* [notifications](alerting/notifications.md)
-* [notification\_examples](alerting/notification_examples.md)
-* [management\_api](alerting/management_api.md)
+* [告警概述](alerting/overview.md)
+* [Alertmanager](alerting/alertmanager.md)
+* [配置](alerting/configuration.md)
+* [发送告警](alerting/clients.md)
+* [通知模板参考](alerting/notifications.md)
+* [通知模板示例](alerting/notification_examples.md)
+* [管理 API](alerting/management_api.md)
 
 ## practices
 
-* [naming](practices/naming.md)
-* [instrumentation](practices/instrumentation.md)
-* [consoles](practices/consoles.md)
-* [histograms](practices/histograms.md)
-* [alerting](practices/alerting.md)
-* [rules](practices/rules.md)
-* [pushing](practices/pushing.md)
-* [remote\_write](practices/remote_write.md)
+* [指标和标签命名](practices/naming.md)
+* [控制台和仪表盘](practices/consoles.md)
+* [工具](practices/instrumentation.md)
+* [Histogram and Summary](practices/histograms.md)
+* [告警](practices/alerting.md)
+* [记录规则](practices/rules.md)
+* [什么时候使用 Pushgateway](practices/pushing.md)
+* [远程写调试](practices/remote_write.md)
 
 ## guides
 
-* [multi-target-exporter](guides/multi-target-exporter.md)
-* [file-sd](guides/file-sd.md)
-* [go-application](guides/go-application.md)
-* [cadvisor](guides/cadvisor.md)
-* [node-exporter](guides/node-exporter.md)
-* [basic-auth](guides/basic-auth.md)
-* [query-log](guides/query-log.md)
-* [tls-encryption](guides/tls-encryption.md)
+* [使用基于文件的服务发现来发现数据采集目标](guides/file-sd.md)
+* [使用 cAdvisor 监控 docker 容器数据指标](guides/cadvisor.md)
+* [使用 Node Exporter 监控 Linux 主机指标](guides/node-exporter.md)
+* [使用基本身份验证保护 Prometheus API 和 UI 端点](guides/basic-auth.md)
+* [实现一个 Go 应用](guides/go-application.md)
+* [理解并使用 multi-target exporters 模式](guides/multi-target-exporter.md)
+* [使用 TLS 加密 Prometheus API 和 UI 端点](guides/tls-encryption.md)
+* [使用 Prometheus 查询日志](guides/query-log.md)
 
