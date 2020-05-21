@@ -355,29 +355,27 @@ names:
 [ refresh_interval: <duration> | default = 30s ]
 ```
 
-`<domain_name>` 是有效的 DNS 域名。`<query_type>` 是 `SRV`，`A` 或 `AAAA`。
-
 ### `<ec2_sd_config>` <a id="ec-2-_sd_config"></a>
 
 EC2 服务发现配置允许从 AWS EC2 实例目标采集数据指标。默认情况下使用私有 IP 地址，但可以通过重新标记将其更改为公共 IP 地址。
 
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
-- `__meta_ec2_availability_zone`: EC2 实例运行的可用区域
-- `__meta_ec2_instance_id`: EC2 实例 ID
-- `__meta_ec2_instance_lifecycle`: EC2 实例的生命周期，仅为 'spot' 或 'scheduled' 状态实例设置,否则不存在
-- `__meta_ec2_instance_state`: EC2 实例状态
-- `__meta_ec2_instance_type`: EC2 实例类型
-- `__meta_ec2_owner_id`: EC2 实例拥有者 AWS 账户的 ID
-- `__meta_ec2_platform`: EC2 实例的操作系统平台，仅在 Windows 服务器上设置为 'windows'，否则不存在
-- `__meta_ec2_primary_subnet_id`: EC2 实例的主网络接口的子网 ID(如果有)
-- `__meta_ec2_private_dns_name`: EC2 实例的私有DNS名称(如果有)
-- `__meta_ec2_private_ip`: 实例的私有 IP 地址(如果有)
-- `__meta_ec2_public_dns_name`: 实例的公共 DNS 名称(如果有)
-- `__meta_ec2_public_ip`: 实例的公共 IP 地址(如果有)
-- `__meta_ec2_subnet_id`: 逗号分隔的实例运行的子网 ID 列表(如果有)
-- `__meta_ec2_tag_<tagkey>`: 实例的每个标签值
-- `__meta_ec2_vpc_id`: 运行实例的 VPC 的 ID
+* `__meta_ec2_availability_zone`: EC2 实例运行的可用区域
+* `__meta_ec2_instance_id`: EC2 实例 ID
+* `__meta_ec2_instance_lifecycle`: EC2 实例的生命周期，仅为 'spot' 或 'scheduled' 状态实例设置,否则不存在
+* `__meta_ec2_instance_state`: EC2 实例状态
+* `__meta_ec2_instance_type`: EC2 实例类型
+* `__meta_ec2_owner_id`: EC2 实例拥有者 AWS 账户的 ID
+* `__meta_ec2_platform`: EC2 实例的操作系统平台，仅在 Windows 服务器上设置为 'windows'，否则不存在
+* `__meta_ec2_primary_subnet_id`: EC2 实例的主网络接口的子网 ID\(如果有\)
+* `__meta_ec2_private_dns_name`: EC2 实例的私有DNS名称\(如果有\)
+* `__meta_ec2_private_ip`: 实例的私有 IP 地址\(如果有\)
+* `__meta_ec2_public_dns_name`: 实例的公共 DNS 名称\(如果有\)
+* `__meta_ec2_public_ip`: 实例的公共 IP 地址\(如果有\)
+* `__meta_ec2_subnet_id`: 逗号分隔的实例运行的子网 ID 列表\(如果有\)
+* `__meta_ec2_tag_<tagkey>`: 实例的每个标签值
+* `__meta_ec2_vpc_id`: 运行实例的 VPC 的 ID
 
 请参阅以下有关 EC2 发现的配置选项:
 
@@ -421,35 +419,35 @@ OpenStack 服务发现配置允许从 OpenStack Nova 实例中发现数据采集
 
 可以配置以下 `<openstack_role>` 类型之一来发现目标:
 
-#### `hypervisor`
+**hypervisor**
 
 `hypervisor` 角色为每个 Nova hypervisor 节点发现一个目标。目标地址默认为虚拟机管理程序的 `host_ip` 属性。
 
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
-- `__meta_openstack_hypervisor_host_ip`: hypervisor 节点的 IP 地址
-- `__meta_openstack_hypervisor_id`: hypervisor 节点 ID
-- `__meta_openstack_hypervisor_name`: hypervisor 节点名称
-- `__meta_openstack_hypervisor_state`: hypervisor 节点状态
-- `__meta_openstack_hypervisor_status`: hypervisor 节点状态
-- `__meta_openstack_hypervisor_type`: hypervisor 节点类型
+* `__meta_openstack_hypervisor_host_ip`: hypervisor 节点的 IP 地址
+* `__meta_openstack_hypervisor_id`: hypervisor 节点 ID
+* `__meta_openstack_hypervisor_name`: hypervisor 节点名称
+* `__meta_openstack_hypervisor_state`: hypervisor 节点状态
+* `__meta_openstack_hypervisor_status`: hypervisor 节点状态
+* `__meta_openstack_hypervisor_type`: hypervisor 节点类型
 
-#### `instance`
+**instance**
 
 `instance` 实例角色为 Nova 实例的每个网络接口发现一个目标。目标地址默认为网络接口的专用 IP 地址。
 
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
-- `__meta_openstack_address_pool`: OpenStack 实例的专用 IP 池
-- `__meta_openstack_instance_flavor`: OpenStack 实例的 flavor
-- `__meta_openstack_instance_id`: OpenStack 实例 ID.
-- `__meta_openstack_instance_name`: OpenStack 实例名称
-- `__meta_openstack_instance_status`: OpenStack 实例状态信息
-- `__meta_openstack_private_ip`: OpenStack 实例私有 IP
-- `__meta_openstack_project_id`: 拥有此实例的 project (租户) ID
-- `__meta_openstack_public_ip`: OpenStack 实例公共 IP
-- `__meta_openstack_tag_<tagkey>`: 实例的每个标签值
-- `__meta_openstack_user_id`: 拥有此租户的用户帐户
+* `__meta_openstack_address_pool`: OpenStack 实例的专用 IP 池
+* `__meta_openstack_instance_flavor`: OpenStack 实例的 flavor
+* `__meta_openstack_instance_id`: OpenStack 实例 ID.
+* `__meta_openstack_instance_name`: OpenStack 实例名称
+* `__meta_openstack_instance_status`: OpenStack 实例状态信息
+* `__meta_openstack_private_ip`: OpenStack 实例私有 IP
+* `__meta_openstack_project_id`: 拥有此实例的 project \(租户\) ID
+* `__meta_openstack_public_ip`: OpenStack 实例公共 IP
+* `__meta_openstack_tag_<tagkey>`: 实例的每个标签值
+* `__meta_openstack_user_id`: 拥有此租户的用户帐户
 
 请参阅以下有关 OpenStack 发现的配置选项:
 
@@ -545,7 +543,56 @@ files:
 
 ### `<gce_sd_config>` <a id="gce_sd_config"></a>
 
-TODO:
+ [GCE](https://cloud.google.com/compute/) 服务发现配置允许从 GCP GCE 实例中发现数据采集的目标。默认使用私有 IP 地址，但可以在[重新标记](configuration.md#relabel_config)阶段变更为公共 IP 地址。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+* `__meta_gce_instance_id`: 实例数字形式的 ID
+* `__meta_gce_instance_name`: 实例名称
+* `__meta_gce_label_<name>`: 实例的每个 GCE 标签
+* `__meta_gce_machine_type`: 实例设备类型的完整或部分 URL
+* `__meta_gce_metadata_<name>`: 实例的每个元数据项
+* `__meta_gce_network`: 实例的网络 URL
+* `__meta_gce_private_ip`: 实例的私有 IP 地址
+* `__meta_gce_project`: 运行实例的 GCP 工程名
+* `__meta_gce_public_ip`: 实例的公共 IP\(如果有\)
+* `__meta_gce_subnetwork`: 实例的子网 URL
+* `__meta_gce_tags`: 逗号分隔的实例标签
+* `__meta_gce_zone`: 运行实例的 GCE 域 URL
+
+请参阅以下有关 GCE 服务发现的配置选项:
+
+```yaml
+# GCE API 访问信息
+
+# GCP 工程
+project: <string>
+
+# 数据指标采集的域.如果需要多个区域，请使用多个 gce_sd_config.
+zone: <string>
+
+# 根据指定条件进行筛选实例列表
+# 过滤器查询参数部分中描述了此过滤器字符串的语法:
+# https://cloud.google.com/compute/docs/reference/latest/instances/list
+[ filter: <string> ]
+
+# 重读实例列表的刷新间隔
+[ refresh_interval: <duration> | default = 60s ]
+
+# 指标采集的端口.如果使用公共IP地址,则必须在重新标记规则中指定该地址
+[ port: <int> | default = 80 ]
+
+# 分隔标签的分隔符
+[ tag_separator: <string> | default = , ]
+```
+
+Google Cloud SDK 默认客户端通过在以下位置查找\(首选找到的第一个位置\)来发现凭据：
+
+1. `GOOGLE_APPLICATION_CREDENTIALS` 环境变量指定的 JSON 文件
+2. `$HOME/.config/gcloud/application_default_credentials.json` 中的 JSON 文件
+3. 从 GCE 元数据服务中获取
+
+如果 Prometheus 在 GCE 中运行，则与其运行实例相关联的服务帐户应至少具有对计算资源的读权限。如果在 GCE 之外运行，请确保创建适当的服务帐户，并将凭据文件放在其中一个预期的位置。
 
 ### `<kubernetes_sd_config>` <a id="kubernetes_sd_config"></a>
 
@@ -710,13 +757,13 @@ Marathon 服务发现配置允许使用 [Marathon](https://mesosphere.github.io/
 
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
-- `__meta_marathon_app`: 应用程序名称(斜杠由破折号代替)
-- `__meta_marathon_image`: 使用的 Docker 镜像名称(如果可用)
-- `__meta_marathon_task`: Mesos 任务 ID
-- `__meta_marathon_app_label_<labelname>`: 附加到应用程序的所有 Marathon 标签
-- `__meta_marathon_port_definition_label_<labelname>`: 端口定义标签
-- `__meta_marathon_port_mapping_label_<labelname>`: 端口映射标签
-- `__meta_marathon_port_index`: 端口索引号
+* `__meta_marathon_app`: 应用程序名称\(斜杠由破折号代替\)
+* `__meta_marathon_image`: 使用的 Docker 镜像名称\(如果可用\)
+* `__meta_marathon_task`: Mesos 任务 ID
+* `__meta_marathon_app_label_<labelname>`: 附加到应用程序的所有 Marathon 标签
+* `__meta_marathon_port_definition_label_<labelname>`: 端口定义标签
+* `__meta_marathon_port_mapping_label_<labelname>`: 端口映射标签
+* `__meta_marathon_port_index`: 端口索引号
 
 请参阅以下有关 Marathon 发现的配置选项:
 
@@ -765,7 +812,7 @@ tls_config:
 
 默认情况下，Prometheus 将对 Marathon 中列出的每个应用进行指标采集。如果并非所有服务都提供Prometheus 指标，则可以使用 Marathon 标记和 Prometheus 重新标记功能来控制实际上将被采集的实例。 有关如何设置 Marathon 应用程序和 Prometheus 配置的实际示例,请参阅 [Prometheus marathon-sd 配置文件](https://github.com/prometheus/prometheus/blob/release-2.17/documentation/examples/prometheus-marathon.yml)。
 
-默认情况下，所有应用程序都将在 Prometheus(配置文件中指定的一项)中显示为独立的作业，也可以使用重新标记进行更改。
+默认情况下，所有应用程序都将在 Prometheus\(配置文件中指定的一项\)中显示为独立的作业，也可以使用重新标记进行更改。
 
 ### `<nerve_sd_config>` <a id="nerve_sd_config"></a>
 
@@ -773,10 +820,10 @@ Nerve 服务发现配置允许从存储在 [Zookeeper](https://zookeeper.apache.
 
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
-- `__meta_nerve_path`: Zookeeper 中端点节点(公开数据指标的 URL)的完整路径
-- `__meta_nerve_endpoint_host`: 端点节点(公开数据指标的 URL)主机地址
-- `__meta_nerve_endpoint_port`: 端点节点(公开数据指标的 URL)端口
-- `__meta_nerve_endpoint_name`: 端点节点(公开数据指标的 URL)的名称
+* `__meta_nerve_path`: Zookeeper 中端点节点\(公开数据指标的 URL\)的完整路径
+* `__meta_nerve_endpoint_host`: 端点节点\(公开数据指标的 URL\)主机地址
+* `__meta_nerve_endpoint_port`: 端点节点\(公开数据指标的 URL\)端口
+* `__meta_nerve_endpoint_name`: 端点节点\(公开数据指标的 URL\)的名称
 
 ```yaml
 # Zookeeper 服务.
@@ -794,13 +841,13 @@ Serverset 服务发现配置允许从存储在 [Zookeeper](https://zookeeper.apa
 
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
-- `__meta_serverset_path`: Zookeeper 中 serverset 节点(公开数据指标的 URL)的完整路径
-- `__meta_serverset_endpoint_host`: serverset 节点默认端点
-- `__meta_serverset_endpoint_port`: serverset 节点默认端口
-- `__meta_serverset_endpoint_host_<endpoint>`: 给定端点的主机
-- `__meta_serverset_endpoint_port_<endpoint>`: 给定端点的端口
-- `__meta_serverset_shard`: serverset 成员的分片号
-- `__meta_serverset_status`: serverset 成员的状态
+* `__meta_serverset_path`: Zookeeper 中 serverset 节点\(公开数据指标的 URL\)的完整路径
+* `__meta_serverset_endpoint_host`: serverset 节点默认端点
+* `__meta_serverset_endpoint_port`: serverset 节点默认端口
+* `__meta_serverset_endpoint_host_<endpoint>`: 给定端点的主机
+* `__meta_serverset_endpoint_port_<endpoint>`: 给定端点的端口
+* `__meta_serverset_shard`: serverset 成员的分片号
+* `__meta_serverset_status`: serverset 成员的状态
 
 ```yaml
 # Zookeeper 服务.
@@ -820,12 +867,12 @@ Serverset 数据必须为JSON格式，当前不支持 Thrift 格式。
 
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
-- `__meta_triton_groups`: 由逗号分隔的属于目标的组列表
-- `__meta_triton_machine_alias`: 目标容器的别名
-- `__meta_triton_machine_brand`: 目标容器的类型
-- `__meta_triton_machine_id`: 目标容器的 UUID
-- `__meta_triton_machine_image`: 目标容器的镜像类型
-- `__meta_triton_server_id`: 目标容器的服务 UUID
+* `__meta_triton_groups`: 由逗号分隔的属于目标的组列表
+* `__meta_triton_machine_alias`: 目标容器的别名
+* `__meta_triton_machine_brand`: 目标容器的类型
+* `__meta_triton_machine_id`: 目标容器的 UUID
+* `__meta_triton_machine_image`: 目标容器的镜像类型
+* `__meta_triton_server_id`: 目标容器的服务 UUID
 
 ```yaml
 # 访问 Triton API 的信息.
