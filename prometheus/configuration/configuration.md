@@ -32,7 +32,7 @@ Prometheus 可以在运行时重新加载其配置。如果新的配置格式不
 
 个别其它占位符单独指出。
 
-在[这里](https://github.com/prometheus/prometheus/blob/release-2.17/config/testdata/conf.good.yml)可以找到合法的示例配置文件。
+在[这里](https://github.com/prometheus/prometheus/blob/release-2.18/config/testdata/conf.good.yml)可以找到合法的示例配置文件。
 
 全局配置指定在所有其它配置上下文中有效的参数，它们还用作其它配置部分的默认配置。
 
@@ -321,7 +321,7 @@ tags:
 [ tag_separator: <string> | default = , ]
 
 # 允许过期的结果(参阅 [https://www.consul.io/api/features/consistency.html)将减少 Consul 的负载.
-[ allow_stale: <bool> ]
+[ allow_stale: <bool> | default = true ]
 
 # 服务发现名称刷新时间
 # 在大型架构中，增加此值可能是个好主意，因为 catalog 不断更改
@@ -747,7 +747,7 @@ namespaces:
 
 `role`必须是`endpoints`, `service`, `pod`, `node` 或`ingress`
 
-有关为 Kubernetes 配置 Prometheus 的详细示例，请参见 [Prometheus 示例配置文件](https://github.com/prometheus/prometheus/blob/release-2.17/documentation/examples/prometheus-kubernetes.yml)
+有关为 Kubernetes 配置 Prometheus 的详细示例，请参见 [Prometheus 示例配置文件](https://github.com/prometheus/prometheus/blob/release-2.18/documentation/examples/prometheus-kubernetes.yml)
 
 您可能希望查看第三方的 [Prometheus Operator](https://github.com/coreos/prometheus-operator)，它可以在 Kubernetes 上自动设置 Prometheus。
 
@@ -810,7 +810,7 @@ tls_config:
 [ proxy_url: <string> ]
 ```
 
-默认情况下，Prometheus 将对 Marathon 中列出的每个应用进行指标采集。如果并非所有服务都提供Prometheus 指标，则可以使用 Marathon 标记和 Prometheus 重新标记功能来控制实际上将被采集的实例。 有关如何设置 Marathon 应用程序和 Prometheus 配置的实际示例,请参阅 [Prometheus marathon-sd 配置文件](https://github.com/prometheus/prometheus/blob/release-2.17/documentation/examples/prometheus-marathon.yml)。
+默认情况下，Prometheus 将对 Marathon 中列出的每个应用进行指标采集。如果并非所有服务都提供Prometheus 指标，则可以使用 Marathon 标记和 Prometheus 重新标记功能来控制实际上将被采集的实例。 有关如何设置 Marathon 应用程序和 Prometheus 配置的实际示例,请参阅 [Prometheus marathon-sd 配置文件](https://github.com/prometheus/prometheus/blob/release-2.18/documentation/examples/prometheus-marathon.yml)。
 
 默认情况下，所有应用程序都将在 Prometheus\(配置文件中指定的一项\)中显示为独立的作业，也可以使用重新标记进行更改。
 
@@ -1078,7 +1078,7 @@ relabel_configs:
 
 `write_relabel_configs`在将样本数据发送到远程节点之前重新标记样本数据。在扩展标记之后应用写重新标记。这可以用来限制发送哪些样本数据。
 
-这里有一个[样例](https://github.com/prometheus/prometheus/blob/release-2.17/documentation/examples/remote_storage)演示了如何使用此功能。
+这里有一个[样例](https://github.com/prometheus/prometheus/blob/release-2.18/documentation/examples/remote_storage)演示了如何使用此功能。
 
 ```yaml
 # 发送数据的远程端点 URL

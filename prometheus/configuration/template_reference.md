@@ -79,7 +79,7 @@ Humanizing 相关函数旨在产生合理的输出以供人们使用，并且不
 
 ### 告警字段模板 <a id="alert-field-templates"></a>
 
-`.Value`, `.Labels`和`ExternalLabels`分别包含告警值，告警标签和全局匹配的扩展标签。为了方便起见，他们也暴露为`$value`, `$labels`和`$externalLabels`变量。
+`.Value`, `.Labels`和`.ExternalLabels`分别包含告警值，告警标签和全局匹配的扩展标签。为了方便起见，他们也暴露为`$value`, `$labels`和`$externalLabels`变量。
 
 ### 控制台模板 <a id="console-templates"></a>
 

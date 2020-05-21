@@ -9,7 +9,7 @@
 ## 关于本项目 <a id="about"></a>
 
 * 项目中所有文件均存放于 Github 上: [https://github.com/hulining/prometheus\_docs](https://github.com/hulining/prometheus_docs)
-* 文档版本会跟随[官方文档](https://prometheus.io/docs)版本进行更新，当前版本为 v2.17
+* 文档版本会跟随[官方文档](https://prometheus.io/docs)版本进行更新，当前版本为 v2.18。
 
 
 
