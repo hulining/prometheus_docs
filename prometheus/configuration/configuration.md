@@ -334,15 +334,177 @@ tags:
 
 ### `<dns_sd_config>` <a id="dns_sd_config"></a>
 
-TODO:
+基于 DNS 的服务发现配置允许指定一组 DNS 域名，通过定期查询这些域名以发现目标列表。从 `/etc/resolv.conf` 读取要连接的 DNS 服务器。
+
+此服务发现方法仅支持基本 DNS A，AAAA 和 SRV 记录查询，不支持[RFC6763](https://tools.ietf.org/html/rfc6763)中指定的高级 DNS 服务发现方法。
+
+在[重新标记](configuration.md#relabel_config)阶段，每个目标都有一个元标记 `__meta_dns_name`，并设置为发现目标的记录名称。
+
+```yaml
+# 待查询的 DNS 列表
+names:
+  [ - <domain_name> ]
+
+# DNS 查询类型
+[ type: <query_type> | default = 'SRV' ]
+
+# 查询类型不是 SRV 时使用的端口号.
+[ port: <number>]
+
+# 刷新时间间隔
+[ refresh_interval: <duration> | default = 30s ]
+```
+
+`<domain_name>` 是有效的 DNS 域名。`<query_type>` 是 `SRV`，`A` 或 `AAAA`。
 
 ### `<ec2_sd_config>` <a id="ec-2-_sd_config"></a>
 
-TODO:
+EC2 服务发现配置允许从 AWS EC2 实例目标采集数据指标。默认情况下使用私有 IP 地址，但可以通过重新标记将其更改为公共 IP 地址。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+- `__meta_ec2_availability_zone`: EC2 实例运行的可用区域
+- `__meta_ec2_instance_id`: EC2 实例 ID
+- `__meta_ec2_instance_lifecycle`: EC2 实例的生命周期，仅为 'spot' 或 'scheduled' 状态实例设置,否则不存在
+- `__meta_ec2_instance_state`: EC2 实例状态
+- `__meta_ec2_instance_type`: EC2 实例类型
+- `__meta_ec2_owner_id`: EC2 实例拥有者 AWS 账户的 ID
+- `__meta_ec2_platform`: EC2 实例的操作系统平台，仅在 Windows 服务器上设置为 'windows'，否则不存在
+- `__meta_ec2_primary_subnet_id`: EC2 实例的主网络接口的子网 ID(如果有)
+- `__meta_ec2_private_dns_name`: EC2 实例的私有DNS名称(如果有)
+- `__meta_ec2_private_ip`: 实例的私有 IP 地址(如果有)
+- `__meta_ec2_public_dns_name`: 实例的公共 DNS 名称(如果有)
+- `__meta_ec2_public_ip`: 实例的公共 IP 地址(如果有)
+- `__meta_ec2_subnet_id`: 逗号分隔的实例运行的子网 ID 列表(如果有)
+- `__meta_ec2_tag_<tagkey>`: 实例的每个标签值
+- `__meta_ec2_vpc_id`: 运行实例的 VPC 的 ID
+
+请参阅以下有关 EC2 发现的配置选项:
+
+```yaml
+# 访问 EC2 API 的信息
+
+# AWS 区域.如果为空,则使用实例元数据中 region 字段
+[ region: <string> ]
+
+# 自定义端点
+[ endpoint: <string> ]
+
+# AWS API keys.如果为空,则使用 `AWS_ACCESS_KEY_ID` 和 `AWS_SECRET_ACCESS_KEY` 环境变量
+[ access_key: <string> ]
+[ secret_key: <secret> ]
+# 用于连接到 AWS API 的配置文件.
+[ profile: <string> ]
+
+# AWS Role ARN,是使用 AWS API 密钥的替代方式.
+[ role_arn: <string> ]
+
+# 重读实例列表的刷新间隔
+[ refresh_interval: <duration> | default = 60s ]
+
+# 指标采集的端口.如果使用公共IP地址,则必须在重新标记规则中指定该地址
+[ port: <int> | default = 80 ]
+
+# 根据指定准则筛选实例列表.可用的过滤条件如下:
+# https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html
+# Filter API 文档: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Filter.html
+filters:
+  [ - name: <string>
+      values: <string>, [...] ]
+```
+
+[重新标记](configuration.md#relabel_config)阶段是基于任意标签过滤目标的首选且更强大的方法。对于具有数千个实例的用户，直接使用支持过滤实例的 EC2 API 可能更有效。
 
 ### `<openstack_sd_config>` <a id="openstack_sd_config"></a>
 
-TODO:
+OpenStack 服务发现配置允许从 OpenStack Nova 实例中发现数据采集的目标。
+
+可以配置以下 `<openstack_role>` 类型之一来发现目标:
+
+#### `hypervisor`
+
+`hypervisor` 角色为每个 Nova hypervisor 节点发现一个目标。目标地址默认为虚拟机管理程序的 `host_ip` 属性。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+- `__meta_openstack_hypervisor_host_ip`: hypervisor 节点的 IP 地址
+- `__meta_openstack_hypervisor_id`: hypervisor 节点 ID
+- `__meta_openstack_hypervisor_name`: hypervisor 节点名称
+- `__meta_openstack_hypervisor_state`: hypervisor 节点状态
+- `__meta_openstack_hypervisor_status`: hypervisor 节点状态
+- `__meta_openstack_hypervisor_type`: hypervisor 节点类型
+
+#### `instance`
+
+`instance` 实例角色为 Nova 实例的每个网络接口发现一个目标。目标地址默认为网络接口的专用 IP 地址。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+- `__meta_openstack_address_pool`: OpenStack 实例的专用 IP 池
+- `__meta_openstack_instance_flavor`: OpenStack 实例的 flavor
+- `__meta_openstack_instance_id`: OpenStack 实例 ID.
+- `__meta_openstack_instance_name`: OpenStack 实例名称
+- `__meta_openstack_instance_status`: OpenStack 实例状态信息
+- `__meta_openstack_private_ip`: OpenStack 实例私有 IP
+- `__meta_openstack_project_id`: 拥有此实例的 project (租户) ID
+- `__meta_openstack_public_ip`: OpenStack 实例公共 IP
+- `__meta_openstack_tag_<tagkey>`: 实例的每个标签值
+- `__meta_openstack_user_id`: 拥有此租户的用户帐户
+
+请参阅以下有关 OpenStack 发现的配置选项:
+
+```yaml
+# 访问 OpenStack API 信息
+
+# OpenStack 角色
+role: <openstack_role>
+
+# OpenStack 域.
+region: <string>
+
+# 指定使用适当版本的 Identity API 的 HTTP 端点.尽管所有身份服务都需要它,但通常会由提供程序函数来指定
+[ identity_endpoint: <string> ]
+
+# 如果使用 Identity V2 API,则需要用户名.请查看供应商的控制面板查看您帐户的用户名
+# 在 Identity V3中,需要 userid 或 username 和 domain_id 或d omain_name 的组合
+[ username: <string> ]
+[ userid: <string> ]
+
+# Identity V2 和 V3 API 的密码.请查看供应商的控制面板查看您帐户的首选身份验证方法
+[ password: <secret> ]
+
+# 如果在 Identity V3 中使用 username,则最多只能提供 domain_id 和 domain_name 之一
+[ domain_name: <string> ]
+[ domain_id: <string> ]
+
+# 在 Identity V2 API 中 project_id 和 project_name 是可选的
+# 某些供应商允许指定 project_name 而不是 project_id
+# 有些两者都需要.供应商的身份验证策略将确定这些字段如何影响身份验证
+[ project_name: <string> ]
+[ project_id: <string> ]
+
+# 如果使用应用程序凭据进行身份验证,则必须提供 application_credential_i d或application_credential_name 字段
+# 某些供应商允许您创建用于身份验证的应用程序凭据,而不是密码
+[ application_credential_name: <string> ]
+[ application_credential_id: <string> ]
+
+# 如果使用应用程序凭据进行身份验证,则 application_credential_secret 字段为必填字段
+[ application_credential_secret: <secret> ]
+
+# 服务发现是否应列出所有项目的所有实例
+# 它仅应用于 'instance' 角色,通常需要管理员权限
+[ all_tenants: <boolean> | default: false ]
+
+# 重读实例列表的刷新间隔
+[ refresh_interval: <duration> | default = 60s ]
+
+# 指标采集的端口.如果使用公共IP地址,则必须在重新标记规则中指定该地址
+[ port: <int> | default = 80 ]
+
+# TLS 配置.
+tls_config:
+  [ <tls_config> ]
+```
 
 ### `<file_sd_config>` <a id="file_sd_config"></a>
 
@@ -366,7 +528,7 @@ JSON文件必须包含使用以下格式的静态配置列表:
 
 作为备用，文件内容也将以指定的刷新间隔定期重新读取。
 
-在[重新标记阶段](configuration.md#relabel_config)，每个目标都有一个元标记 `__meta_filepath`。 它的值设置为从中发现目标的文件路径。
+在[重新标记](configuration.md#relabel_config)阶段，每个目标都有一个元标记 `__meta_filepath`。 它的值设置为从中发现目标的文件路径。
 
 有与此发现机制的[集成](../../operating/integrations.md#file-service-discovery)列表。
 
@@ -544,19 +706,156 @@ namespaces:
 
 ### `<marathon_sd_config>` <a id="marathon_sd_config"></a>
 
-TODO:
+Marathon 服务发现配置允许使用 [Marathon](https://mesosphere.github.io/marathon/) REST API 发现数据采集的目标。Prometheus 将定期检查 REST API 端点是否有正在运行的任务，并为每个具有至少一个正常任务的应用程序创建一个目标组。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+- `__meta_marathon_app`: 应用程序名称(斜杠由破折号代替)
+- `__meta_marathon_image`: 使用的 Docker 镜像名称(如果可用)
+- `__meta_marathon_task`: Mesos 任务 ID
+- `__meta_marathon_app_label_<labelname>`: 附加到应用程序的所有 Marathon 标签
+- `__meta_marathon_port_definition_label_<labelname>`: 端口定义标签
+- `__meta_marathon_port_mapping_label_<labelname>`: 端口映射标签
+- `__meta_marathon_port_index`: 端口索引号
+
+请参阅以下有关 Marathon 发现的配置选项:
+
+```yaml
+# 用于连接 Marathon 服务的 URL 列表.至少需要提供一个 URL
+servers:
+  - <string>
+
+# 轮询间隔
+[ refresh_interval: <duration> | default = 30s ]
+
+# 基于令牌的身份验证.
+# https://docs.mesosphere.com/1.11/security/ent/iam-api/#passing-an-authentication-token
+# 与 `auth_token_file` 和 其他身份验证机制互斥.
+[ auth_token: <secret> ]
+
+# 基于令牌的身份验证
+# https://docs.mesosphere.com/1.11/security/ent/iam-api/#passing-an-authentication-token
+# 与 `auth_token` 和 其他身份验证机制互斥.
+[ auth_token_file: <filename> ]
+
+# 基于用户名/密码的方式设置基本认证信息,设置每个请求的 `Authorization` 标头
+# 与其他身份验证机制互斥,`password` 和 `password_file` 是互斥的
+basic_auth:
+  [ username: <string> ]
+  [ password: <string> ]
+  [ password_file: <string> ]
+
+# 基于 标准 Bearer 令牌认证的方式设置基本认证信息,设置每个请求的 `Authorization` 标头
+# 与 `bearer_token_file` 和 其他身份验证机制互斥.
+# 注意: 当前版本的 DC/OS marathon (v1.11.0) 不支持标准 Bearer 令牌认证.请使用 `auth_token`
+[ bearer_token: <string> ]
+
+# 基于标准 Bearer 令牌认证的方式设置基本认证信息,设置每个请求的 `Authorization` 标头
+# 与 `bearer_token` 和 其他身份验证机制互斥.
+# 注意: 当前版本的 DC/OS marathon (v1.11.0) 不支持标准 Bearer 令牌认证.请使用 `auth_token`
+[ bearer_token_file: /path/to/bearer/token/file ]
+
+# 连接 marathon 服务的 TLS 配置
+tls_config:
+  [ <tls_config> ]
+
+# 可选的代理 URL
+[ proxy_url: <string> ]
+```
+
+默认情况下，Prometheus 将对 Marathon 中列出的每个应用进行指标采集。如果并非所有服务都提供Prometheus 指标，则可以使用 Marathon 标记和 Prometheus 重新标记功能来控制实际上将被采集的实例。 有关如何设置 Marathon 应用程序和 Prometheus 配置的实际示例,请参阅 [Prometheus marathon-sd 配置文件](https://github.com/prometheus/prometheus/blob/release-2.17/documentation/examples/prometheus-marathon.yml)。
+
+默认情况下，所有应用程序都将在 Prometheus(配置文件中指定的一项)中显示为独立的作业，也可以使用重新标记进行更改。
 
 ### `<nerve_sd_config>` <a id="nerve_sd_config"></a>
 
-TODO:
+Nerve 服务发现配置允许从存储在 [Zookeeper](https://zookeeper.apache.org/) 中的 [AirBnB's Nerve](https://github.com/airbnb/nerve) 发现采集目标。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+- `__meta_nerve_path`: Zookeeper 中端点节点(公开数据指标的 URL)的完整路径
+- `__meta_nerve_endpoint_host`: 端点节点(公开数据指标的 URL)主机地址
+- `__meta_nerve_endpoint_port`: 端点节点(公开数据指标的 URL)端口
+- `__meta_nerve_endpoint_name`: 端点节点(公开数据指标的 URL)的名称
+
+```yaml
+# Zookeeper 服务.
+servers:
+  - <host>
+# path 可以指向独立的服务,也可以指向服务树的根
+paths:
+  - <string>
+[ timeout: <duration> | default = 10s ]
+```
 
 ### `<serverset_sd_config>` <a id="serverset_sd_config"></a>
 
-TODO:
+Serverset 服务发现配置允许从存储在 [Zookeeper](https://zookeeper.apache.org/) 中的 [Serverset](https://github.com/twitter/finagle/tree/master/finagle-serversets) 检索抓取目标。Serverset 通常由 [Finagle](https://twitter.github.io/finagle/) 和 [Aurora](https://aurora.apache.org/) 使用。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+- `__meta_serverset_path`: Zookeeper 中 serverset 节点(公开数据指标的 URL)的完整路径
+- `__meta_serverset_endpoint_host`: serverset 节点默认端点
+- `__meta_serverset_endpoint_port`: serverset 节点默认端口
+- `__meta_serverset_endpoint_host_<endpoint>`: 给定端点的主机
+- `__meta_serverset_endpoint_port_<endpoint>`: 给定端点的端口
+- `__meta_serverset_shard`: serverset 成员的分片号
+- `__meta_serverset_status`: serverset 成员的状态
+
+```yaml
+# Zookeeper 服务.
+servers:
+  - <host>
+# path 可以指向独立的服务,也可以指向服务树的根
+paths:
+  - <string>
+[ timeout: <duration> | default = 10s ]
+```
+
+Serverset 数据必须为JSON格式，当前不支持 Thrift 格式。
 
 ### `<triton_sd_config>` <a id="triton_sd_config"></a>
 
-TODO:
+[Triton](https://github.com/joyent/triton) 服务发现允许从 [Container Monitor](https://github.com/joyent/rfd/blob/master/rfd/0027/README.md) 发现采集目标。
+
+在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
+
+- `__meta_triton_groups`: 由逗号分隔的属于目标的组列表
+- `__meta_triton_machine_alias`: 目标容器的别名
+- `__meta_triton_machine_brand`: 目标容器的类型
+- `__meta_triton_machine_id`: 目标容器的 UUID
+- `__meta_triton_machine_image`: 目标容器的镜像类型
+- `__meta_triton_server_id`: 目标容器的服务 UUID
+
+```yaml
+# 访问 Triton API 的信息.
+
+# 发现新目标容器的帐户.
+account: <string>
+
+# 应用于目标容器的 DNS 后缀
+dns_suffix: <string>
+
+# Triton 发现端点(e.g. 'cmon.us-east-3b.triton.zone').该值通常与 dns_suffix 相同。
+endpoint: <string>
+
+# 为其检索目标的组的列表.如果省略,则将对帐户中所有可用的容器进行指标采集。
+groups:
+  [ - <string> ... ]
+
+# 用于发现和度量标准采集的端口.
+[ port: <int> | default = 9163 ]
+
+# 舒心目标容器的时间间隔
+[ refresh_interval: <duration> | default = 60s ]
+
+# Triton 服务发现 API 版本
+[ version: <int> | default = 1 ]
+
+# TLS 配置.
+tls_config:
+  [ <tls_config> ]
+```
 
 ### `<static_config>` <a id="static_config"></a>
 
