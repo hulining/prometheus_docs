@@ -419,7 +419,7 @@ OpenStack 服务发现配置允许从 OpenStack Nova 实例中发现数据采集
 
 可以配置以下 `<openstack_role>` 类型之一来发现目标:
 
-**hypervisor**
+#### **`hypervisor`**
 
 `hypervisor` 角色为每个 Nova hypervisor 节点发现一个目标。目标地址默认为虚拟机管理程序的 `host_ip` 属性。
 
@@ -432,7 +432,7 @@ OpenStack 服务发现配置允许从 OpenStack Nova 实例中发现数据采集
 * `__meta_openstack_hypervisor_status`: hypervisor 节点状态
 * `__meta_openstack_hypervisor_type`: hypervisor 节点类型
 
-**instance**
+**`instance`**
 
 `instance` 实例角色为 Nova 实例的每个网络接口发现一个目标。目标地址默认为网络接口的专用 IP 地址。
 
