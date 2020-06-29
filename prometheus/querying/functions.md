@@ -120,18 +120,18 @@ histogram_quantile(0.9, rate(http_request_duration_seconds_bucket[10m]))
 对于`http_request_duration_seconds`中的每个标签组合计算分位数。要进行汇总，请在`rate()`函数外使用`sum()`。由于`histogram_quantile()`要求使用`le`标签，因此必须将其包含在`by`子句中。以下表达式按`job`汇总了 90%：
 
 ```text
-histogram_quantile(0.9, sum(rate(http_request_duration_seconds_bucket[10m])) by (job, le))
+histogram_quantile(0.9, sum by (job, le) (rate(http_request_duration_seconds_bucket[10m])))
 ```
 
 要汇总所有内容，仅指定`le`标签：
 
 ```text
-histogram_quantile(0.9, sum(rate(http_request_duration_seconds_bucket[10m])) by (le))
+histogram_quantile(0.9, sum by (le) (rate(http_request_duration_seconds_bucket[10m])))
 ```
 
 `histogram_quantile()`函数通过假设区间内的线性分布来对分位数进行插值。存储桶的最高上限必须为`+Inf`\(否则返回`NaN`\)。如果分位数位于最高的区间中，则返回第二高的区间的上限。如果该区间的上限大于0，则将最低区间的下限假定为0。在这种情况下，通常在该区间中应用线性插值。否则，将为位于最低区间中的分位数返回最低区间的上限。
 
-如果`b`包含少于两个区间，则返回`NaN`。如果`φ<0`，则返回`-Inf`。 对于`φ> 1`，返回`+Inf`。
+如果 `b` 的观测值为0，则返回 `NaN`。如果`b`包含少于两个区间，则返回`NaN`。如果`φ<0`，则返回`-Inf`。 对于`φ> 1`，返回`+Inf`。
 
 ## holt\_winters\(\)
 

@@ -58,7 +58,7 @@ alerting:
 
 ```text
 job:request_duration_seconds:histogram_quantile99 =
-  histogram_quantile(0.99, sum(rate(request_duration_seconds_bucket[1m])) by (le, job))
+  histogram_quantile(0.99, sum by (le, job) (rate(request_duration_seconds_bucket[1m])))
 
 ALERT FrontendRequestLatency
   IF job:request_duration_seconds:histogram_quantile99{job="frontend"} > 0.1

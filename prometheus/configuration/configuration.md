@@ -315,7 +315,7 @@ tags:
 
 # node_meta 用来过滤给定服务的节点
 [ node_meta:
-  [ <name>: <value> ... ] ]
+  [ <string>: <value> ... ] ]
 
 # 将 Consul 标签连接到标签的字符串
 [ tag_separator: <string> | default = , ]
@@ -865,6 +865,14 @@ Serverset 数据必须为JSON格式，当前不支持 Thrift 格式。
 
 [Triton](https://github.com/joyent/triton) 服务发现允许从 [Container Monitor](https://github.com/joyent/rfd/blob/master/rfd/0027/README.md) 发现采集目标。
 
+可以配置以下 `<triton_role>` 类型之一来发现目标:
+
+**container**
+
+`container` ****角色为 `account` 拥有的每个 "虚拟设备" 发现一个目标.
+
+其中包含 SmartOS 域或 lx/KVM/bhyve 厂商域.
+
 在[重新标记](configuration.md#relabel_config)阶段，支持以下的 meta 标签:
 
 * `__meta_triton_groups`: 由逗号分隔的属于目标的组列表
@@ -872,7 +880,11 @@ Serverset 数据必须为JSON格式，当前不支持 Thrift 格式。
 * `__meta_triton_machine_brand`: 目标容器的类型
 * `__meta_triton_machine_id`: 目标容器的 UUID
 * `__meta_triton_machine_image`: 目标容器的镜像类型
-* `__meta_triton_server_id`: 目标容器的服务 UUID
+* `__meta_triton_server_id`: 运行目标容器的服务 UUID
+
+**cn**
+
+`cn` ****角色为构成 Triton 基础结构的每个计算节点\(也称为"服务" 或 "全局域"\)发现一个目标.`account` 必须是 Triton 管理员,并且必须至少拥有一个 `container`.
 
 ```yaml
 # 访问 Triton API 的信息.
@@ -880,13 +892,18 @@ Serverset 数据必须为JSON格式，当前不支持 Thrift 格式。
 # 发现新目标容器的帐户.
 account: <string>
 
+# 目标发现的类型,可以设置为:
+# * "container" 用于发现在 Triton 运行的虚拟机(SmartOS zones, lx/KVM/bhyve branded zones)
+# * "cn" 用于发现组成 Triton 基础架构的计算节点(服务/全局域)
+[ role : <string> | default = "container" ]
+
 # 应用于目标容器的 DNS 后缀
 dns_suffix: <string>
 
 # Triton 发现端点(e.g. 'cmon.us-east-3b.triton.zone').该值通常与 dns_suffix 相同。
 endpoint: <string>
 
-# 为其检索目标的组的列表.如果省略,则将对帐户中所有可用的容器进行指标采集。
+# 为其检索目标的组的列表.仅支持 `role` == `container`. 如果省略,则将对帐户中所有可用的容器进行指标采集。
 groups:
   [ - <string> ... ]
 

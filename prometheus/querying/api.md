@@ -234,6 +234,11 @@ GET /api/v1/labels
 POST /api/v1/labels
 ```
 
+URL 查询参数:
+
+* `start=<rfc3339 | unix_timestamp>`: 开始时间戳。可选
+* `end=<rfc3339 | unix_timestamp>`: 结束时间戳。可选
+
 JSON 响应的`data`部分是字符串标签名称的列表
 
 以下是一个示例：
@@ -275,6 +280,11 @@ $ curl 'localhost:9090/api/v1/labels'
 ```text
 GET /api/v1/label/<label_name>/values
 ```
+
+URL 查询参数: 
+
+* `start=<rfc3339 | unix_timestamp>`: 开始时间戳。可选
+* `end=<rfc3339 | unix_timestamp>`: 结束时间戳。可选
 
 JSON 响应的`data`部分是字符串标签值的列表
 
@@ -472,7 +482,7 @@ $ curl http://localhost:9090/api/v1/rules
                     {
                         "health": "ok",
                         "name": "job:http_inprogress_requests:sum",
-                        "query": "sum(http_inprogress_requests) by (job)",
+                        "query": "sum by (job) (http_inprogress_requests)",
                         "type": "recording"
                     }
                 ],

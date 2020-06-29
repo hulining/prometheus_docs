@@ -101,36 +101,28 @@ rate(prometheus_tsdb_head_chunks_created_total[1m])
 
 让我们为 Prometheus 启动一些示例采集目标来变得更加有趣。
 
-Go客户端库包含一个具有三个不同分布的虚拟 RPC 延迟的服务的示例。
-
-请确保您已经[安装 Go 编译器](https://golang.org/doc/install)，并设置可以[正常工作的 Go 构建环境](https://golang.org/doc/code.html)\(配置正确的`GOPATH`\)。
-
-下载 Prometheus 的 Go 客户端并运行三个示例服务：
+使用 Node Exporter 作为示例目标，有关使用它的更多信息参见[此指引](../guides/node-exporter.md)。
 
 ```bash
-# 拉取客户端库代码并编译它
-git clone https://github.com/prometheus/client_golang.git
-cd client_golang/examples/random
-go get -d
-go build
+tar -xzvf node_exporter-*.*.tar.gz
+cd node_exporter-*.*
 
-# 在分开的终端中启动 3 个示例目标
-./random -listen-address=:8080
-./random -listen-address=:8081
-./random -listen-address=:8082
+./node_exporter --web.listen-address 127.0.0.1:8080
+./node_exporter --web.listen-address 127.0.0.1:8081
+./node_exporter --web.listen-address 127.0.0.1:8082
 ```
 
 现在，您应该看到分别监听在 [http://localhost:8080/metrics](http://localhost:8080/metrics), [http://localhost:8081/metrics](http://localhost:8081/metrics), [http://localhost:8082/metrics](http://localhost:8082/metrics) 的目标示例。
 
 ## 配置 Prometheus 监控示例目标 <a id="configuring-prometheus-to-monitor-the-sample-targets"></a>
 
-现在，我们将配置 Prometheus 来采集这些新的目标。我们将所有三个端点分组为`example-random`的作业。假设前两个端点是生产的目标，第三个端点代表金丝雀发布的实例。为了在 Prometheus 对此建模，我们可以将多个端点添加到单个作业中，并为每个目标组添加额外的标签。在此示例中，我们将`group="production"`标签添加到第一组目标中，将`group=canary`添加到第二组目标中。
+现在，我们将配置 Prometheus 来采集这些新的目标。我们将所有三个端点分组为 `node` 的作业。假设前两个端点是生产的目标，第三个端点代表金丝雀发布的实例。为了在 Prometheus 对此建模，我们可以将多个端点添加到单个作业中，并为每个目标组添加额外的标签。在此示例中，我们将`group="production"`标签添加到第一组目标中，将`group=canary`添加到第二组目标中。
 
 为此，请将以下作业定义添加到`prometheus.yml`中的`scrape_configs`部分，然后重新启动 Prometheus 实例：
 
 ```yaml
 scrape_configs:
-  - job_name:       'example-random'
+  - job_name:       'node'
 
     # 覆盖全局默认的参数，并将采样时间间隔设置为 5s
     scrape_interval: 5s
@@ -145,26 +137,26 @@ scrape_configs:
           group: 'canary'
 ```
 
-在表达式浏览器中验证 Prometheus 现在是否具有有关这些示例端点暴露的时间序列信息，如`rpc_durations_seconds`数据指标。
+在表达式浏览器中验证 Prometheus 现在是否具有有关这些示例端点暴露的时间序列信息，如 `node_cpu_seconds_total` 数据指标。
 
 ## 配置规则将采集的数据汇总到新的时间序列中 <a id="configure-rules-for-aggregating-scraped-data-into-new-time-series"></a>
 
 尽管在示例不是问题，但在临时计算时，汇总了数千个时间序列的查询可能会变慢。为了提高效率，Prometheus 允许通过配置的记录规则将表达式预记录到全新的持久时间序列中。假设我们想要记录在示例中测得的所有实例\(保留`job`和`service`维度\)在 5 分钟滑动窗口内的每秒 RPC 平均速率\(`rpc_durations_seconds_count`\)。我们可以这么写：
 
 ```text
-avg(rate(rpc_durations_seconds_count[5m])) by (job, service)
+avg by (job, instance, mode) (rate(node_cpu_seconds_total[5m]))
 ```
 
 尝试图形化此表达式。
 
-要将由该表达式产生的时间序列记录到为名`job_service:rpc_durations_seconds_count:avg_rate5m`的新数据指标中，请使用以下记录规则创建文件并保存为`prometheus.rules.yml`:
+要将由该表达式产生的时间序列记录到为名`job_instance_mode:node_cpu_seconds:avg_rate5m`的新数据指标中，请使用以下记录规则创建文件并保存为`prometheus.rules.yml`:
 
 ```yaml
 groups:
-- name: example
-  rules:
-  - record: job_service:rpc_durations_seconds_count:avg_rate5m
-    expr: avg(rate(rpc_durations_seconds_count[5m])) by (job, service)
+- name: example	- name: cpu-node
+  rules:	  rules:
+  - record: job_service:rpc_durations_seconds_count:avg_rate5m	  - record: job_instance_mode:node_cpu_seconds:avg_rate5m
+    expr: avg(rate(rpc_durations_seconds_count[5m])) by (job, service)	    expr: avg by (job, instance, mode) (rate(node_cpu_seconds_total[5m]))
 ```
 
 要使 Prometheus 应用此新规则，需要在`prometheus.yml`中添加`rule_files`配置块。配置应如下所示：
@@ -190,7 +182,7 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name:       'example-random'
+  - job_name:       'node'
 
     # 覆盖全局默认的参数，并将采样时间间隔设置为 5s
     scrape_interval: 5s
@@ -205,5 +197,5 @@ scrape_configs:
           group: 'canary'
 ```
 
-通过新的配置重新启动 Prometheus，并通过表达式浏览器对其进行查询或画图，以验证数据指标名称为`job_service:rpc_durations_seconds_count:avg_rate5m`的新时间序列已经可以使用。
+通过新的配置重新启动 Prometheus，并通过表达式浏览器对其进行查询或画图，以验证数据指标名称为`job_instance_mode:node_cpu_seconds:avg_rate5m`的新时间序列已经可以使用。
 

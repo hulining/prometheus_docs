@@ -59,7 +59,7 @@ Prometheus 有几个允许配置本地存储的标志。其中最重要的几个
 
 * `--storage.tsdb.path`: 指定 Prometheus 在何处写入数据库\(数据库保存位置\)。默认为`data/`
 * `--storage.tsdb.retention.time`: 指定何时删除旧数据\(旧数据保存时间\)。默认为`15d`。如果此标志位设置为默认值之外的其它值，则覆盖`storage.tsdb.retention`
-* `--storage.tsdb.retention.size`: \[实验性的\]存储块可以使用的最大字节数\(请注意，这不包括 WAL 的大小,这可能是很大的\)。最旧的数据首先被删除，默认为`0`或被禁用。该标识是实验性的，在将来的版本中可能进行更改。支持的单位为`KB, MB, GB, PB.`
+* `--storage.tsdb.retention.size`: \[实验性的\]存储块可以使用的最大字节数\(请注意，这不包括 WAL 的大小,这可能是很大的\)。最旧的数据首先被删除，默认为`0`或被禁用。该标识是实验性的，在将来的版本中可能进行更改。支持的单位为 `B, KB, MB, GB, TB, PB, EB`
 * `--storage.tsdb.retention`: 该标志位已被`storage.tsdb.retention.time`标志位代替
 * `--storage.tsdb.wal-compression`: 该标志位启用预写日志\(WAL\)的压缩。取决于您的数据，可以将预期的 WAL 大小减少一半，而额外的 CPU 负载却很少。请注意，如果启用此标志，Prometheus 降级到 2.11.0 以下版本时，您将需要删除 WAL，因为它会变的不可读。
 
