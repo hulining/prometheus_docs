@@ -95,7 +95,9 @@ NOTE: Prometheus的某些早期版本除了支持当前基于文本的格式外�
       </td>
     </tr>
   </tbody>
-</table>### 文本格式详情 <a id="text-format-details"></a>
+</table>
+
+### 文本格式详情 <a id="text-format-details"></a>
 
 Prometheus 基于文本的格式是面向行的。行由换行符\(`\n`\)分隔。最后一行必须以换行符结尾。空行将被忽略。
 
